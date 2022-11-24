@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mentoo/pages/sign_up.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/theme/components.dart';
@@ -162,7 +163,10 @@ class _SignIn extends State<SignIn> {
                     'Sign up',
                     style: AppFonts.bold(14, AppColors.mDarkPurple),
                   ),
-                  onTap: () => {},
+                  onTap: () => {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (BuildContext context) => const SignUp()))
+                  },
                 )
               ],
             ),
