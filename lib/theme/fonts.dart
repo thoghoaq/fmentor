@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mentoo/theme/colors.dart';
 
 @immutable
 class AppFonts {
   static String fontFamily = 'Roboto';
   // ignore: non_constant_identifier_names
-  static TextStyle medium(double size) {
+  static TextStyle medium(double size, Color color) {
     return TextStyle(
-        color: AppColors.mText,
+        color: color,
         fontFamily: fontFamily,
-        fontWeight: FontWeight.w900,
+        fontWeight: FontWeight.w700,
         fontSize: size);
   }
 
-  static TextStyle regular(double size) {
+  static TextStyle regular(double size, Color color) {
     return TextStyle(
-        color: AppColors.mText,
+        color: color,
         fontFamily: fontFamily,
         fontWeight: FontWeight.w100,
+        fontSize: size);
+  }
+
+  static TextStyle bold(double size, Color color) {
+    return TextStyle(
+        color: color,
+        fontFamily: fontFamily,
+        fontWeight: FontWeight.w900,
         fontSize: size);
   }
 
