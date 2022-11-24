@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mentoo/pages/sign_in.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -21,66 +22,92 @@ class _GetStartedState extends State<GetStarted> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: SvgPicture.asset(
                 'assets/images/background.svg',
                 width: MediaQuery.of(context).size.width,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: SvgPicture.asset(
-                'assets/images/four_bubble.svg',
-                width: MediaQuery.of(context).size.width / 1.2,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 70.0),
+                child: SvgPicture.asset(
+                  'assets/images/four_bubble.svg',
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  height: 300,
+                ),
               ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 400,
+                width: double.infinity,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50)
-                  ),
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50)),
                 ),
                 child: SizedBox(
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            top: 40.0, bottom: 40.0, right: 70.0, left: 70.0),
+                        padding: const EdgeInsets.all(50.0),
                         child: Text(
                           'Discover your strengths with your mentor',
-                          style: AppFonts.medium(24),
+                          style: AppFonts.bold(24, AppColors.mText),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            right: 70.0, left: 70.0, bottom: 40.0),
+                            right: 50.0, left: 50.0, bottom: 50.0),
                         child: Text(
                           'Mentoo provides quality mentors to help with your career',
-                          style: AppFonts.regular(14),
+                          style: AppFonts.regular(14, AppColors.mText),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.mPrimary,
-                            fixedSize: const Size(350, 70),
+                            fixedSize: const Size(300, 70),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100)),
                           ),
-                          onPressed: () => {},
+                          onPressed: () => {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const SignIn()))
+                              },
                           child: Text('Get Started',
-                              style: AppFonts.medium(25))),
-                      const SizedBox(height: 30,),
-                      SvgPicture.asset(
-                        'assets/images/powered.svg',
-                        width: MediaQuery.of(context).size.width / 2.5,
+                              style: AppFonts.bold(25, AppColors.mText))),
+                      const SizedBox(
+                        height: 30,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Powered by',
+                            style: AppFonts.bold(14, AppColors.mGray),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              width: 30,
+                              height: 30,
+                            ),
+                          ),
+                          Text('Mentoo',
+                              style: AppFonts.bold(20, AppColors.mDarkPurple))
+                        ],
+                      )
                     ],
                   ),
                 ),
