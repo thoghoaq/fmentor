@@ -8,7 +8,7 @@ class AppFonts {
     return TextStyle(
         color: color,
         fontFamily: fontFamily,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
         fontSize: size);
   }
 
