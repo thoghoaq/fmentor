@@ -34,6 +34,7 @@ dependencies:
   device_preview:
   font_awesome_flutter:
   filter_list:
+  get: ^4.6.5
 
 
   # The following adds the Cupertino Icons font to your application.

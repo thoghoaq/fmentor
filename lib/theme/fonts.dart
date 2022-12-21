@@ -16,7 +16,7 @@ class AppFonts {
     return TextStyle(
         color: color,
         fontFamily: fontFamily,
-        fontWeight: FontWeight.w100,
+        fontWeight: FontWeight.w300,
         fontSize: size);
   }
 

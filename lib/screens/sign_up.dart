@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mentoo/pages/sign_in.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/screens/sign_in.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/theme/components.dart';
+import 'package:mentoo/utils/common.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -17,6 +19,7 @@ class _SignUp extends State<SignUp> {
   bool passEnable = true;
   @override
   Widget build(BuildContext context) {
+    double whiteSpace = AppCommon.screenHeight(context) * 0.1;
     return Scaffold(
       body: Container(
         alignment: Alignment.topCenter,
@@ -26,7 +29,7 @@ class _SignUp extends State<SignUp> {
             padding: const EdgeInsets.only(right: 30.0, left: 30.0),
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 100.0),
+                padding: EdgeInsets.only(top: whiteSpace),
                 child: Image.asset(
                   'assets/images/logo.png',
                   width: 100,
@@ -52,7 +55,8 @@ class _SignUp extends State<SignUp> {
                       width: 18,
                     ),
                     Text('Sign in with Facebook',
-                        style: AppFonts.bold(14, AppColors.mDarkPurple))),
+                        style: AppFonts.bold(14, AppColors.mDarkPurple)),
+                    () => {}),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -62,7 +66,8 @@ class _SignUp extends State<SignUp> {
                       width: 18,
                     ),
                     Text('Sign in with Google',
-                        style: AppFonts.bold(14, AppColors.mDarkPurple))),
+                        style: AppFonts.bold(14, AppColors.mDarkPurple)),
+                    () => {}),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -72,7 +77,8 @@ class _SignUp extends State<SignUp> {
                       width: 18,
                     ),
                     Text('Sign in with Apple',
-                        style: AppFonts.bold(14, AppColors.mDarkPurple))),
+                        style: AppFonts.bold(14, AppColors.mDarkPurple)),
+                    () => {}),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -216,11 +222,13 @@ class _SignUp extends State<SignUp> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: AppComponents.generalButton(Text('Sign up',
-                    style: AppFonts.medium(
-                      16,
-                      Colors.white,
-                    ))),
+                child: AppComponents.generalButton(
+                    Text('Sign up',
+                        style: AppFonts.medium(
+                          16,
+                          Colors.white,
+                        )),
+                    () => {Get.to(const SignUp())}),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 50.0),
@@ -260,20 +268,10 @@ class BreakLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: const [
-        Divider(
-          color: Colors.black,
-          indent: 10,
-          endIndent: 170,
-        ),
-        Center(child: Text('Or')),
-        Divider(
-          color: Colors.black,
-          indent: 170,
-          endIndent: 10,
-        ),
-      ],
+    return const Divider(
+      color: Colors.black,
+      indent: 60,
+      endIndent: 60,
     );
   }
 }
