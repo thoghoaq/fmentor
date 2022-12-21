@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mentoo/pages/sign_up.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/screens/choose_major.dart';
+import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/theme/components.dart';
+import 'package:mentoo/utils/common.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -15,18 +18,20 @@ class SignIn extends StatefulWidget {
 
 class _SignIn extends State<SignIn> {
   bool passEnable = true;
+
   @override
   Widget build(BuildContext context) {
+    double whiteSpace = AppCommon.screenHeight(context) * 0.1;
     return Scaffold(
       body: Container(
         alignment: Alignment.bottomCenter,
-        height: 1000,
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(top: 100.0),
+            padding: EdgeInsets.only(top: whiteSpace),
             child: Image.asset(
               'assets/images/logo.png',
               width: 100,
+              height: AppCommon.screenHeight(context) * 0.1,
             ),
           ),
           Padding(
@@ -45,7 +50,8 @@ class _SignIn extends State<SignIn> {
                   width: 18,
                 ),
                 Text('Sign in with Facebook',
-                    style: AppFonts.bold(14, AppColors.mDarkPurple))),
+                    style: AppFonts.bold(14, AppColors.mDarkPurple)),
+                () => {}),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -55,7 +61,8 @@ class _SignIn extends State<SignIn> {
                   width: 18,
                 ),
                 Text('Sign in with Google',
-                    style: AppFonts.bold(14, AppColors.mDarkPurple))),
+                    style: AppFonts.bold(14, AppColors.mDarkPurple)),
+                () => {}),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -65,7 +72,8 @@ class _SignIn extends State<SignIn> {
                   width: 18,
                 ),
                 Text('Sign in with Apple',
-                    style: AppFonts.bold(14, AppColors.mDarkPurple))),
+                    style: AppFonts.bold(14, AppColors.mDarkPurple)),
+                () => {}),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -143,11 +151,28 @@ class _SignIn extends State<SignIn> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: AppComponents.generalButton(Text('Sign in',
-                style: AppFonts.medium(
-                  16,
-                  Colors.white,
-                ))),
+            // child: AppComponents.generalButton(
+            //     Text('Sign in',
+            //         style: AppFonts.medium(
+            //           16,
+            //           Colors.white,
+            //         )),
+            //     context),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.mLightPurple,
+                fixedSize: const Size(288, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              onPressed: () => {Get.to(const ChooseMajor())},
+              child: Text('Sign in',
+                  style: AppFonts.medium(
+                    16,
+                    Colors.white,
+                  )),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -163,10 +188,7 @@ class _SignIn extends State<SignIn> {
                     'Sign up',
                     style: AppFonts.bold(14, AppColors.mDarkPurple),
                   ),
-                  onTap: () => {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (BuildContext context) => const SignUp()))
-                  },
+                  onTap: () => {Get.to(const SignUp())},
                 )
               ],
             ),
@@ -185,20 +207,10 @@ class BreakLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: const [
-        Divider(
-          color: Colors.black,
-          indent: 50,
-          endIndent: 220,
-        ),
-        Center(child: Text('Or')),
-        Divider(
-          color: Colors.black,
-          indent: 220,
-          endIndent: 50,
-        ),
-      ],
+    return const Divider(
+      color: Colors.black,
+      indent: 60,
+      endIndent: 60,
     );
   }
 }

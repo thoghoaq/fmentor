@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mentoo/pages/sign_in.dart';
+import 'package:mentoo/routes/router.dart';
+import 'package:mentoo/routes/routes.dart';
+import 'package:mentoo/screens/sign_in.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -78,10 +80,10 @@ class _GetStartedState extends State<GetStarted> {
                                 borderRadius: BorderRadius.circular(100)),
                           ),
                           onPressed: () => {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            const SignIn()))
+                                Navigator.push(
+                                    context,
+                                    AppRouter.generateRoute(const RouteSettings(
+                                        arguments: AppRoutes.signIn)))
                               },
                           child: Text('Get Started',
                               style: AppFonts.bold(25, AppColors.mText))),

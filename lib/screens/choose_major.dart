@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:filter_list/filter_list.dart';
+import 'package:mentoo/utils/common.dart';
 
 class ChooseMajor extends StatefulWidget {
   const ChooseMajor({super.key});
@@ -49,13 +50,14 @@ class _ChooseMajorState extends State<ChooseMajor> {
   List<Major>? selectedMajorList = [];
   @override
   Widget build(BuildContext context) {
+    double whiteSpace = AppCommon.screenHeight(context) * 0.1;
     return Scaffold(
       body: Container(
         alignment: Alignment.bottomCenter,
-        height: 1000,
+        height: AppCommon.screenHeight(context),
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(top: 100.0),
+            padding: EdgeInsets.only(top: whiteSpace),
             child: Image.asset(
               'assets/images/logo.png',
               width: 100,
@@ -65,7 +67,9 @@ class _ChooseMajorState extends State<ChooseMajor> {
           Align(
             alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
+              padding: EdgeInsets.only(
+                  top: AppCommon.screenHeight(context) * 0.005,
+                  bottom: AppCommon.screenHeight(context) * 0.01),
               child: Text('Mentoo',
                   style: AppFonts.bold(
                     50,
@@ -76,7 +80,9 @@ class _ChooseMajorState extends State<ChooseMajor> {
           Align(
             alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(
+                  top: AppCommon.screenHeight(context) * 0.01,
+                  bottom: AppCommon.screenHeight(context) * 0.01),
               child: Text("Tell us what you're interested in",
                   style: AppFonts.medium(
                     20,
@@ -85,16 +91,17 @@ class _ChooseMajorState extends State<ChooseMajor> {
             ),
           ),
           SizedBox(
-            width: 350,
-            height: 450,
+            width: AppCommon.screenWidth(context),
+            height: AppCommon.screenHeight(context) * 0.56,
             child: FilterListWidget<Major>(
               hideSearchField: true,
               hideHeader: true,
               hideSelectedTextCount: true,
               controlButtons: const [ControlButtonType.Reset],
               themeData: FilterListThemeData(
+                backgroundColor: Colors.white10,
                 context,
-                wrapSpacing: 13,
+                wrapSpacing: AppCommon.screenHeight(context) * 0.005,
                 wrapAlignment: WrapAlignment.center,
                 choiceChipTheme: ChoiceChipThemeData(
                   textStyle: AppFonts.bold(14, AppColors.mGray),
