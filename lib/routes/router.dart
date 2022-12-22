@@ -5,7 +5,7 @@ import 'package:mentoo/screens/sign_in.dart';
 import 'package:mentoo/screens/sign_up.dart';
 
 class AppRouter {
-  static Route? generateRoute(RouteSettings settings) {
+  static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case 'GetStarted':
         {
