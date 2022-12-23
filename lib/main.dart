@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:mentoo/screens/choose_major.dart';
+import 'package:mentoo/screens/edit_profile.dart';
 import 'package:mentoo/screens/get_started.dart';
 import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/sign_in.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primaryColor: AppColors.m_background),
-      home: const Profile(),
+      home: const EditProfile(),
     );
   }
 }
