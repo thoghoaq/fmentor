@@ -2,409 +2,418 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
+import 'package:mentoo/utils/common.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: CustomScrollView(
-          controller: ScrollController(initialScrollOffset: 0),
-          physics: BouncingScrollPhysics(),
-          slivers: <Widget>[
-            SliverPersistentHeader(
-              delegate: CustomSliverAppBarDelegate(expandedHeight: 400),
-            ),
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              pinned: true,
-              title: Text(
-                "Profile",
-                style: TextStyle(color: AppColors.mLightPurple),
+    return Padding(
+      padding: EdgeInsets.all(AppCommon.screenWidthUnit(context) * 0.5),
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          body: CustomScrollView(
+            controller: ScrollController(initialScrollOffset: 0),
+            physics: const BouncingScrollPhysics(),
+            slivers: <Widget>[
+              SliverPersistentHeader(
+                delegate: CustomSliverAppBarDelegate(expandedHeight: 400),
               ),
-              centerTitle: true,
-              elevation: 0,
-              bottom: TabBar(
-                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                  indicatorColor: AppColors.mLightPurple,
-                  labelColor: AppColors.mLightPurple,
-                  labelStyle:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  unselectedLabelColor: AppColors.mGrayStroke,
-                  tabs: [
-                    Tab(
-                      text: "Profile",
-                    ),
-                    Tab(
-                      text: "Reviews",
-                    ),
-                    Tab(
-                      text: "Cetificates",
-                    ),
-                  ]),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                <Widget>[
-                  Container(
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                pinned: true,
+                title: Text(
+                  "Profile",
+                  style: TextStyle(color: AppColors.mLightPurple),
+                ),
+                centerTitle: true,
+                elevation: 0,
+                bottom: TabBar(
                     padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                    margin: EdgeInsets.only(top: 0),
-                    height: 2000,
-                    child: TabBarView(children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "More...",
-                            style: TextStyle(color: AppColors.mGrayStroke),
-                          ),
-                          Center(
-                            child: SizedBox(
-                              width: 250,
-                              child: Divider(
-                                thickness: 2,
-                                height: 30,
+                    indicatorColor: AppColors.mLightPurple,
+                    labelColor: AppColors.mLightPurple,
+                    labelStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    unselectedLabelColor: AppColors.mGrayStroke,
+                    tabs: [
+                      Tab(
+                        text: "Profile",
+                      ),
+                      Tab(
+                        text: "Reviews",
+                      ),
+                      Tab(
+                        text: "Cetificates",
+                      ),
+                    ]),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                      margin: EdgeInsets.only(top: 0),
+                      height: 2000,
+                      child: TabBarView(children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "More...",
+                              style: TextStyle(color: AppColors.mGrayStroke),
+                            ),
+                            Center(
+                              child: SizedBox(
+                                width: 250,
+                                child: Divider(
+                                  thickness: 2,
+                                  height: 30,
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 30),
-                                    Icon(
-                                      Icons.adjust_rounded,
-                                      size: 30,
-                                      color: AppColors.mLightPurple,
-                                    ),
-                                    SizedBox(width: 30),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppColors.mGrayStroke),
-                                          borderRadius:
-                                              BorderRadius.circular(7)),
-                                      child: Image.asset(
-                                        'assets/images/apple.png',
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Icon(
+                                        Icons.adjust_rounded,
+                                        size: 30,
+                                        color: AppColors.mLightPurple,
                                       ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Marketer",
-                                          style:
-                                              AppFonts.medium(18, Colors.black),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors.mGrayStroke),
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        child: Image.asset(
+                                          'assets/images/apple.png',
                                         ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "Shoppe",
-                                          style: AppFonts.medium(
-                                              14, AppColors.mGrayStroke),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "August 2019 - Now",
-                                          style: AppFonts.regular(
-                                              12, AppColors.mGrayStroke),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 43),
-                                  child: DottedLine(
-                                    lineLength: 50,
-                                    dashColor: AppColors.mDarkPurple,
-                                    direction: Axis.vertical,
-                                    lineThickness: 2,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Marketer",
+                                            style: AppFonts.medium(
+                                                18, Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "Shoppe",
+                                            style: AppFonts.medium(
+                                                14, AppColors.mGrayStroke),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "August 2019 - Now",
+                                            style: AppFonts.regular(
+                                                12, AppColors.mGrayStroke),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 30),
-                                    Icon(
-                                      Icons.adjust_rounded,
-                                      size: 30,
-                                      color: AppColors.mLightPurple,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 43),
+                                    child: DottedLine(
+                                      lineLength: 50,
+                                      dashColor: AppColors.mDarkPurple,
+                                      direction: Axis.vertical,
+                                      lineThickness: 2,
                                     ),
-                                    SizedBox(width: 30),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppColors.mGrayStroke),
-                                          borderRadius:
-                                              BorderRadius.circular(7)),
-                                      child: Image.asset(
-                                        'assets/images/apple.png',
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Marketer",
-                                          style:
-                                              AppFonts.medium(18, Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "Shoppe",
-                                          style: AppFonts.medium(
-                                              14, AppColors.mGrayStroke),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "August 2019 - Now",
-                                          style: AppFonts.regular(
-                                              12, AppColors.mGrayStroke),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 43),
-                                  child: DottedLine(
-                                    lineLength: 50,
-                                    dashColor: AppColors.mDarkPurple,
-                                    direction: Axis.vertical,
-                                    lineThickness: 2,
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 30),
-                                    Icon(
-                                      Icons.adjust_rounded,
-                                      size: 30,
-                                      color: AppColors.mLightPurple,
-                                    ),
-                                    SizedBox(width: 30),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppColors.mGrayStroke),
-                                          borderRadius:
-                                              BorderRadius.circular(7)),
-                                      child: Image.asset(
-                                        'assets/images/apple.png',
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Icon(
+                                        Icons.adjust_rounded,
+                                        size: 30,
+                                        color: AppColors.mLightPurple,
                                       ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Marketer",
-                                          style:
-                                              AppFonts.medium(18, Colors.black),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors.mGrayStroke),
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        child: Image.asset(
+                                          'assets/images/apple.png',
                                         ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "Shoppe",
-                                          style: AppFonts.medium(
-                                              14, AppColors.mGrayStroke),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "August 2019 - Now",
-                                          style: AppFonts.regular(
-                                              12, AppColors.mGrayStroke),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 43),
-                                  child: DottedLine(
-                                    lineLength: 50,
-                                    dashColor: AppColors.mDarkPurple,
-                                    direction: Axis.vertical,
-                                    lineThickness: 2,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Marketer",
+                                            style: AppFonts.medium(
+                                                18, Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "Shoppe",
+                                            style: AppFonts.medium(
+                                                14, AppColors.mGrayStroke),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "August 2019 - Now",
+                                            style: AppFonts.regular(
+                                                12, AppColors.mGrayStroke),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 30),
-                                    Icon(
-                                      Icons.adjust_rounded,
-                                      size: 30,
-                                      color: AppColors.mLightPurple,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 43),
+                                    child: DottedLine(
+                                      lineLength: 50,
+                                      dashColor: AppColors.mDarkPurple,
+                                      direction: Axis.vertical,
+                                      lineThickness: 2,
                                     ),
-                                    SizedBox(width: 30),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppColors.mGrayStroke),
-                                          borderRadius:
-                                              BorderRadius.circular(7)),
-                                      child: Image.asset(
-                                        'assets/images/apple.png',
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Marketer",
-                                          style:
-                                              AppFonts.medium(18, Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "Shoppe",
-                                          style: AppFonts.medium(
-                                              14, AppColors.mGrayStroke),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "August 2019 - Now",
-                                          style: AppFonts.regular(
-                                              12, AppColors.mGrayStroke),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 43),
-                                  child: DottedLine(
-                                    lineLength: 50,
-                                    dashColor: AppColors.mDarkPurple,
-                                    direction: Axis.vertical,
-                                    lineThickness: 2,
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 30),
-                                    Icon(
-                                      Icons.adjust_rounded,
-                                      size: 30,
-                                      color: AppColors.mLightPurple,
-                                    ),
-                                    SizedBox(width: 30),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppColors.mGrayStroke),
-                                          borderRadius:
-                                              BorderRadius.circular(7)),
-                                      child: Image.asset(
-                                        'assets/images/apple.png',
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Icon(
+                                        Icons.adjust_rounded,
+                                        size: 30,
+                                        color: AppColors.mLightPurple,
                                       ),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors.mGrayStroke),
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        child: Image.asset(
+                                          'assets/images/apple.png',
+                                        ),
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Marketer",
+                                            style: AppFonts.medium(
+                                                18, Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "Shoppe",
+                                            style: AppFonts.medium(
+                                                14, AppColors.mGrayStroke),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "August 2019 - Now",
+                                            style: AppFonts.regular(
+                                                12, AppColors.mGrayStroke),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 43),
+                                    child: DottedLine(
+                                      lineLength: 50,
+                                      dashColor: AppColors.mDarkPurple,
+                                      direction: Axis.vertical,
+                                      lineThickness: 2,
                                     ),
-                                    SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Marketer",
-                                          style:
-                                              AppFonts.medium(18, Colors.black),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Icon(
+                                        Icons.adjust_rounded,
+                                        size: 30,
+                                        color: AppColors.mLightPurple,
+                                      ),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors.mGrayStroke),
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        child: Image.asset(
+                                          'assets/images/apple.png',
                                         ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "Shoppe",
-                                          style: AppFonts.medium(
-                                              14, AppColors.mGrayStroke),
-                                        ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          "August 2019 - Now",
-                                          style: AppFonts.regular(
-                                              12, AppColors.mGrayStroke),
-                                        )
-                                      ],
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Marketer",
+                                            style: AppFonts.medium(
+                                                18, Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "Shoppe",
+                                            style: AppFonts.medium(
+                                                14, AppColors.mGrayStroke),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "August 2019 - Now",
+                                            style: AppFonts.regular(
+                                                12, AppColors.mGrayStroke),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 43),
+                                    child: DottedLine(
+                                      lineLength: 50,
+                                      dashColor: AppColors.mDarkPurple,
+                                      direction: Axis.vertical,
+                                      lineThickness: 2,
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Icon(
+                                        Icons.adjust_rounded,
+                                        size: 30,
+                                        color: AppColors.mLightPurple,
+                                      ),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors.mGrayStroke),
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        child: Image.asset(
+                                          'assets/images/apple.png',
+                                        ),
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Marketer",
+                                            style: AppFonts.medium(
+                                                18, Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "Shoppe",
+                                            style: AppFonts.medium(
+                                                14, AppColors.mGrayStroke),
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            "August 2019 - Now",
+                                            style: AppFonts.regular(
+                                                12, AppColors.mGrayStroke),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text("anh vui ve"),
-                      Text("anh vui ve"),
-                    ]),
-                  ),
-                ],
+                          ],
+                        ),
+                        Text("Comming soon"),
+                        Text("Comming soon"),
+                      ]),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
