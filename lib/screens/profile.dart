@@ -470,9 +470,10 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  double appear(double shrinkOffset) => shrinkOffset / expandedHeight;
+  double appear(double shrinkOffset) => shrinkOffset * 0.01 / expandedHeight;
 
-  double disappear(double shrinkOffset) => 1 - shrinkOffset / expandedHeight;
+  double disappear(double shrinkOffset) =>
+      1 - (shrinkOffset / expandedHeight * 10) * 0.01;
 
   Widget buildBackground(double shrinkOffset) => Opacity(
         opacity: disappear(shrinkOffset),
@@ -482,8 +483,8 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
       );
 
-  Widget buildFloating(double shrinkOffset) => Opacity(
-        opacity: disappear(shrinkOffset),
+  Widget buildFloating(double shrinkOffset) => Visibility(
+        visible: shrinkOffset > 0 ? false : true,
         child: Stack(clipBehavior: Clip.none, children: [
           Container(
             height: 150,
@@ -519,7 +520,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           Positioned(
             top: -25,
-            left: 170,
+            left: 150,
             child: Container(
               alignment: Alignment.topCenter,
               width: 50,
@@ -549,7 +550,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           Positioned(
             bottom: -28,
-            left: 95,
+            left: 75,
             child: Container(
               alignment: Alignment.topCenter,
               width: 200,

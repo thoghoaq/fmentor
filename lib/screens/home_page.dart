@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -24,7 +27,7 @@ class HomePage extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: 'Hi ',
-                      style: AppFonts.regular(25, Colors.black),
+                      style: AppFonts.regular(20, Colors.black),
                       children: [
                         TextSpan(
                             text: 'Edward ',
@@ -32,7 +35,7 @@ class HomePage extends StatelessWidget {
                         WidgetSpan(
                           child: Icon(
                             Icons.hive_outlined,
-                            size: 35,
+                            size: 20,
                             color: Colors.yellow,
                           ),
                         ),
@@ -40,79 +43,91 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.notifications_none_outlined,
-                    size: 35,
+                  Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          Icons.favorite,
+                          size: 28,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: AppColors.mGrayStroke)),
+                        child: Icon(
+                          Icons.notifications_none_outlined,
+                          size: 28,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: AppColors.mGrayStroke)),
+                        child: Icon(
+                          Icons.person_outline,
+                          size: 28,
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
               SizedBox(
-                height: AppCommon.screenHeightUnit(context) * 0.1,
+                height: AppCommon.screenHeightUnit(context) * 0.3,
               ),
-              Container(
-                height: searchAreaContainerHeight,
-                width: searchAreaContainerWidth,
-                decoration: BoxDecoration(
-                    color: AppColors.mLightPurple,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  child: Column(children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "Search for mentor",
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: AppColors.mDarkPurple,
-                        ),
-                        contentPadding: const EdgeInsets.only(left: 10),
-                        filled: true,
-                        fillColor: Colors.white,
-                        // focusColor: AppColors.grayColor,
-                        // hoverColor: AppColors.grayColor,
-                        //labelText: "Search for mentor ",
-                        labelStyle: AppFonts.medium(16, AppColors.mText),
-                        //errorText: 'Error message',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none),
+              InkWell(
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Search()),
+                  )
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.mLightPurple,
+                      border:
+                          Border.all(width: 5, color: AppColors.mLightPurple),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      enabled: false,
+                      hintText: "Search for mentor",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: AppColors.mDarkPurple,
+                      ),
+                      contentPadding: const EdgeInsets.only(left: 10),
+                      filled: true,
+                      fillColor: Colors.white,
+                      // focusColor: AppColors.grayColor,
+                      // hoverColor: AppColors.grayColor,
+                      //labelText: "Search for mentor ",
+                      labelStyle: AppFonts.medium(16, AppColors.mText),
+                      //errorText: 'Error message',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                    SizedBox(
-                      height: AppCommon.screenHeightUnit(context) * 0.3,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: searchAreaContainerWidth * 1 / 2,
-                          child: RichText(
-                            maxLines: 3,
-                            text: TextSpan(
-                              text: 'Get connect with ',
-                              style: TextStyle(fontSize: 16),
-                              children: [
-                                TextSpan(
-                                    text: '300+',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(
-                                    text:
-                                        ' best Mentor and get solutions for your career'),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Image.asset(
-                          "assets/images/home_page.png",
-                          width: searchAreaContainerWidth * 0.3,
-                          height: searchAreaContainerHeight * 0.5,
-                        )
-                      ],
-                    )
-                  ]),
+                  ),
                 ),
               ),
               SizedBox(
@@ -123,12 +138,12 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Top Contributors",
-                    style: AppFonts.medium(18, Colors.black),
+                    "Specialist Mentors",
+                    style: AppFonts.medium(24, Colors.black),
                   ),
                   RichText(
                     text: TextSpan(
-                      text: "Show More ",
+                      text: "See all",
                       style: AppFonts.regular(16, AppColors.mDarkPurple),
                       children: [
                         WidgetSpan(
@@ -146,20 +161,169 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: AppCommon.screenHeightUnit(context) * 0.2,
               ),
-              Expanded(
-                child: GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    primary: false,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.75,
-                    children: List.generate(
-                      10,
-                      (index) => const ProfileCard(),
-                    )),
-              )
+              Container(
+                height: 170,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 3,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.only(right: 15),
+                        width: 105,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.mLightPurple,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/home_page.png",
+                              width: searchAreaContainerWidth * 0.18,
+                              height: searchAreaContainerHeight * 0.3,
+                            ),
+                            Text(
+                              "UX/UI",
+                              style: AppFonts.medium(15, Colors.white),
+                            ),
+                            Text(
+                              "Design",
+                              style: AppFonts.medium(15, Colors.white),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "65 Mentors",
+                              style: AppFonts.regular(13, Colors.white),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+              ),
+              // Container(
+              //   height: searchAreaContainerHeight,
+              //   width: searchAreaContainerWidth,
+              //   decoration: BoxDecoration(
+              //       color: AppColors.mLightPurple,
+              //       borderRadius: BorderRadius.circular(30)),
+              //   child: Padding(
+              //     padding:
+              //         const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              //     child: Column(children: [
+              //       TextFormField(
+              //         decoration: InputDecoration(
+              //           hintText: "Search for mentor",
+              //           prefixIcon: Icon(
+              //             Icons.search,
+              //             color: AppColors.mDarkPurple,
+              //           ),
+              //           contentPadding: const EdgeInsets.only(left: 10),
+              //           filled: true,
+              //           fillColor: Colors.white,
+              //           // focusColor: AppColors.grayColor,
+              //           // hoverColor: AppColors.grayColor,
+              //           //labelText: "Search for mentor ",
+              //           labelStyle: AppFonts.medium(16, AppColors.mText),
+              //           //errorText: 'Error message',
+              //           border: OutlineInputBorder(
+              //               borderRadius: BorderRadius.circular(30.0),
+              //               borderSide: BorderSide.none),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         height: AppCommon.screenHeightUnit(context) * 0.3,
+              //       ),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           SizedBox(
+              //             width: searchAreaContainerWidth * 1 / 2 - 10,
+              //             child: RichText(
+              //               maxLines: 3,
+              //               text: TextSpan(
+              //                 text: 'Get connect with ',
+              //                 style: TextStyle(fontSize: 16),
+              //                 children: [
+              //                   TextSpan(
+              //                       text: '300+',
+              //                       style:
+              //                           TextStyle(fontWeight: FontWeight.bold)),
+              //                   TextSpan(
+              //                       text:
+              //                           ' best Mentor and get solutions for your career'),
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //           Image.asset(
+              //             "assets/images/home_page.png",
+              //             width: searchAreaContainerWidth * 0.3,
+              //             height: searchAreaContainerHeight * 0.5,
+              //           )
+              //         ],
+              //       )
+              //     ]),
+              //   ),
+              // ),
+              SizedBox(
+                height: AppCommon.screenHeightUnit(context) * 0.3,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Top Mentors",
+                    style: AppFonts.medium(24, Colors.black),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: "See all",
+                      style: AppFonts.regular(16, AppColors.mDarkPurple),
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: AppColors.mDarkPurple,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: AppCommon.screenHeightUnit(context) * 0.2,
+              ),
+              Container(
+                height: 250,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ProfileCard();
+                    }),
+              ),
+              // Expanded(
+              //   child: GridView.count(
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       padding: EdgeInsets.zero,
+              //       primary: false,
+              //       crossAxisSpacing: 10,
+              //       mainAxisSpacing: 10,
+              //       crossAxisCount: 2,
+              //       childAspectRatio: 0.75,
+              //       children: List.generate(
+              //         10,
+              //         (index) => const ProfileCard(),
+              //       )),
+              // )
             ]),
           ),
         ),
@@ -176,6 +340,7 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      //margin: EdgeInsets.only(right: 20),
       //elevation: 5,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -183,6 +348,7 @@ class ProfileCard extends StatelessWidget {
         //set border radius more than 50% of height and width to make circle
       ),
       child: Container(
+        width: 170,
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/profile.png"),
@@ -207,7 +373,7 @@ class ProfileCard extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 80,
+                width: 90,
                 height: 35,
                 decoration: BoxDecoration(
                     color: AppColors.mLightPurple,
