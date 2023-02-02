@@ -141,7 +141,7 @@ class ListMajors extends StatelessWidget {
           choiceChipTheme: ChoiceChipThemeData(
             textStyle: AppFonts.bold(14, AppColors.mGray),
             selectedTextStyle: AppFonts.bold(14, AppColors.mGray),
-            selectedBackgroundColor: AppColors.m_background,
+            selectedBackgroundColor: AppColors.mBackground,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
               side: BorderSide(color: AppColors.mGrayStroke, width: sqrt1_2),
