@@ -396,7 +396,15 @@ packages:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.1"
+    version: "0.4.16"
+  top_modal_sheet:
+    dependency: "direct main"
+    description:
+      name: top_modal_sheet
+      sha256: "58bd8a3cdd4651b97ee69a7f520bfca47162b378e8060abcfe83ac4212180858"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   vector_math:
     dependency: transitive
     description:

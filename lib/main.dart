@@ -13,6 +13,8 @@ import 'package:mentoo/screens/make_your_schedule.dart';
 import 'package:mentoo/screens/mentor_profile.dart';
 import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
+import 'package:mentoo/screens/main_home_page.dart';
+import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/sign_in.dart';
 import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/theme/colors.dart';
