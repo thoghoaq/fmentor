@@ -3,14 +3,14 @@ import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
-class Search extends StatefulWidget {
-  const Search({super.key});
+class FollowMentor extends StatefulWidget {
+  const FollowMentor({super.key});
 
   @override
-  State<Search> createState() => _SearchState();
+  State<FollowMentor> createState() => _FollowMentorState();
 }
 
-class _SearchState extends State<Search> {
+class _FollowMentorState extends State<FollowMentor> {
   List<String> _specialties = [];
   String _selectedSpecialty = "Graphic Design";
 
@@ -77,54 +77,30 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: BackButton(
-            color: Colors.black,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            InkWell(
-                onTap: () {
-                  _showSpecialtiesMenu(context);
-                },
-                child: Icon(Icons.filter_alt_outlined,
-                    color: Colors.black, size: 30)),
-            SizedBox(
-              width: 10,
-            )
-          ],
-          backgroundColor: Colors.white,
-          elevation: 0,
-          titleTextStyle: AppFonts.medium(20, Colors.black),
-          title: Container(
-              //width: 300,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(5)),
-              child: Center(
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Search",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: AppColors.mDarkPurple,
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 20),
-                    filled: true,
-                    fillColor: Colors.white,
-                    // focusColor: AppColors.grayColor,
-                    // hoverColor: AppColors.grayColor,
-                    //labelText: "Search for mentor ",
-                    labelStyle: AppFonts.medium(16, AppColors.mText),
-                    //errorText: 'Error message',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      borderSide: BorderSide(color: AppColors.mDarkPurple),
-                    ),
-                  ),
-                ),
-              ))),
+        leading: BackButton(
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          InkWell(
+              onTap: () {
+                _showSpecialtiesMenu(context);
+              },
+              child: Icon(Icons.filter_alt_outlined,
+                  color: Colors.black, size: 30)),
+          SizedBox(
+            width: 10,
+          )
+        ],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        titleTextStyle: AppFonts.medium(30, AppColors.mDarkPurple),
+        title: const Text(
+          'Followed Mentors',
+        ),
+      ),
       body: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(20),

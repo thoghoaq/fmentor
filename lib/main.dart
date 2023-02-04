@@ -3,20 +3,35 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/choose_major.dart';
+import 'package:mentoo/screens/dialog.dart';
 import 'package:mentoo/screens/edit_education.dart';
 import 'package:mentoo/screens/edit_job.dart';
 import 'package:mentoo/screens/edit_profile.dart';
+import 'package:mentoo/screens/favorite_courses.dart';
+import 'package:mentoo/screens/follow_mentors.dart';
 import 'package:mentoo/screens/get_started.dart';
 import 'package:mentoo/screens/home_page.dart';
+
+import 'package:mentoo/screens/main_home_page.dart';
+import 'package:mentoo/screens/meeting_end.dart';
+import 'package:mentoo/screens/mentor_detail.dart';
+import 'package:mentoo/screens/my_appointments.dart';
+import 'package:mentoo/screens/notification.dart';
+import 'package:mentoo/screens/profile.dart';
+import 'package:mentoo/screens/recommend_courses.dart';
+
 import 'package:mentoo/screens/make_your_schedule.dart';
 import 'package:mentoo/screens/mentor_profile.dart';
-import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
-import 'package:mentoo/screens/main_home_page.dart';
+
 import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/sign_in.dart';
 import 'package:mentoo/screens/sign_up.dart';
+import 'package:mentoo/screens/specialist_mentors.dart';
+import 'package:mentoo/screens/top_mentor.dart';
+import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/widgets/mentor_profile.dart';
 
@@ -57,7 +72,7 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: SettingsPage(),
+      home: RecommendCourses(),
     );
   }
 }
