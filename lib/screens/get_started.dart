@@ -18,7 +18,7 @@ class _GetStartedState extends State<GetStarted> {
     // ignore: unused_local_variable
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.m_background,
+      backgroundColor: AppColors.mBackground,
       body: Center(
         child: Stack(
           children: [
