@@ -41,7 +41,7 @@ class _SearchState extends State<Search> {
             height: _specialties.length * 50,
             width: 1000,
             decoration: BoxDecoration(
-                color: AppColors.m_background,
+                color: AppColors.mBackground,
                 borderRadius: BorderRadius.circular(10)),
             child: ListView.builder(
               itemCount: _specialties.length,
@@ -58,7 +58,7 @@ class _SearchState extends State<Search> {
                     padding: EdgeInsets.all(15),
                     color: _selectedSpecialty == _specialties[index]
                         ? AppColors.mLightPurple
-                        : AppColors.m_background,
+                        : AppColors.mBackground,
                     child: Text(
                       _specialties[index],
                       style: TextStyle(color: Colors.black, fontSize: 16),

@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
           topRight: Radius.circular(18.0),
         ),
         child: BottomNavigationBar(
-            backgroundColor: AppColors.m_background,
+            backgroundColor: AppColors.mBackground,
             iconSize: 35,
             type: BottomNavigationBarType.fixed,
             onTap: onTap,
@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
                     decoration: BoxDecoration(
                         color: currentIndex == 0
                             ? AppColors.mLightPurple
-                            : AppColors.m_background,
+                            : AppColors.mBackground,
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: Icon(
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
                     decoration: BoxDecoration(
                         color: currentIndex == 1
                             ? AppColors.mLightPurple
-                            : AppColors.m_background,
+                            : AppColors.mBackground,
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: Icon(
@@ -87,7 +87,7 @@ class _MainPageState extends State<MainPage> {
                     decoration: BoxDecoration(
                         color: currentIndex == 2
                             ? AppColors.mLightPurple
-                            : AppColors.m_background,
+                            : AppColors.mBackground,
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: Icon(
@@ -103,7 +103,7 @@ class _MainPageState extends State<MainPage> {
                     decoration: BoxDecoration(
                         color: currentIndex == 3
                             ? AppColors.mLightPurple
-                            : AppColors.m_background,
+                            : AppColors.mBackground,
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: Icon(

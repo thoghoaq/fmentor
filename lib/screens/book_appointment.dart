@@ -198,7 +198,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                         contentPadding:
                             const EdgeInsets.only(left: 10, top: 10),
                         filled: true,
-                        fillColor: AppColors.m_background,
+                        fillColor: AppColors.mBackground,
                         labelStyle: AppFonts.medium(16, AppColors.mDarkPurple),
                         hintText: formatter.format(_date),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -247,7 +247,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                       contentPadding:
                           const EdgeInsets.only(left: 10, right: 10),
                       filled: true,
-                      fillColor: AppColors.m_background,
+                      fillColor: AppColors.mBackground,
                     ),
                     dropdownColor: Colors.white,
                     value: "60 minutes",
@@ -312,7 +312,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                 Container(
                     height: 56,
                     decoration: BoxDecoration(
-                        color: AppColors.m_background,
+                        color: AppColors.mBackground,
                         //borderRadius: BorderRadius.circular(5),
                         border: Border(
                             bottom: BorderSide(color: AppColors.mDarkPurple))),

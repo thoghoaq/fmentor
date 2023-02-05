@@ -53,7 +53,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                             height: 90,
                             width: 90,
                             decoration: BoxDecoration(
-                                color: AppColors.m_background,
+                                color: AppColors.mBackground,
                                 borderRadius: BorderRadius.circular(20)),
                             child: Center(
                               child: Image.asset(
