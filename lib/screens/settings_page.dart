@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mentoo/models/user_permission.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'dart:convert';
 
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/loading.dart';
 
 class SettingsPage extends StatefulWidget {
+  final int isMentor;
+
+  const SettingsPage({super.key, required this.isMentor});
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -15,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final List<Map<String, dynamic>> settings = [
     {
       'title': 'Become a Mentor',
-      'backgroundColor': Colors.accents,
+      'backgroundColor': AppColors.mBackground,
       'icon': Icons.person,
       'action': () {}
     },
@@ -44,7 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
       'action': () {}
     },
   ];
-  List<bool> settingsState = [];
+  List<int> settingsState = [];
+  bool _loading = true;
 
   @override
   void initState() {
@@ -53,18 +59,37 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   _fetchSettings() async {
-    // final response = await http
-    //     .get(Uri.parse('https://fmentor.azurewebsites.net/userpermissions'));
-    // if (response.statusCode == 200) {
-    //   setState(() {
-    //     settingsState = List<bool>.from(json.decode(response.body));
-    //   });
-    // } else {
-    //   throw Exception('Failed to load settings');
-    // }
-    setState(() {
-      settingsState = [false, true, true, true, true];
-    });
+    String apiUrl =
+        'https://fmentor.azurewebsites.net/api/userpermissions/${widget.isMentor}';
+    try {
+      final response = await http
+          .get(Uri.parse(apiUrl + '?id=' + widget.isMentor.toString()));
+      if (response.statusCode == 200) {
+        print("API Call: " + apiUrl);
+        print("Status: " + response.statusCode.toString());
+        print("Body: " + response.body);
+        var userPermission =
+            UserPermission.fromJson(json.decode(response.body));
+        setState(() {
+          settingsState = [
+            userPermission.canRequestToMentor,
+            userPermission.canSeeSettings,
+            userPermission.canSeePolicy,
+
+            // userPermission.canFollowMentors,
+            userPermission.canMakeSchedule,
+            userPermission.canLogout,
+            // userPermission.canSeeCourses,
+          ];
+          // settingsState = [1, 1, 1, 1, 1];
+          _loading = false;
+        });
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -97,35 +122,37 @@ class _SettingsPageState extends State<SettingsPage> {
             Expanded(
               child: Container(
                 color: Colors.white,
-                child: ListView.builder(
-                  itemCount: settingsState.length,
-                  itemBuilder: (context, index) {
-                    if (settingsState[index]) {
-                      return Column(
-                        children: [
-                          ListTile(
-                            title: Text(settings[index]['title']),
-                            leading: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: settings[index]['backgroundColor'],
-                              ),
-                              child: Icon(settings[index]['icon'],
-                                  size: 30, color: Colors.black),
-                              alignment: Alignment.center,
-                            ),
-                          ),
-                          Divider()
-                        ],
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
+                child: _loading
+                    ? Loading()
+                    : ListView.builder(
+                        itemCount: settingsState.length,
+                        itemBuilder: (context, index) {
+                          if (settingsState[index] == 1) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: Text(settings[index]['title']),
+                                  leading: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: settings[index]['backgroundColor'],
+                                    ),
+                                    child: Icon(settings[index]['icon'],
+                                        size: 30, color: Colors.black),
+                                    alignment: Alignment.center,
+                                  ),
+                                ),
+                                Divider()
+                              ],
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
               ),
             ),
           ],

@@ -20,6 +20,7 @@ class User {
     required this.age,
     required this.description,
     required this.videoIntroduction,
+    required this.photo,
     required this.jobs,
     required this.educations,
   });
@@ -32,6 +33,7 @@ class User {
   int age;
   String description;
   String videoIntroduction;
+  String photo;
   List<Job> jobs;
   List<Education> educations;
 
@@ -44,6 +46,7 @@ class User {
         age: json["age"],
         description: json["description"],
         videoIntroduction: json["videoIntroduction"],
+        photo: json["photo"],
         jobs: List<Job>.from(json["jobs"].map((x) => Job.fromJson(x))),
         educations: List<Education>.from(
             json["educations"].map((x) => Education.fromJson(x))),
@@ -58,6 +61,7 @@ class User {
         "age": age,
         "description": description,
         "videoIntroduction": videoIntroduction,
+        "photo": photo,
         "jobs": List<dynamic>.from(jobs.map((x) => x.toJson())),
         "educations": List<dynamic>.from(educations.map((x) => x.toJson())),
       };

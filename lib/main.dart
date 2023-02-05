@@ -22,7 +22,6 @@ import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/recommend_courses.dart';
 
 import 'package:mentoo/screens/make_your_schedule.dart';
-import 'package:mentoo/screens/mentor_profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
 
 import 'package:mentoo/screens/search.dart';
@@ -32,7 +31,6 @@ import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/theme/colors.dart';
-import 'package:mentoo/widgets/mentor_profile.dart';
 
 // void main() => runApp(
 //       DevicePreview(
@@ -65,13 +63,12 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primaryColor: AppColors.mPrimary,
-        accentColor: AppColors.mDarkPurple,
         backgroundColor: AppColors.mBackground,
         textTheme: TextTheme(
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: RecommendCourses(),
+      home: MyAppointments(menteeId: 1),
     );
   }
 }

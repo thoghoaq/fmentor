@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:mentoo/models/user.dart';
+
 List<Mentor> mentorFromJson(String str) =>
     List<Mentor>.from(json.decode(str).map((x) => Mentor.fromJson(x)));
 
@@ -47,16 +49,17 @@ class Mentor {
 }
 
 class User {
-  User({
-    required this.userId,
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.isMentor,
-    required this.age,
-    required this.description,
-    required this.videoIntroduction,
-  });
+  User(
+      {required this.userId,
+      required this.name,
+      required this.email,
+      required this.password,
+      required this.isMentor,
+      required this.age,
+      required this.description,
+      required this.videoIntroduction,
+      required this.photo,
+      required this.jobs});
 
   int userId;
   String name;
@@ -66,6 +69,8 @@ class User {
   int age;
   String description;
   String videoIntroduction;
+  String photo;
+  List<Job> jobs;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         userId: json["userId"],
@@ -76,6 +81,8 @@ class User {
         age: json["age"],
         description: json["description"],
         videoIntroduction: json["videoIntroduction"],
+        photo: json["photo"],
+        jobs: List<Job>.from(json["jobs"].map((x) => Job.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,5 +94,7 @@ class User {
         "age": age,
         "description": description,
         "videoIntroduction": videoIntroduction,
+        "photo": photo,
+        "jobs": List<dynamic>.from(jobs.map((x) => x.toJson())),
       };
 }
