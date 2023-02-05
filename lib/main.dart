@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: MyAppointments(menteeId: 1),
+      home: Profile(),
     );
   }
 }

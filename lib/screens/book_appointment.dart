@@ -348,47 +348,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                     onPressed: () => showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => bookingSuccess
-                          ? AlertDialog(
-                              icon: Image.asset(
-                                  "assets/images/booking_success.png"),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              alignment: Alignment.center,
-                              contentPadding: EdgeInsets.all(30),
-                              insetPadding: EdgeInsets.all(30),
-                              title: Text(
-                                "Successful",
-                                style:
-                                    AppFonts.medium(30, AppColors.mDarkPurple),
-                              ),
-                              content: Text(
-                                'Your appointment booking successfully completed. Mentor Hoang Michael will accept you soon',
-                                textAlign: TextAlign.center,
-                              ),
-                              actions: <Widget>[
-                                Center(
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 20),
-                                    width: 300,
-                                    height: 46,
-                                    decoration: BoxDecoration(
-                                        color: AppColors.mLightPurple,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: Text(
-                                        'OK',
-                                        style:
-                                            AppFonts.medium(18, Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
+                          ? AlertPopup()
                           : AlertDialog(
                               icon:
                                   Image.asset("assets/images/booking_fail.png"),
@@ -454,5 +414,50 @@ class _BookAppointmentState extends State<BookAppointment> {
                 ),
               ]),
         ));
+  }
+}
+
+class AlertPopup extends StatelessWidget {
+  const AlertPopup({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      icon: Image.asset("assets/images/booking_success.png"),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30))),
+      alignment: Alignment.center,
+      contentPadding: EdgeInsets.all(30),
+      insetPadding: EdgeInsets.all(30),
+      title: Text(
+        "Successful",
+        style: AppFonts.medium(30, AppColors.mDarkPurple),
+      ),
+      content: Text(
+        'Your appointment booking successfully completed. Mentor Hoang Michael will accept you soon',
+        textAlign: TextAlign.center,
+      ),
+      actions: <Widget>[
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(bottom: 20),
+            width: 300,
+            height: 46,
+            decoration: BoxDecoration(
+                color: AppColors.mLightPurple,
+                borderRadius: BorderRadius.circular(30)),
+            child: TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: Text(
+                'OK',
+                style: AppFonts.medium(18, Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
