@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/choose_major.dart';
 import 'package:mentoo/screens/edit_education.dart';
@@ -68,12 +69,30 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      // home: MyAppointments(menteeId: 1),
       home: MyAppointments(
-        isMentor: 1,
-        mentorId: 1,
         menteeId: 1,
+        isMentor: 1,
       ),
+      // home: BookAppointment(
+      //   mentor: new Mentor(
+      //       mentorId: 1,
+      //       userId: 11,
+      //       specialty: "specialty",
+      //       hourlyRate: 1,
+      //       availability: 1,
+      //       user: new User(
+      //           age: 22,
+      //           description: '',
+      //           email: '',
+      //           isMentor: 1,
+      //           jobs: [],
+      //           name: 'Hoang Michael',
+      //           password: '',
+      //           photo: '',
+      //           userId: 11,
+      //           videoIntroduction: '')),
+      //   menteeId: 1,
+      // ),
     );
   }
 }
