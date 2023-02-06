@@ -8,6 +8,8 @@ import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/loading.dart';
+import 'package:mentoo/widgets/navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,12 +48,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
     var searchAreaContainerHeight = AppCommon.screenHeightUnit(context) * 3;
-    return !isLoaded
-        ? const Center(
-            child: CircularProgressIndicator(),
-          )
-        : Scaffold(
-            body: SingleChildScrollView(
+    return Scaffold(
+      bottomNavigationBar: MyBottomNavigationBar(isMentor: 1, initialPage: 0),
+      body: !isLoaded
+          ? Loading()
+          : SingleChildScrollView(
               child: Container(
                 height: AppCommon.screenHeight(context) * 2,
                 padding:
@@ -429,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-          );
+    );
   }
 }
 

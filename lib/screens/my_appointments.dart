@@ -7,13 +7,21 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
+import 'package:mentoo/widgets/navigation_bar.dart';
 import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyAppointments extends StatefulWidget {
+  final int isMentor;
+  final int? mentorId;
   final int? menteeId;
 
-  const MyAppointments({super.key, this.menteeId});
+  const MyAppointments({
+    super.key,
+    this.mentorId,
+    this.menteeId,
+    required this.isMentor,
+  });
   @override
   State<MyAppointments> createState() => _MyAppointmentsState();
 }
@@ -57,18 +65,24 @@ class _MyAppointmentsState extends State<MyAppointments> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        bottomNavigationBar: MyBottomNavigationBar(
+            isMentor: 1, initialPage: widget.isMentor == 0 ? 1 : 3),
         appBar: AppBar(
-          leading: BackButton(
-            color: Colors.black,
-            onPressed: () {},
-          ),
+          // leading: BackButton(
+          //   color: Colors.black,
+          //   onPressed: () {},
+          // ),
           backgroundColor: Colors.white,
           elevation: 0,
-          centerTitle: false,
+          centerTitle: true,
           titleTextStyle: AppFonts.medium(30, AppColors.mDarkPurple),
-          title: const Text(
-            'My Appointments',
-          ),
+          title: widget.isMentor == 0
+              ? const Text(
+                  'My Appointments',
+                )
+              : const Text(
+                  'My Mentees',
+                ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(48.0),
             child: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mentoo/screens/settings_page.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -38,7 +39,15 @@ class _SchedulePageState extends State<SchedulePage> {
         ),
         leading: BackButton(
           color: AppColors.mDarkPurple,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SettingsPage(
+                        isMentor: 1,
+                      )),
+            );
+          },
         ),
       ),
       body: Padding(

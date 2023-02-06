@@ -68,7 +68,12 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: Profile(),
+      // home: MyAppointments(menteeId: 1),
+      home: MyAppointments(
+        isMentor: 1,
+        mentorId: 1,
+        menteeId: 1,
+      ),
     );
   }
 }
