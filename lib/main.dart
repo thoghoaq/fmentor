@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/choose_major.dart';
 import 'package:mentoo/screens/edit_education.dart';
@@ -49,31 +50,31 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Mentoo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primaryColor: AppColors.mPrimary,
-        backgroundColor: AppColors.mBackground,
-        textTheme: TextTheme(
-          bodyText1: TextStyle(color: AppColors.mText),
+    return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Mentoo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primaryColor: AppColors.mPrimary,
+          backgroundColor: AppColors.mBackground,
+          textTheme: TextTheme(
+            bodyText1: TextStyle(color: AppColors.mText),
+          ),
         ),
-      ),
-      // home: MyAppointments(menteeId: 1),
-      home: MyAppointments(
-        isMentor: 1,
-        mentorId: 1,
-        menteeId: 1,
-      ),
-    );
+        // home: MyAppointments(menteeId: 1),
+        // home: MyAppointments(
+        //   isMentor: 1,
+        //   mentorId: 1,
+        //   menteeId: 1,
+        // ),
+        home: HomePage());
   }
 }
