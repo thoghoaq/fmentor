@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/models/user.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -13,6 +14,29 @@ class FavoriteCourses extends StatefulWidget {
 }
 
 class _FavoriteCoursesState extends State<FavoriteCourses> {
+  User? _user;
+
+  var isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  void _getData() async {
+    (await UserService().getUserById(9));
+    _user = (await UserService().getUser());
+    setState(() {
+      if (_user != null) isLoaded = true;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
@@ -21,7 +45,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
       appBar: AppBar(
         leading: BackButton(
           color: Colors.black,
-          onPressed: () {},
+          onPressed: () => Get.back(),
         ),
         backgroundColor: Colors.white,
         elevation: 0,

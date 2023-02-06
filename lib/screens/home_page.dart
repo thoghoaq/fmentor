@@ -1,9 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/user.dart';
+import 'package:mentoo/models/specialty.dart';
+import 'package:mentoo/screens/favorite_courses.dart';
+import 'package:mentoo/screens/mentor_detail.dart';
 import 'package:mentoo/screens/search.dart';
+import 'package:mentoo/screens/specialist_mentors.dart';
+import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/services/mentor_service.dart';
+import 'package:mentoo/services/specialty_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
@@ -20,6 +28,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Mentor>? _mentors;
+  List<Specialty>? _specialties;
   User? _user;
 
   var isLoaded = false;
@@ -31,11 +40,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getData() async {
-    _mentors = (await MentorService().getMentor())!;
+    _mentors = (await MentorService().getMentors());
+    _specialties = await SpecialtyService().getTop3Specialties();
     (await UserService().getUserById(9));
     _user = (await UserService().getUser());
     setState(() {
-      if (_mentors != null && _user != null) isLoaded = true;
+      if (_mentors != null && _user != null && _specialties != null)
+        isLoaded = true;
     });
   }
 
@@ -63,40 +74,46 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            text: 'Hi ',
-                            style: AppFonts.regular(20, Colors.black),
-                            children: [
-                              TextSpan(
-                                  text: _user!.name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      overflow: TextOverflow.ellipsis)),
-                              WidgetSpan(
-                                child: Icon(
-                                  Icons.hive_outlined,
-                                  size: 20,
-                                  color: Colors.yellow,
+                        SizedBox(
+                          width: 220,
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Hi ',
+                              style: AppFonts.regular(20, Colors.black),
+                              children: [
+                                TextSpan(
+                                    text: _user!.name,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        overflow: TextOverflow.ellipsis)),
+                                WidgetSpan(
+                                  child: Icon(
+                                    Icons.hive_outlined,
+                                    size: 20,
+                                    color: Colors.yellow,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(text: '\nFind your great mentor!'),
-                            ],
+                                TextSpan(text: '\nFind your great mentor!'),
+                              ],
+                            ),
                           ),
                         ),
                         Row(
                           children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(
-                                Icons.favorite,
-                                size: 28,
-                                color: Colors.white,
+                            InkWell(
+                              onTap: () => Get.to(FavoriteCourses()),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  Icons.favorite,
+                                  size: 28,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -138,11 +155,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     InkWell(
                       onTap: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Search()),
-                        )
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const Search()),
+                        // )
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -185,19 +202,23 @@ class _HomePageState extends State<HomePage> {
                           "Specialist Mentors",
                           style: AppFonts.medium(24, Colors.black),
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: "See all",
-                            style: AppFonts.regular(16, AppColors.mDarkPurple),
-                            children: [
-                              WidgetSpan(
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                  color: AppColors.mDarkPurple,
+                        InkWell(
+                          onTap: () => Get.to(SpecialistMentors()),
+                          child: RichText(
+                            text: TextSpan(
+                              text: "See all",
+                              style:
+                                  AppFonts.regular(16, AppColors.mDarkPurple),
+                              children: [
+                                WidgetSpan(
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
+                                    color: AppColors.mDarkPurple,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -210,37 +231,45 @@ class _HomePageState extends State<HomePage> {
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: 3,
+                          itemCount: _specialties!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               margin: EdgeInsets.only(right: 15),
                               width: 105,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: AppColors.mLightPurple,
+                                color: index == 0
+                                    ? AppColors.mLightPurple
+                                    : (index == 1
+                                        ? AppColors.mLightRed
+                                        : Colors.amber),
                               ),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                    "assets/images/home_page.png",
-                                    width: searchAreaContainerWidth * 0.18,
-                                    height: searchAreaContainerHeight * 0.3,
-                                  ),
-                                  Text(
-                                    "UX/UI",
-                                    style: AppFonts.medium(15, Colors.white),
-                                  ),
-                                  Text(
-                                    "Design",
-                                    style: AppFonts.medium(15, Colors.white),
+                                  Image.network(
+                                    _specialties![index].picture,
+                                    fit: BoxFit.cover,
+                                    width: searchAreaContainerWidth * 0.3,
+                                    height: searchAreaContainerHeight * 0.35,
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    height: 5,
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: Text(
+                                      _specialties![index].name,
+                                      style: AppFonts.medium(15, Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                   Text(
-                                    "65 Mentors",
+                                    _specialties![index]
+                                            .numberMentor
+                                            .toString() +
+                                        " Mentors",
                                     style: AppFonts.regular(13, Colors.white),
                                   )
                                 ],
@@ -325,19 +354,23 @@ class _HomePageState extends State<HomePage> {
                           "Top Mentors",
                           style: AppFonts.medium(24, Colors.black),
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: "See all",
-                            style: AppFonts.regular(16, AppColors.mDarkPurple),
-                            children: [
-                              WidgetSpan(
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                  color: AppColors.mDarkPurple,
+                        InkWell(
+                          onTap: () => Get.to(TopMentors()),
+                          child: RichText(
+                            text: TextSpan(
+                              text: "See all",
+                              style:
+                                  AppFonts.regular(16, AppColors.mDarkPurple),
+                              children: [
+                                WidgetSpan(
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
+                                    color: AppColors.mDarkPurple,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -351,63 +384,14 @@ class _HomePageState extends State<HomePage> {
                           scrollDirection: Axis.horizontal,
                           itemCount: _mentors!.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Card(
-                              //margin: EdgeInsets.only(right: 20),
-                              //elevation: 5,
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                //set border radius more than 50% of height and width to make circle
-                              ),
-                              child: Container(
-                                width: 170,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/286157202_3222563111346910_6904547227827837333_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=D_hhttt6oo8AX8S-DVQ&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCnZ0D7Jti36UIOBxc_fg6ebgXTH2L_SYmeMspGhAz42g&oe=63E394B8"),
-                                        fit: BoxFit.cover)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _mentors![index].user.name,
-                                        style:
-                                            AppFonts.medium(16, Colors.black),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'UI/UX Designer,\nUnicloudCA',
-                                          style: AppFonts.regular(
-                                              10, Colors.black),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 90,
-                                        height: 35,
-                                        decoration: BoxDecoration(
-                                            color: AppColors.mLightPurple,
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            border: Border.all()),
-                                        child: Center(
-                                          child: Text(
-                                            'Mentor',
-                                            style: AppFonts.medium(
-                                                16, Colors.black),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                            return InkWell(
+                              onTap: () => Get.to(MentorDetail(
+                                  mentorId: _mentors![index].mentorId)),
+                              child: ProfileCard(
+                                company: _mentors![index].user.jobs[0].company,
+                                job: _mentors![index].user.jobs[0].role,
+                                name: _mentors![index].user.name,
+                                image: _mentors![index].user.photo,
                               ),
                             );
                           }),
@@ -435,9 +419,17 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({
+  ProfileCard({
+    required this.company,
+    required this.image,
+    required this.job,
+    required this.name,
     Key? key,
   }) : super(key: key);
+  String image;
+  String name;
+  String company;
+  String job;
 
   @override
   Widget build(BuildContext context) {
@@ -452,9 +444,8 @@ class ProfileCard extends StatelessWidget {
       child: Container(
         width: 170,
         decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/profile.png"),
-                fit: BoxFit.cover)),
+            image:
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -462,7 +453,7 @@ class ProfileCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Lauria Warner',
+                name,
                 style: AppFonts.medium(16, Colors.black),
               ),
               SizedBox(
@@ -470,7 +461,7 @@ class ProfileCard extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  'UI/UX Designer,\nUnicloudCA',
+                  job + ',\n' + company,
                   style: AppFonts.regular(10, Colors.black),
                 ),
               ),

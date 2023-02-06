@@ -19,6 +19,8 @@ class Mentor {
     required this.specialty,
     required this.hourlyRate,
     required this.availability,
+    required this.numberFollower,
+    required this.numberMentee,
     required this.user,
   });
 
@@ -27,6 +29,8 @@ class Mentor {
   String specialty;
   double hourlyRate;
   int availability;
+  int numberFollower;
+  int numberMentee;
   User user;
 
   factory Mentor.fromJson(Map<String, dynamic> json) => Mentor(
@@ -35,6 +39,8 @@ class Mentor {
         specialty: json["specialty"],
         hourlyRate: json["hourlyRate"],
         availability: json["availability"],
+        numberFollower: json["numberFollower"],
+        numberMentee: json["numberMentee"],
         user: User.fromJson(json["user"]),
       );
 
@@ -44,57 +50,89 @@ class Mentor {
         "specialty": specialty,
         "hourlyRate": hourlyRate,
         "availability": availability,
+        "numberFollower": numberFollower,
+        "numberMentee": numberMentee,
         "user": user.toJson(),
       };
 }
 
-class User {
-  User(
-      {required this.userId,
-      required this.name,
-      required this.email,
-      required this.password,
-      required this.isMentor,
-      required this.age,
-      required this.description,
-      required this.videoIntroduction,
-      required this.photo,
-      required this.jobs});
+class Education {
+  Education({
+    required this.educationId,
+    required this.userId,
+    required this.school,
+    required this.major,
+    required this.startDate,
+    required this.endDate,
+    required this.isCurrent,
+  });
 
+  int educationId;
   int userId;
-  String name;
-  String email;
-  String password;
-  int isMentor;
-  int age;
-  String description;
-  String videoIntroduction;
-  String photo;
-  List<Job> jobs;
+  String school;
+  String major;
+  DateTime startDate;
+  DateTime endDate;
+  int isCurrent;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Education.fromJson(Map<String, dynamic> json) => Education(
+        educationId: json["educationId"],
         userId: json["userId"],
-        name: json["name"],
-        email: json["email"],
-        password: json["password"],
-        isMentor: json["isMentor"],
-        age: json["age"],
-        description: json["description"],
-        videoIntroduction: json["videoIntroduction"],
-        photo: json["photo"],
-        jobs: List<Job>.from(json["jobs"].map((x) => Job.fromJson(x))),
+        school: json["school"],
+        major: json["major"],
+        startDate: DateTime.parse(json["startDate"]),
+        endDate: DateTime.parse(json["endDate"]),
+        isCurrent: json["isCurrent"],
       );
 
   Map<String, dynamic> toJson() => {
+        "educationId": educationId,
         "userId": userId,
-        "name": name,
-        "email": email,
-        "password": password,
-        "isMentor": isMentor,
-        "age": age,
-        "description": description,
-        "videoIntroduction": videoIntroduction,
-        "photo": photo,
-        "jobs": List<dynamic>.from(jobs.map((x) => x.toJson())),
+        "school": school,
+        "major": major,
+        "startDate": startDate.toIso8601String(),
+        "endDate": endDate.toIso8601String(),
+        "isCurrent": isCurrent,
+      };
+}
+
+class Job {
+  Job({
+    required this.jobId,
+    required this.userId,
+    required this.company,
+    required this.role,
+    required this.startDate,
+    required this.endDate,
+    required this.isCurrent,
+  });
+
+  int jobId;
+  int userId;
+  String company;
+  String role;
+  DateTime startDate;
+  DateTime? endDate;
+  int isCurrent;
+
+  factory Job.fromJson(Map<String, dynamic> json) => Job(
+        jobId: json["jobId"],
+        userId: json["userId"],
+        company: json["company"],
+        role: json["role"],
+        startDate: DateTime.parse(json["startDate"]),
+        endDate:
+            json["endDate"] == null ? null : DateTime.parse(json["endDate"]!),
+        isCurrent: json["isCurrent"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "jobId": jobId,
+        "userId": userId,
+        "company": company,
+        "role": role,
+        "startDate": startDate.toIso8601String(),
+        "endDate": endDate?.toIso8601String(),
+        "isCurrent": isCurrent,
       };
 }

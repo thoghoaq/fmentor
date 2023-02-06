@@ -22,7 +22,7 @@ class _BookAppointmentState extends State<BookAppointment> {
     final DateTime? newDate = await showDatePicker(
       context: context,
       initialDate: _date,
-      firstDate: DateTime(2023, 1),
+      firstDate: DateTime(2022, 10),
       lastDate: DateTime(2030, 7),
       helpText: 'Select a date',
     );

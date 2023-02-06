@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/user.dart';
 import 'package:mentoo/utils/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

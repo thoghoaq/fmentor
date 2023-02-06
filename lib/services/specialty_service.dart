@@ -1,17 +1,17 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/utils/path.dart';
 
-class MentorService {
-  Future<List<Mentor>?> getMentors() async {
+class SpecialtyService {
+  Future<List<Specialty>?> getSpecialties() async {
     try {
-      var url = Uri.parse(Path.path + "/mentors");
+      var url = Uri.parse(Path.path + "/specialties");
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        List<Mentor> _mentorModel = mentorFromJson(response.body);
-        return _mentorModel;
+        List<Specialty> _specialties = specialtyFromJson(response.body);
+        return _specialties;
       }
     } catch (e) {
       print(e.toString());
@@ -19,13 +19,13 @@ class MentorService {
     }
   }
 
-  Future<Mentor?> getMentorById(int id) async {
+  Future<List<Specialty>?> getTop3Specialties() async {
     try {
-      var url = Uri.parse(Path.path + "/mentors/" + id.toString());
+      var url = Uri.parse(Path.path + "/specialties/top3");
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        Mentor _mentorModel = Mentor.fromJson(jsonDecode(response.body));
-        return _mentorModel;
+        List<Specialty> _specialties = specialtyFromJson(response.body);
+        return _specialties;
       }
     } catch (e) {
       print(e.toString());
