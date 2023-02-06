@@ -36,7 +36,11 @@ class _MyAppointmentsState extends State<MyAppointments> {
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    if (widget.isMentor == 0) {
+      _fetchData();
+    } else {
+      _fetchDataMentor();
+    }
   }
 
   _fetchData() async {
@@ -45,6 +49,28 @@ class _MyAppointmentsState extends State<MyAppointments> {
     //fetch all appointment
     var appointments =
         await AppointmentService().fetchAppointmentViewModel(widget.menteeId);
+    //upcomming tab
+    var upcommingAppointmentsFiltered =
+        appointments.where((element) => element.status != "Completed").toList();
+    upcommingAppointmentsFiltered
+        .sort(((a, b) => b.status.compareTo(a.status)));
+    _upcommingAppointments = upcommingAppointmentsFiltered;
+    //completed tab
+    _completedAppointments =
+        appointments.where((element) => element.status == "Completed").toList();
+
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  _fetchDataMentor() async {
+    //waiting tab
+    _booking =
+        await BookingServivce().fetchBookingViewModelMentor(widget.mentorId);
+    //fetch all appointment
+    var appointments = await AppointmentService()
+        .fetchAppointmentViewModelMentor(widget.mentorId);
     //upcomming tab
     var upcommingAppointmentsFiltered =
         appointments.where((element) => element.status != "Completed").toList();
@@ -128,6 +154,93 @@ class _MyAppointmentsState extends State<MyAppointments> {
                       : ListView.builder(
                           itemCount: _upcommingAppointments!.length,
                           itemBuilder: (context, index) {
+                            var photo2 = widget.isMentor == 0
+                                ? _upcommingAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .photo
+                                : _upcommingAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .photo;
+                            var photo3 = widget.isMentor == 0
+                                ? _upcommingAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .photo
+                                : _upcommingAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .photo;
+                            var name2 = widget.isMentor == 0
+                                ? _upcommingAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .name
+                                : _upcommingAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .name;
+                            var role2 = widget.isMentor == 0
+                                ? _upcommingAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .jobs
+                                    .first
+                                    .role
+                                : _upcommingAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .isNotEmpty
+                                    ? _upcommingAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .where(
+                                            (element) => element.isCurrent == 1)
+                                        .first
+                                        .role
+                                    : "";
+                            var company2 = widget.isMentor == 0
+                                ? _upcommingAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .jobs
+                                    .first
+                                    .company
+                                : _upcommingAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .isNotEmpty
+                                    ? _upcommingAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .first
+                                        .company
+                                    : "";
+                            var string = _upcommingAppointments![index]
+                                .startTime
+                                .toString();
+                            var string2 = _upcommingAppointments![index]
+                                .duration
+                                .toString();
+                            var status2 = _upcommingAppointments![index].status;
+                            var isEmpty2 = widget.isMentor == 0
+                                ? _upcommingAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .photo
+                                    .replaceAll(" ", "")
+                                    .isEmpty
+                                : _upcommingAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .photo
+                                    .replaceAll(" ", "")
+                                    .isEmpty;
                             return Container(
                               height: 140,
                               child: Column(children: [
@@ -135,12 +248,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    _upcommingAppointments![index]
-                                            .mentor
-                                            .user
-                                            .photo
-                                            .replaceAll(" ", "")
-                                            .isEmpty
+                                    isEmpty2
                                         ? CircleAvatar(
                                             backgroundImage: AssetImage(
                                               "assets/images/profile.png",
@@ -149,10 +257,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           )
                                         : CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                              _upcommingAppointments![index]
-                                                  .mentor
-                                                  .user
-                                                  .photo,
+                                              photo2,
                                             ),
                                             radius: 45,
                                           ),
@@ -161,10 +266,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          _upcommingAppointments![index]
-                                              .mentor
-                                              .user
-                                              .name,
+                                          name2,
                                           style:
                                               AppFonts.medium(18, Colors.black),
                                         ),
@@ -175,14 +277,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           children: [
                                             RichText(
                                                 text: TextSpan(
-                                                    text:
-                                                        _upcommingAppointments![
-                                                                index]
-                                                            .mentor
-                                                            .user
-                                                            .jobs
-                                                            .first
-                                                            .role,
+                                                    text: role2,
                                                     style: AppFonts.regular(
                                                         12, Colors.black),
                                                     children: [
@@ -192,14 +287,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                           12, Colors.black),
                                                       children: [
                                                         TextSpan(
-                                                          text:
-                                                              _upcommingAppointments![
-                                                                      index]
-                                                                  .mentor
-                                                                  .user
-                                                                  .jobs
-                                                                  .first
-                                                                  .company,
+                                                          text: company2,
                                                           style:
                                                               AppFonts.regular(
                                                                   12,
@@ -214,13 +302,28 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               width: 70,
                                               height: 20,
                                               decoration: BoxDecoration(
-                                                  color: AppColors.mLightRed,
+                                                  color:
+                                                      _upcommingAppointments![
+                                                                      index]
+                                                                  .mentee
+                                                                  ?.user
+                                                                  .isMentor ==
+                                                              0
+                                                          ? AppColors
+                                                              .mLightPurple
+                                                          : AppColors.mLightRed,
                                                   borderRadius:
                                                       BorderRadius.circular(7),
                                                   border: Border.all()),
                                               child: Center(
                                                 child: Text(
-                                                  'Mentor',
+                                                  _upcommingAppointments![index]
+                                                              .mentee
+                                                              ?.user
+                                                              .isMentor ==
+                                                          0
+                                                      ? 'Mentee'
+                                                      : 'Mentor',
                                                   style: AppFonts.regular(
                                                       12, Colors.black),
                                                 ),
@@ -245,9 +348,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               width: 5,
                                             ),
                                             Text(
-                                              _upcommingAppointments![index]
-                                                  .startTime
-                                                  .toString(),
+                                              string,
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                             ),
@@ -271,10 +372,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                             ),
                                             RichText(
                                               text: TextSpan(
-                                                  text: _upcommingAppointments![
-                                                          index]
-                                                      .duration
-                                                      .toString(),
+                                                  text: string2,
                                                   style: AppFonts.regular(
                                                       12, Colors.black),
                                                   children: [
@@ -299,9 +397,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                   12, Colors.black),
                                               children: [
                                                 TextSpan(
-                                                  text: _upcommingAppointments![
-                                                          index]
-                                                      .status,
+                                                  text: status2,
                                                   style: AppFonts.medium(12,
                                                       AppColors.mDarkPurple),
                                                 )
@@ -367,6 +463,50 @@ class _MyAppointmentsState extends State<MyAppointments> {
                       : ListView.builder(
                           itemCount: _booking!.length,
                           itemBuilder: (context, index) {
+                            var isEmpty2 = widget.isMentor == 0
+                                ? _booking![index]
+                                    .mentor!
+                                    .user
+                                    .photo
+                                    .replaceAll(" ", "")
+                                    .isEmpty
+                                : _booking![index]
+                                    .mentee!
+                                    .user
+                                    .photo
+                                    .replaceAll(" ", "")
+                                    .isEmpty;
+                            var photo2 = widget.isMentor == 0
+                                ? _booking![index].mentor!.user.photo
+                                : _booking![index].mentee!.user.photo;
+                            var name2 = widget.isMentor == 0
+                                ? _booking![index].mentor!.user.name
+                                : _booking![index].mentee!.user.name;
+                            var role2 = widget.isMentor == 0
+                                ? _booking![index].mentor!.user.jobs.first.role
+                                : _booking![index].mentee!.user.jobs.isNotEmpty
+                                    ? _booking![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .first
+                                        .role
+                                    : "";
+                            var company2 = widget.isMentor == 0
+                                ? _booking![index]
+                                    .mentor!
+                                    .user
+                                    .jobs
+                                    .first
+                                    .company
+                                : _booking![index].mentee!.user.jobs.isNotEmpty
+                                    ? _booking![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .first
+                                        .company
+                                    : "";
                             return Container(
                               height: 140,
                               child: Column(children: [
@@ -374,12 +514,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    _booking![index]
-                                            .mentor
-                                            .user
-                                            .photo
-                                            .replaceAll(" ", "")
-                                            .isEmpty
+                                    isEmpty2
                                         ? CircleAvatar(
                                             backgroundImage: AssetImage(
                                               "assets/images/profile.png",
@@ -388,10 +523,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           )
                                         : CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                              _booking![index]
-                                                  .mentor
-                                                  .user
-                                                  .photo,
+                                              photo2,
                                             ),
                                             radius: 45,
                                           ),
@@ -400,7 +532,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          _booking![index].mentor.user.name,
+                                          name2,
                                           style:
                                               AppFonts.medium(18, Colors.black),
                                         ),
@@ -411,12 +543,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           children: [
                                             RichText(
                                                 text: TextSpan(
-                                                    text: _booking![index]
-                                                        .mentor
-                                                        .user
-                                                        .jobs
-                                                        .first
-                                                        .role,
+                                                    text: role2,
                                                     style: AppFonts.regular(
                                                         12, Colors.black),
                                                     children: [
@@ -426,12 +553,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                           12, Colors.black),
                                                       children: [
                                                         TextSpan(
-                                                          text: _booking![index]
-                                                              .mentor
-                                                              .user
-                                                              .jobs
-                                                              .first
-                                                              .company,
+                                                          text: company2,
                                                           style:
                                                               AppFonts.regular(
                                                                   12,
@@ -446,13 +568,25 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               width: 70,
                                               height: 20,
                                               decoration: BoxDecoration(
-                                                  color: AppColors.mLightRed,
+                                                  color: _booking![index]
+                                                              .mentee
+                                                              ?.user
+                                                              .isMentor ==
+                                                          0
+                                                      ? AppColors.mLightPurple
+                                                      : AppColors.mLightRed,
                                                   borderRadius:
                                                       BorderRadius.circular(7),
                                                   border: Border.all()),
                                               child: Center(
                                                 child: Text(
-                                                  'Mentor',
+                                                  _booking![index]
+                                                              .mentee
+                                                              ?.user
+                                                              .isMentor ==
+                                                          0
+                                                      ? 'Mentee'
+                                                      : 'Mentor',
                                                   style: AppFonts.regular(
                                                       12, Colors.black),
                                                 ),
@@ -647,6 +781,69 @@ class _MyAppointmentsState extends State<MyAppointments> {
                       : ListView.builder(
                           itemCount: _completedAppointments!.length,
                           itemBuilder: (context, index) {
+                            var isEmpty2 = widget.isMentor == 0
+                                ? _completedAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .photo
+                                    .replaceAll(" ", "")
+                                    .isEmpty
+                                : _completedAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .photo
+                                    .replaceAll(" ", "")
+                                    .isEmpty;
+                            var photo2 = widget.isMentor == 0
+                                ? _booking![index].mentor!.user.photo
+                                : _booking![index].mentee!.user.photo;
+                            var name2 = widget.isMentor == 0
+                                ? _completedAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .name
+                                : _completedAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .name;
+                            var role2 = widget.isMentor == 0
+                                ? _completedAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .jobs
+                                    .first
+                                    .role
+                                : _completedAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .isNotEmpty
+                                    ? _completedAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .first
+                                        .role
+                                    : "";
+                            var company2 = widget.isMentor == 0
+                                ? _completedAppointments![index]
+                                    .mentor!
+                                    .user
+                                    .jobs
+                                    .first
+                                    .company
+                                : _completedAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .isNotEmpty
+                                    ? _completedAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs
+                                        .first
+                                        .company
+                                    : "";
                             return Container(
                               height: 140,
                               child: Column(children: [
@@ -654,12 +851,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    _completedAppointments![index]
-                                            .mentor
-                                            .user
-                                            .photo
-                                            .replaceAll(" ", "")
-                                            .isEmpty
+                                    isEmpty2
                                         ? CircleAvatar(
                                             backgroundImage: AssetImage(
                                               "assets/images/profile.png",
@@ -668,10 +860,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           )
                                         : CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                              _booking![index]
-                                                  .mentor
-                                                  .user
-                                                  .photo,
+                                              photo2,
                                             ),
                                             radius: 45,
                                           ),
@@ -680,10 +869,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          _completedAppointments![index]
-                                              .mentor
-                                              .user
-                                              .name,
+                                          name2,
                                           style:
                                               AppFonts.medium(18, Colors.black),
                                         ),
@@ -694,14 +880,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           children: [
                                             RichText(
                                                 text: TextSpan(
-                                                    text:
-                                                        _completedAppointments![
-                                                                index]
-                                                            .mentor
-                                                            .user
-                                                            .jobs
-                                                            .first
-                                                            .role,
+                                                    text: role2,
                                                     style: AppFonts.regular(
                                                         12, Colors.black),
                                                     children: [
@@ -711,14 +890,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                           12, Colors.black),
                                                       children: [
                                                         TextSpan(
-                                                          text:
-                                                              _completedAppointments![
-                                                                      index]
-                                                                  .mentor
-                                                                  .user
-                                                                  .jobs
-                                                                  .first
-                                                                  .company,
+                                                          text: company2,
                                                           style:
                                                               AppFonts.regular(
                                                                   12,
@@ -733,13 +905,28 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               width: 70,
                                               height: 20,
                                               decoration: BoxDecoration(
-                                                  color: AppColors.mLightRed,
+                                                  color:
+                                                      _completedAppointments![
+                                                                      index]
+                                                                  .mentee
+                                                                  ?.user
+                                                                  .isMentor ==
+                                                              0
+                                                          ? AppColors
+                                                              .mLightPurple
+                                                          : AppColors.mLightRed,
                                                   borderRadius:
                                                       BorderRadius.circular(7),
                                                   border: Border.all()),
                                               child: Center(
                                                 child: Text(
-                                                  'Mentor',
+                                                  _completedAppointments![index]
+                                                              .mentee
+                                                              ?.user
+                                                              .isMentor ==
+                                                          0
+                                                      ? 'Mentee'
+                                                      : 'Mentor',
                                                   style: AppFonts.regular(
                                                       12, Colors.black),
                                                 ),

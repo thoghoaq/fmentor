@@ -1,3 +1,4 @@
+import 'package:mentoo/models/mentee.dart';
 import 'package:mentoo/models/metor.dart';
 
 class BookingViewModel {
@@ -9,7 +10,8 @@ class BookingViewModel {
   final double totalCost;
   final String status;
   final String reasonForRejection;
-  final Mentor mentor;
+  final Mentor? mentor;
+  final Mentee? mentee;
 
   BookingViewModel({
     required this.bookingId,
@@ -20,7 +22,8 @@ class BookingViewModel {
     required this.totalCost,
     required this.status,
     required this.reasonForRejection,
-    required this.mentor,
+    this.mentor,
+    this.mentee,
   });
 
   factory BookingViewModel.fromJson(Map<String, dynamic> json) {
@@ -33,7 +36,8 @@ class BookingViewModel {
       totalCost: json['totalCost'].toDouble(),
       status: json['status'],
       reasonForRejection: json['reasonForRejection'],
-      mentor: Mentor.fromJson(json['mentor']),
+      mentor: json['mentor'] != null ? Mentor.fromJson(json['mentor']) : null,
+      mentee: json['mentee'] != null ? Mentee.fromJson(json['mentee']) : null,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:mentoo/models/mentee.dart';
 import 'package:mentoo/models/metor.dart';
 
 class AppointmentViewModel {
@@ -10,7 +11,8 @@ class AppointmentViewModel {
   final int duration;
   final String status;
   final String note;
-  final Mentor mentor;
+  final Mentor? mentor;
+  final Mentee? mentee;
 
   AppointmentViewModel({
     required this.appointmentId,
@@ -22,7 +24,8 @@ class AppointmentViewModel {
     required this.duration,
     required this.status,
     required this.note,
-    required this.mentor,
+    this.mentor,
+    this.mentee,
   });
 
   factory AppointmentViewModel.fromJson(Map<String, dynamic> json) {
@@ -36,7 +39,8 @@ class AppointmentViewModel {
       duration: json['duration'].toInt(),
       status: json['status'],
       note: json['note'],
-      mentor: Mentor.fromJson(json['mentor']),
+      mentor: json['mentor'] != null ? Mentor.fromJson(json['mentor']) : null,
+      mentee: json['mentee'] != null ? Mentee.fromJson(json['mentee']) : null,
     );
   }
 }
