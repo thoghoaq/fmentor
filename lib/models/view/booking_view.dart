@@ -5,7 +5,7 @@ class BookingViewModel {
   final int mentorId;
   final int menteeId;
   final DateTime startTime;
-  final DateTime endTime;
+  final int duration;
   final double totalCost;
   final String status;
   final String reasonForRejection;
@@ -16,7 +16,7 @@ class BookingViewModel {
     required this.mentorId,
     required this.menteeId,
     required this.startTime,
-    required this.endTime,
+    required this.duration,
     required this.totalCost,
     required this.status,
     required this.reasonForRejection,
@@ -29,7 +29,7 @@ class BookingViewModel {
       mentorId: json['mentorId'],
       menteeId: json['menteeId'],
       startTime: DateTime.parse(json['startTime']),
-      endTime: DateTime.parse(json['endTime']),
+      duration: json['duration'].toInt(),
       totalCost: json['totalCost'].toDouble(),
       status: json['status'],
       reasonForRejection: json['reasonForRejection'],

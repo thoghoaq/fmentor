@@ -135,7 +135,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           )
                                         : CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                              _booking![index]
+                                              _upcommingAppointments![index]
                                                   .mentor
                                                   .user
                                                   .photo,
