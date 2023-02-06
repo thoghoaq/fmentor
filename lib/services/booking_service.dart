@@ -21,4 +21,21 @@ class BookingServivce {
       throw Exception('Failed to load booking view model');
     }
   }
+
+  Future<List<BookingViewModel>> fetchBookingViewModelMentor(
+      int? mentorId) async {
+    String apiUrl = Path.path + '/bookings/mentor/${mentorId}';
+    final response =
+        await http.get(Uri.parse(apiUrl + '?id=' + mentorId.toString()));
+    if (response.statusCode == 200) {
+      List<dynamic> jsonArray = json.decode(response.body);
+      List<BookingViewModel> bookingViewModels = [];
+      for (var jsonObject in jsonArray) {
+        bookingViewModels.add(BookingViewModel.fromJson(jsonObject));
+      }
+      return bookingViewModels;
+    } else {
+      throw Exception('Failed to load booking view model');
+    }
+  }
 }

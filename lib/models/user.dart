@@ -74,7 +74,8 @@ class Education {
     required this.school,
     required this.major,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
+    required this.isCurrent,
   });
 
   int educationId;
@@ -82,7 +83,8 @@ class Education {
   String school;
   String major;
   DateTime startDate;
-  DateTime endDate;
+  DateTime? endDate;
+  int isCurrent;
 
   factory Education.fromJson(Map<String, dynamic> json) => Education(
         educationId: json["educationId"],
@@ -90,7 +92,9 @@ class Education {
         school: json["school"],
         major: json["major"],
         startDate: DateTime.parse(json["startDate"]),
-        endDate: DateTime.parse(json["endDate"]),
+        endDate:
+            json["endDate"] != null ? DateTime.parse(json["endDate"]) : null,
+        isCurrent: json["isCurrent"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -99,7 +103,8 @@ class Education {
         "school": school,
         "major": major,
         "startDate": startDate.toIso8601String(),
-        "endDate": endDate.toIso8601String(),
+        "endDate": endDate!.toIso8601String(),
+        "isCurrent": isCurrent,
       };
 }
 
@@ -110,7 +115,8 @@ class Job {
     required this.company,
     required this.role,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
+    required this.isCurrent,
   });
 
   int jobId;
@@ -118,7 +124,8 @@ class Job {
   String company;
   String role;
   DateTime startDate;
-  DateTime endDate;
+  DateTime? endDate;
+  int isCurrent;
 
   factory Job.fromJson(Map<String, dynamic> json) => Job(
         jobId: json["jobId"],
@@ -126,7 +133,9 @@ class Job {
         company: json["company"],
         role: json["role"],
         startDate: DateTime.parse(json["startDate"]),
-        endDate: DateTime.parse(json["endDate"]),
+        endDate:
+            json["endDate"] != null ? DateTime.parse(json["endDate"]) : null,
+        isCurrent: json["isCurrent"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -135,6 +144,7 @@ class Job {
         "company": company,
         "role": role,
         "startDate": startDate.toIso8601String(),
-        "endDate": endDate.toIso8601String(),
+        "endDate": endDate!.toIso8601String(),
+        "isCurrent": isCurrent,
       };
 }

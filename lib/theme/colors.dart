@@ -11,5 +11,6 @@ class AppColors {
   static const mLightPurple = Color(0xff9A82DB);
   static const mGrayStroke = Color(0xff79747E);
   static const mLightRed = Color(0xffF2B8B5);
+  static const mNavigationBar = Color(0xfffcf4ff);
   const AppColors();
 }
