@@ -3,6 +3,7 @@ import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/screens/my_appointments.dart';
 import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -48,15 +49,24 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     },
   ];
   late int _selectedPageIndex;
+  late int _userId = -1;
 
   @override
   void initState() {
     _settingPage(widget.isMentor);
     _selectedPageIndex = widget.initialPage;
+    _getUser();
     super.initState();
   }
 
-  void _selectPage(int index) {
+  _getUser() async {
+    var user = await UserService().getUser();
+    if (user != null) {
+      _userId = user.userId;
+    }
+  }
+
+  void _selectPage(int index) async {
     setState(() {
       _selectedPageIndex = index;
     });
@@ -75,8 +85,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                     )));
         break;
       case 2:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Profile()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => Profile(userId: _userId)));
         break;
       case 3:
         Navigator.push(

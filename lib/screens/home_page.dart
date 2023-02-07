@@ -7,6 +7,7 @@ import 'package:mentoo/models/user.dart';
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
+import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
@@ -385,7 +386,8 @@ class _HomePageState extends State<HomePage> {
                           itemCount: _mentors!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              onTap: () => Get.to(MentorDetail(
+                              onTap: () => Get.to(Profile(
+                                  isViewMentor: true,
                                   mentorId: _mentors![index].mentorId)),
                               child: ProfileCard(
                                 company: _mentors![index].user.jobs[0].company,

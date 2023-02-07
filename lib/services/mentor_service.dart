@@ -19,17 +19,15 @@ class MentorService {
     }
   }
 
-  Future<Mentor?> getMentorById(int id) async {
-    try {
-      var url = Uri.parse(Path.path + "/mentors/" + id.toString());
-      var response = await http.get(url);
-      if (response.statusCode == 200) {
-        Mentor _mentorModel = Mentor.fromJson(jsonDecode(response.body));
-        return _mentorModel;
-      }
-    } catch (e) {
-      print(e.toString());
-      log(e.toString());
+  Future<Mentor?> getMentorById(int? id) async {
+    String apiUrl = Path.path + '/mentors/${id}';
+    print("Calling API load mentor...");
+    final response = await http.get(Uri.parse(apiUrl + '?id=' + id.toString()));
+    if (response.statusCode == 200) {
+      Mentor mentor = Mentor.fromJson(json.decode(response.body));
+      return mentor;
+    } else {
+      throw Exception('Failed to load mentor model');
     }
   }
 }

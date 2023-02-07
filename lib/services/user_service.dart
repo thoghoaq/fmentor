@@ -6,8 +6,9 @@ import 'package:mentoo/utils/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
-  Future<User?> getUserById(int id) async {
+  Future<User?> getUserById(int? id) async {
     try {
+      print("Calling service getUserById...");
       var url = Uri.parse(Path.path + "/users/" + id.toString());
       var response = await http.get(url);
       if (response.statusCode == 200) {
@@ -27,9 +28,11 @@ class UserService {
   }
 
   Future<User?> getUser() async {
+    print("Calling service getUser...");
     final prefs = await SharedPreferences.getInstance();
     final string = prefs.getString('user');
     if (string != null) {
+      print("Calling service getUser success");
       return User.fromJson(json.decode(string));
     }
     return null;
