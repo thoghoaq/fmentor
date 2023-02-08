@@ -1,5 +1,5 @@
 import 'package:mentoo/models/mentee.dart';
-import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/mentor.dart';
 
 class BookingViewModel {
   final int bookingId;

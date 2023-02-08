@@ -2,9 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mentoo/models/metor.dart';
-import 'package:mentoo/models/user.dart';
+import 'package:mentoo/models/mentor.dart' as mentors;
 import 'package:mentoo/models/specialty.dart';
+import 'package:mentoo/models/user.dart';
+import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
 import 'package:mentoo/screens/profile.dart';
@@ -28,7 +29,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Mentor>? _mentors;
+  List<mentors.Mentor>? _mentors;
   List<Specialty>? _specialties;
   User? _user;
 
@@ -386,12 +387,14 @@ class _HomePageState extends State<HomePage> {
                           itemCount: _mentors!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              onTap: () => Get.to(Profile(
-                                  isViewMentor: true,
-                                  mentorId: _mentors![index].mentorId)),
+                              // onTap: () => Get.to(Profile(
+                              //     isViewMentor: true,
+                              //     mentorId: _mentors![index].mentorId)),
+                              onTap: () => Get.to(BookAppointment(
+                                  menteeId: 1, mentor: _mentors![index])),
                               child: ProfileCard(
-                                company: _mentors![index].user.jobs[0].company,
-                                job: _mentors![index].user.jobs[0].role,
+                                company: _mentors![index].user.jobs![0].company,
+                                job: _mentors![index].user.jobs![0].role,
                                 name: _mentors![index].user.name,
                                 image: _mentors![index].user.photo,
                               ),

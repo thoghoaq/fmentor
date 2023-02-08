@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/services/mentor_service.dart';
@@ -130,8 +130,8 @@ class _TopMentorsState extends State<TopMentors> {
                   children: List.generate(
                     _mentors!.length,
                     (index) => ProfileCard(
-                      company: _mentors![index].user.jobs[0].company,
-                      job: _mentors![index].user.jobs[0].role,
+                      company: _mentors![index].user.jobs![0].company,
+                      job: _mentors![index].user.jobs![0].role,
                       name: _mentors![index].user.name,
                       image: _mentors![index].user.photo,
                     ),

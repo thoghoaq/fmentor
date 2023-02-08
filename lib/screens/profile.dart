@@ -1,6 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:mentoo/models/metor.dart';
+import 'package:get/route_manager.dart';
+import 'package:mentoo/models/mentor.dart' as mentors;
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/home_page.dart';
@@ -26,7 +27,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  Mentor? _mentor;
+  mentors.Mentor? _mentor;
   User? _user;
   bool _loading = true;
 
@@ -530,7 +531,7 @@ class ImageWidget extends StatelessWidget {
 }
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  Mentor? mentor;
+  mentors.Mentor? mentor;
   User? user;
   final bool? isViewMentor;
   final double expandedHeight;
@@ -653,16 +654,16 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                     isViewMentor == null
                         ? user != null
                             ? user!.jobs == null
-                                ? user!.jobs[0].role +
+                                ? user!.jobs![0].role +
                                     ", " +
-                                    user!.jobs[0].company
+                                    user!.jobs![0].company
                                 : "No job data"
                             : "No job data"
                         : isViewMentor == true
                             ? mentor != null
-                                ? mentor!.user.jobs[0].role +
+                                ? mentor!.user.jobs![0].role +
                                     ", " +
-                                    mentor!.user.jobs[0].company
+                                    mentor!.user.jobs![0].company
                                 : "No job data"
                             : "No job data",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
@@ -789,12 +790,8 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                       )
                     : isViewMentor == true
                         ? InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
-                            },
+                            onTap: () => Get.to(
+                                BookAppointment(menteeId: 1, mentor: mentor!)),
                             child: Container(
                               alignment: Alignment.topCenter,
                               width: 250,
