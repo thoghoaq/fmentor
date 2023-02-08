@@ -1,8 +1,14 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mentoo/models/mentee.dart';
 import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/user.dart';
+import 'package:mentoo/screens/book_appointment.dart';
+import 'package:mentoo/services/mentee_service.dart';
 import 'package:mentoo/services/mentor_service.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/widgets/loading.dart';
@@ -17,6 +23,9 @@ class MentorDetail extends StatefulWidget {
 
 class _MentorDetailState extends State<MentorDetail> {
   late Mentor _mentor;
+  User? _user;
+  String? _menteeId;
+  bool? _isFollowed;
 
   var isLoaded = false;
 
@@ -27,9 +36,19 @@ class _MentorDetailState extends State<MentorDetail> {
   }
 
   void _getData() async {
+    _user = (await UserService().getUser());
+    _menteeId = await MenteeService().getMenteeByUserId(_user!.userId);
     _mentor = (await MentorService().getMentorById(widget.mentorId))!;
+    _isFollowed = await MentorService()
+        .checkMentorFollowed(_mentor!.mentorId, _user!.userId);
     setState(() {
       if (_mentor != null) isLoaded = true;
+    });
+  }
+
+  void _reload() {
+    setState(() {
+      isLoaded = true;
     });
   }
 
@@ -51,35 +70,43 @@ class _MentorDetailState extends State<MentorDetail> {
                 slivers: <Widget>[
                   SliverPersistentHeader(
                     delegate: CustomSliverAppBarDelegate(
-                        expandedHeight: 400, mentor: _mentor),
+                        userId: _user!.userId,
+                        expandedHeight: 500,
+                        mentor: _mentor,
+                        isFollowed: _isFollowed!,
+                        menteeId: _menteeId!),
                   ),
                   SliverAppBar(
+                    //expandedHeight: 0,
                     backgroundColor: Colors.white,
                     pinned: true,
-                    title: Text(
-                      "Profile",
-                      style: TextStyle(color: AppColors.mLightPurple),
-                    ),
+                    // title: Text(
+                    //   "Profile",
+                    //   style: TextStyle(color: AppColors.mLightPurple),
+                    // ),
                     centerTitle: true,
                     elevation: 0,
-                    bottom: TabBar(
-                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                        indicatorColor: AppColors.mLightPurple,
-                        labelColor: AppColors.mLightPurple,
-                        labelStyle: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                        unselectedLabelColor: AppColors.mGrayStroke,
-                        tabs: [
-                          Tab(
-                            text: "Profile",
-                          ),
-                          Tab(
-                            text: "Reviews",
-                          ),
-                          Tab(
-                            text: "Cetificates",
-                          ),
-                        ]),
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(0.0),
+                      child: TabBar(
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          indicatorColor: AppColors.mLightPurple,
+                          labelColor: AppColors.mLightPurple,
+                          labelStyle: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          unselectedLabelColor: AppColors.mGrayStroke,
+                          tabs: [
+                            Tab(
+                              text: "Profile",
+                            ),
+                            Tab(
+                              text: "Reviews",
+                            ),
+                            Tab(
+                              text: "Cetificates",
+                            ),
+                          ]),
+                    ),
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate(
@@ -234,14 +261,21 @@ class _MentorDetailState extends State<MentorDetail> {
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   Mentor mentor;
+  bool isFollowed;
+  int userId;
+  String menteeId;
 
   CustomSliverAppBarDelegate(
-      {required this.expandedHeight, required this.mentor});
+      {required this.expandedHeight,
+      required this.mentor,
+      required this.isFollowed,
+      required this.userId,
+      required this.menteeId});
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final size = 300;
+    final size = 500;
     final top = expandedHeight - shrinkOffset - size / 2;
 
     return Stack(
@@ -249,7 +283,23 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       //overflow: Overflow.visible,
       children: [
+        Container(
+          height: 500,
+          color: Colors.amber,
+        ),
         buildBackground(shrinkOffset, mentor),
+        Positioned(
+          top: 400,
+          right: 0,
+          child: Visibility(
+            visible: shrinkOffset > 0 ? false : true,
+            child: Container(
+              height: 100,
+              width: 500,
+              color: Colors.white,
+            ),
+          ),
+        ),
         Positioned(
           top: 50,
           left: 20,
@@ -259,14 +309,50 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(onPressed: () {}, icon: BackButtonIcon()),
                   Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white),
-                      child: Icon(Icons.person_add_alt)),
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(
+                      child: IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: BackButtonIcon()),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: IconButton(
+                          onPressed: () async {
+                            if (isFollowed) {
+                              await MenteeService()
+                                  .unFollowMentor(userId, mentor.mentorId);
+                            } else
+                              await MenteeService()
+                                  .followMentor(userId, mentor.mentorId);
+                            //function();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MentorDetail(
+                                  mentorId: mentor.mentorId,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: !isFollowed
+                              ? Icon(Icons.person_add_alt)
+                              : Icon(Icons.person_remove_alt_1)),
+                    ),
+                  ),
                 ]),
           ),
         ),
@@ -315,23 +401,26 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               ],
             ),
             child: Column(children: [
-              RichText(
-                text: TextSpan(
-                  text: mentor.user.name + ' ',
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                  children: [
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.verified_outlined,
-                        size: 25,
-                        color: AppColors.mLightPurple,
+              InkWell(
+                onTap: () => print("tap"),
+                child: RichText(
+                  text: TextSpan(
+                    text: mentor.user.name + ' ',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                    children: [
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.verified_outlined,
+                          size: 25,
+                          color: AppColors.mLightPurple,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -380,36 +469,39 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               )),
             ),
           ),
-          Positioned(
-            bottom: -28,
-            left: 70,
-            child: Container(
-              alignment: Alignment.topCenter,
-              width: 250,
-              height: 56,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.mLightPurple,
+          InkWell(
+            onTap: () => Get.to(
+                BookAppointment(mentor: mentor, menteeId: int.parse(menteeId))),
+            child: Padding(
+              padding: EdgeInsets.only(top: 120, left: 70),
+              child: Container(
+                alignment: Alignment.topCenter,
+                width: 250,
+                height: 56,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.mLightPurple,
+                ),
+                child: Center(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                      Icon(
+                        Icons.calendar_month_sharp,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Book Appointment",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ])),
               ),
-              child: Center(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                    Icon(
-                      Icons.calendar_month_sharp,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      "Book Appointment",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ])),
             ),
           ),
         ]),

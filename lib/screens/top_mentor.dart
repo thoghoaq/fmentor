@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/models/specialty.dart';
+import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/home_page.dart';
+import 'package:mentoo/screens/mentor_detail.dart';
 import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/services/specialty_service.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/widgets/loading.dart';
 
 class TopMentors extends StatefulWidget {
-  const TopMentors({super.key});
+  String pageName;
+  TopMentors({super.key, this.pageName = "Top Mentors"});
 
   @override
   State<TopMentors> createState() => _TopMentorsState();
@@ -31,7 +35,14 @@ class _TopMentorsState extends State<TopMentors> {
 
   void _fetchSpecialties() async {
     _specialties = await SpecialtyService().getSpecialties();
-    _mentors = await MentorService().getMentors();
+    if (widget.pageName == "Top Mentors") {
+      _mentors = await MentorService().getMentors();
+    } else {
+      //(await UserService().getUserById(9));
+      User? _user = (await UserService().getUser());
+      _mentors = await MentorService().getFollowedMentors(_user!.userId);
+    }
+
     _specialtiesName = _specialties!.map((s) => s.name).toList();
     //_specialtiesName.add("Others");
     _selectedSpecialty = _specialtiesName[0];
@@ -63,7 +74,7 @@ class _TopMentorsState extends State<TopMentors> {
                         _specialties![index].name);
                     setState(() {
                       _selectedSpecialty = _specialtiesName[index];
-                      //_mentors = _mentors.where((element) => element.)
+                      //_mentors = _mentors.where((element) => element.specialty.)
                     });
                     Navigator.pop(context);
                   },
@@ -112,8 +123,8 @@ class _TopMentorsState extends State<TopMentors> {
               backgroundColor: Colors.white,
               elevation: 0,
               titleTextStyle: AppFonts.medium(30, AppColors.mDarkPurple),
-              title: const Text(
-                'Top Mentors',
+              title: Text(
+                widget.pageName,
               ),
             ),
             body: Container(
@@ -129,11 +140,15 @@ class _TopMentorsState extends State<TopMentors> {
                   childAspectRatio: 0.75,
                   children: List.generate(
                     _mentors!.length,
-                    (index) => ProfileCard(
-                      company: _mentors![index].user.jobs[0].company,
-                      job: _mentors![index].user.jobs[0].role,
-                      name: _mentors![index].user.name,
-                      image: _mentors![index].user.photo,
+                    (index) => InkWell(
+                      onTap: () => Get.to(
+                          MentorDetail(mentorId: _mentors![index].mentorId)),
+                      child: ProfileCard(
+                        company: _mentors![index].user.jobs[0].company,
+                        job: _mentors![index].user.jobs[0].role,
+                        name: _mentors![index].user.name,
+                        image: _mentors![index].user.photo,
+                      ),
                     ),
                   )),
             ),

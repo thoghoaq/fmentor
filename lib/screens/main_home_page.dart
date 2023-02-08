@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mentoo/screens/home_page.dart';
+import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/theme/colors.dart';
 
 class MainPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List pages = [
     HomePage(),
-    HomePage(),
+    Profile(),
     HomePage(),
     HomePage(),
   ];

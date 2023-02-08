@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/models/request/booking_request_model.dart';
 import 'package:mentoo/models/view/mentor_working_time_view.dart';
@@ -139,7 +140,9 @@ class _BookAppointmentState extends State<BookAppointment> {
         appBar: AppBar(
           leading: BackButton(
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
           ),
           backgroundColor: Colors.white,
           elevation: 0,

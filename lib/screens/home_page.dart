@@ -6,6 +6,7 @@ import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
+import 'package:mentoo/screens/follow_mentors.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
 import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 220,
+                          width: 180,
                           child: RichText(
                             text: TextSpan(
                               text: 'Hi ',
@@ -134,16 +135,21 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               width: 5,
                             ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: AppColors.mGrayStroke)),
-                              child: Icon(
-                                Icons.person_outline,
-                                size: 28,
+                            InkWell(
+                              onTap: () => Get.to(TopMentors(
+                                pageName: "Followed Mentors",
+                              )),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: AppColors.mGrayStroke)),
+                                child: Icon(
+                                  Icons.person_add_alt,
+                                  size: 28,
+                                ),
                               ),
                             ),
                           ],
