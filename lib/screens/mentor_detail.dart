@@ -2,11 +2,15 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
 import 'package:mentoo/models/mentee.dart';
 import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/services/mentee_service.dart';
+
+import 'package:mentoo/models/mentor.dart';
+
 import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -140,10 +144,10 @@ class _MentorDetailState extends State<MentorDetail> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      100 * _mentor.user.jobs.length.toDouble(),
+                                  height: 100 *
+                                      _mentor.user.jobs!.length.toDouble(),
                                   child: ListView.builder(
-                                    itemCount: _mentor.user.jobs.length,
+                                    itemCount: _mentor.user.jobs!.length,
                                     itemBuilder: (context, index) {
                                       return Column(
                                         children: [
@@ -201,12 +205,13 @@ class _MentorDetailState extends State<MentorDetail> {
                                                     DateFormat("MMMM yyyy")
                                                             .format(_mentor
                                                                 .user
-                                                                .jobs[index]
+                                                                .jobs![index]
                                                                 .startDate) +
                                                         " - " +
                                                         (_mentor
                                                                     .user
-                                                                    .jobs[index]
+                                                                    .jobs![
+                                                                        index]
                                                                     .endDate ==
                                                                 null
                                                             ? "Now"
@@ -214,7 +219,8 @@ class _MentorDetailState extends State<MentorDetail> {
                                                                     "MMMM yyyy")
                                                                 .format(_mentor
                                                                     .user
-                                                                    .jobs[index]
+                                                                    .jobs![
+                                                                        index]
                                                                     .endDate!)),
                                                     style: AppFonts.regular(12,
                                                         AppColors.mGrayStroke),
@@ -223,7 +229,7 @@ class _MentorDetailState extends State<MentorDetail> {
                                               ),
                                             ],
                                           ),
-                                          index != _mentor.user.jobs.length - 1
+                                          index != _mentor.user.jobs!.length - 1
                                               ? Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -427,7 +433,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 height: 5,
               ),
               Text(
-                mentor.user.jobs[0].role + ", " + mentor.user.jobs[0].company,
+                mentor.user.jobs![0].role + ", " + mentor.user.jobs![0].company,
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
               SizedBox(

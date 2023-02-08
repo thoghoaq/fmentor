@@ -1,7 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:mentoo/models/metor.dart';
+
+import 'package:get/route_manager.dart';
+import 'package:mentoo/models/mentor.dart';
+
 import 'package:mentoo/models/request/booking_request_model.dart';
 import 'package:mentoo/models/view/mentor_working_time_view.dart';
 import 'package:mentoo/services/booking_service.dart';
@@ -192,11 +197,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 ),
                                 Row(
                                   children: [
-                                    mentorInfo.jobs.isNotEmpty
+                                    mentorInfo.jobs!.isNotEmpty
                                         ? RichText(
                                             text: TextSpan(
                                                 text:
-                                                    mentorInfo.jobs.first.role,
+                                                    mentorInfo.jobs!.first.role,
                                                 style: AppFonts.regular(
                                                     12, Colors.black),
                                                 children: [
@@ -206,8 +211,8 @@ class _BookAppointmentState extends State<BookAppointment> {
                                                         12, Colors.black),
                                                     children: [
                                                       TextSpan(
-                                                        text: mentorInfo
-                                                            .jobs.first.company,
+                                                        text: mentorInfo.jobs!
+                                                            .first.company,
                                                         style: AppFonts.regular(
                                                             12, Colors.black),
                                                       )
@@ -216,7 +221,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                         : SizedBox(),
                                     SizedBox(
                                       width:
-                                          mentorInfo.jobs.isNotEmpty ? 10 : 0,
+                                          mentorInfo.jobs!.isNotEmpty ? 10 : 0,
                                     ),
                                     Container(
                                       width: 70,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/home_page.dart';
@@ -140,6 +140,7 @@ class _TopMentorsState extends State<TopMentors> {
                   childAspectRatio: 0.75,
                   children: List.generate(
                     _mentors!.length,
+
                     (index) => InkWell(
                       onTap: () => Get.to(
                           MentorDetail(mentorId: _mentors![index].mentorId)),
@@ -149,6 +150,7 @@ class _TopMentorsState extends State<TopMentors> {
                         name: _mentors![index].user.name,
                         image: _mentors![index].user.photo,
                       ),
+
                     ),
                   )),
             ),

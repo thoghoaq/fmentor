@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/route_manager.dart';
 import 'package:mentoo/routes/router.dart';
 import 'package:mentoo/routes/routes.dart';
+import 'package:mentoo/screens/sign_in.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -78,12 +80,7 @@ class _GetStartedState extends State<GetStarted> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100)),
                           ),
-                          onPressed: () => {
-                                Navigator.push(
-                                    context,
-                                    AppRouter.generateRoute(const RouteSettings(
-                                        arguments: AppRoutes.signIn)))
-                              },
+                          onPressed: () => Get.to(SignIn()),
                           child: Text('Get Started',
                               style: AppFonts.bold(25, AppColors.mText))),
                       const SizedBox(

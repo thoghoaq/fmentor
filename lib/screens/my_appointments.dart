@@ -185,18 +185,18 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 ? _upcommingAppointments![index]
                                     .mentor!
                                     .user
-                                    .jobs
+                                    .jobs!
                                     .first
                                     .role
                                 : _upcommingAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .isNotEmpty
                                     ? _upcommingAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .where(
                                             (element) => element.isCurrent == 1)
                                         .first
@@ -206,18 +206,18 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 ? _upcommingAppointments![index]
                                     .mentor!
                                     .user
-                                    .jobs
+                                    .jobs!
                                     .first
                                     .company
                                 : _upcommingAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .isNotEmpty
                                     ? _upcommingAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .first
                                         .company
                                     : "";
@@ -483,12 +483,12 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 ? _booking![index].mentor!.user.name
                                 : _booking![index].mentee!.user.name;
                             var role2 = widget.isMentor == 0
-                                ? _booking![index].mentor!.user.jobs.first.role
-                                : _booking![index].mentee!.user.jobs.isNotEmpty
+                                ? _booking![index].mentor!.user.jobs!.first.role
+                                : _booking![index].mentee!.user.jobs!.isNotEmpty
                                     ? _booking![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .first
                                         .role
                                     : "";
@@ -496,14 +496,14 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 ? _booking![index]
                                     .mentor!
                                     .user
-                                    .jobs
+                                    .jobs!
                                     .first
                                     .company
-                                : _booking![index].mentee!.user.jobs.isNotEmpty
+                                : _booking![index].mentee!.user.jobs!.isNotEmpty
                                     ? _booking![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .first
                                         .company
                                     : "";
@@ -810,18 +810,18 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 ? _completedAppointments![index]
                                     .mentor!
                                     .user
-                                    .jobs
+                                    .jobs!
                                     .first
                                     .role
                                 : _completedAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .isNotEmpty
                                     ? _completedAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .first
                                         .role
                                     : "";
@@ -829,18 +829,18 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 ? _completedAppointments![index]
                                     .mentor!
                                     .user
-                                    .jobs
+                                    .jobs!
                                     .first
                                     .company
                                 : _completedAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .isNotEmpty
                                     ? _completedAppointments![index]
                                         .mentee!
                                         .user
-                                        .jobs
+                                        .jobs!
                                         .first
                                         .company
                                     : "";
