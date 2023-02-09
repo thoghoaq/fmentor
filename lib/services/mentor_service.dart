@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
-import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/services/mentee_service.dart';
 
 import 'package:mentoo/models/mentor.dart';
@@ -49,7 +48,6 @@ class MentorService {
     } catch (e) {
       print(e.toString());
       log(e.toString());
-
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mentoo/models/mentor.dart';
+// ignore: unnecessary_import
+import 'package:mentoo/models/mentor.dart' as Mentor;
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/home_page.dart';
@@ -22,7 +23,7 @@ class TopMentors extends StatefulWidget {
 
 class _TopMentorsState extends State<TopMentors> {
   List<Specialty>? _specialties;
-  List<Mentor>? _mentors;
+  List<Mentor.Mentor>? _mentors;
   List<String> _specialtiesName = [];
   late String _selectedSpecialty;
   bool _isLoading = false;
@@ -140,17 +141,15 @@ class _TopMentorsState extends State<TopMentors> {
                   childAspectRatio: 0.75,
                   children: List.generate(
                     _mentors!.length,
-
                     (index) => InkWell(
                       onTap: () => Get.to(
                           MentorDetail(mentorId: _mentors![index].mentorId)),
                       child: ProfileCard(
-                        company: _mentors![index].user.jobs[0].company,
-                        job: _mentors![index].user.jobs[0].role,
+                        company: _mentors![index].user.jobs![0].company,
+                        job: _mentors![index].user.jobs![0].role,
                         name: _mentors![index].user.name,
                         image: _mentors![index].user.photo,
                       ),
-
                     ),
                   )),
             ),

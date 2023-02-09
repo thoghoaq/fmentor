@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:mentoo/models/favorite_couse.dart';
 import 'package:mentoo/models/follow_mentor.dart';
 import 'package:mentoo/models/mentee.dart';
-import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/utils/path.dart';
 
 class MenteeService {

@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'package:mentoo/models/mentee.dart';
-import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/services/mentee_service.dart';
 
-import 'package:mentoo/models/mentor.dart';
+import 'package:mentoo/models/mentor.dart' as Mentor;
 
 import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/services/user_service.dart';
@@ -26,7 +24,7 @@ class MentorDetail extends StatefulWidget {
 }
 
 class _MentorDetailState extends State<MentorDetail> {
-  late Mentor _mentor;
+  late Mentor.Mentor _mentor;
   User? _user;
   String? _menteeId;
   bool? _isFollowed;
@@ -266,7 +264,7 @@ class _MentorDetailState extends State<MentorDetail> {
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
-  Mentor mentor;
+  Mentor.Mentor mentor;
   bool isFollowed;
   int userId;
   String menteeId;
@@ -377,7 +375,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double disappear(double shrinkOffset) =>
       1 - (shrinkOffset / expandedHeight * 10) * 0.01;
 
-  Widget buildBackground(double shrinkOffset, Mentor mentor) => Opacity(
+  Widget buildBackground(double shrinkOffset, Mentor.Mentor mentor) => Opacity(
         opacity: disappear(shrinkOffset),
         child: Image.network(
           mentor.user.photo,

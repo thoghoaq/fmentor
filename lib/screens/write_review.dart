@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/mentee.dart';
-import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/review.dart';
 import 'package:mentoo/screens/my_appointments.dart';
 import 'package:mentoo/services/review_service.dart';
