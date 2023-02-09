@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mentoo/screens/home_page.dart';
+import 'package:mentoo/screens/my_mentees.dart';
 import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -16,9 +17,9 @@ class MainPage extends StatefulWidget {
       {Key? key,
       required this.isMentor,
       required this.initialPage,
+      this.userId,
       this.mentorId,
-      this.menteeId,
-      this.userId})
+      this.menteeId})
       : super(key: key);
 
   @override
@@ -76,59 +77,49 @@ class _MainPageState extends State<MainPage> {
 
   void _settingPage(int isMentor) {
     if (isMentor == 1) {
-      setState(() {
-        pageItems[3]['state'] = true;
-        pages = [
-          const HomePage(),
-          MyAppointments(
-            mentorId: widget.mentorId,
-            menteeId: widget.menteeId,
-            isMentor: isMentor,
-          ),
-          Profile(),
-          MyAppointments(
-            menteeId: widget.menteeId,
-            mentorId: widget.mentorId,
-            isMentor: isMentor,
-          ),
-          SettingsPage(isMentor: isMentor)
-        ];
-      });
+      pageItems[3]['state'] = true;
+      pages = [
+        const HomePage(),
+        MyAppointments(
+          menteeId: widget.menteeId,
+        ),
+        Profile(userId: widget.userId),
+        MyMentees(
+          mentorId: widget.mentorId,
+        ),
+        SettingsPage(isMentor: isMentor)
+      ];
     } else {
-      setState(() {
-        pages = [
-          const HomePage(),
-          MyAppointments(
-            menteeId: widget.menteeId,
-            isMentor: isMentor,
-            mentorId: widget.mentorId,
-          ),
-          Profile(userId: widget.userId),
-          SettingsPage(isMentor: isMentor)
-        ];
-        pageItems = [
-          {
-            'title': 'Home',
-            'icon': Icons.home_outlined,
-            'state': true,
-          },
-          {
-            'title': 'Mentor',
-            'icon': Icons.handshake_outlined,
-            'state': true,
-          },
-          {
-            'title': 'Profile',
-            'icon': Icons.person,
-            'state': true,
-          },
-          {
-            'title': 'Setting',
-            'icon': Icons.settings_outlined,
-            'state': true,
-          },
-        ];
-      });
+      pages = [
+        const HomePage(),
+        MyAppointments(
+          menteeId: widget.menteeId,
+        ),
+        Profile(userId: widget.userId),
+        SettingsPage(isMentor: isMentor)
+      ];
+      pageItems = [
+        {
+          'title': 'Home',
+          'icon': Icons.home_outlined,
+          'state': true,
+        },
+        {
+          'title': 'Mentor',
+          'icon': Icons.handshake_outlined,
+          'state': true,
+        },
+        {
+          'title': 'Profile',
+          'icon': Icons.person,
+          'state': true,
+        },
+        {
+          'title': 'Setting',
+          'icon': Icons.settings_outlined,
+          'state': true,
+        },
+      ];
     }
   }
 
@@ -140,7 +131,7 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: AppColors.mNavigationBar,
           onTap: _selectPage,
           showSelectedLabels: false,
-          selectedIconTheme: IconThemeData(size: 30),
+          selectedIconTheme: const IconThemeData(size: 30),
           items: pageItems
               .where((element) => element['state'] == true)
               .map(

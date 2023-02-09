@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
@@ -35,6 +36,7 @@ import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
+import 'package:mentoo/widgets/loading.dart';
 
 // void main() => runApp(
 //       DevicePreview(
@@ -55,6 +57,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _loading = true;
   bool _isFirstLogin = true;
   User? _user;
   // This widget is the root of your application.
@@ -70,6 +73,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _isFirstLogin = false;
         _user = user;
+        _loading = false;
       });
     }
   }
@@ -95,19 +99,21 @@ class _MyAppState extends State<MyApp> {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: _isFirstLogin
-          ? const GetStarted()
-          : MainPage(
-              userId: _user!.userId,
-              initialPage: 0,
-              isMentor: _user!.isMentor,
-              menteeId: _user!.mentees.isNotEmpty
-                  ? _user!.mentees.first.menteeId
-                  : null,
-              mentorId: _user!.mentors!.isNotEmpty
-                  ? _user!.mentors!.first.mentorId
-                  : null,
-            ),
+      home: !_loading
+          ? _isFirstLogin
+              ? const GetStarted()
+              : MainPage(
+                  userId: _user!.userId,
+                  initialPage: 0,
+                  isMentor: _user!.isMentor,
+                  menteeId: _user!.mentees.isNotEmpty
+                      ? _user!.mentees.first.menteeId
+                      : null,
+                  mentorId: _user!.mentors!.isNotEmpty
+                      ? _user!.mentors!.first.mentorId
+                      : null,
+                )
+          : const Loading(),
     );
   }
 }

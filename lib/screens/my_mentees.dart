@@ -12,18 +12,18 @@ import 'package:mentoo/widgets/loading.dart';
 import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MyAppointments extends StatefulWidget {
-  final int? menteeId;
+class MyMentees extends StatefulWidget {
+  final int? mentorId;
 
-  const MyAppointments({
+  const MyMentees({
     super.key,
-    required this.menteeId,
+    required this.mentorId,
   });
   @override
-  State<MyAppointments> createState() => _MyAppointmentsState();
+  State<MyMentees> createState() => _MyMenteesState();
 }
 
-class _MyAppointmentsState extends State<MyAppointments> {
+class _MyMenteesState extends State<MyMentees> {
   bool cancelAppointment = false;
   List<BookingViewModel>? _booking;
   List<AppointmentViewModel>? _upcommingAppointments;
@@ -32,22 +32,23 @@ class _MyAppointmentsState extends State<MyAppointments> {
 
   @override
   void initState() {
-    _fetchData();
+    _fetchDataMentor();
     super.initState();
   }
 
-  _fetchData() async {
+  _fetchDataMentor() async {
     //waiting tab
     var booking =
-        await BookingServivce().fetchBookingViewModel(widget.menteeId!);
+        await BookingServivce().fetchBookingViewModelMentor(widget.mentorId!);
     //fetch all appointment
-    var appointments =
-        await AppointmentService().fetchAppointmentViewModel(widget.menteeId);
+    var appointments = await AppointmentService()
+        .fetchAppointmentViewModelMentor(widget.mentorId);
     //upcomming tab
     var upcommingAppointmentsFiltered =
         appointments.where((element) => element.status != "Completed").toList();
     upcommingAppointmentsFiltered
         .sort(((a, b) => b.status.compareTo(a.status)));
+
     setState(() {
       _booking = booking;
       _upcommingAppointments = upcommingAppointmentsFiltered;
@@ -55,6 +56,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
       _completedAppointments = appointments
           .where((element) => element.status == "Completed")
           .toList();
+
       _loading = false;
     });
   }
@@ -65,16 +67,12 @@ class _MyAppointmentsState extends State<MyAppointments> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          // leading: BackButton(
-          //   color: Colors.black,
-          //   onPressed: () {},
-          // ),
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
           titleTextStyle: AppFonts.medium(30, AppColors.mDarkPurple),
           title: const Text(
-            'My Appointments',
+            'My Mentees',
           ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(48.0),
@@ -122,29 +120,42 @@ class _MyAppointmentsState extends State<MyAppointments> {
                           itemCount: _upcommingAppointments!.length,
                           itemBuilder: (context, index) {
                             var photo2 = _upcommingAppointments![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .photo;
                             var photo3 = _upcommingAppointments![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .photo;
                             var name2 = _upcommingAppointments![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .name;
                             var role2 = _upcommingAppointments![index]
-                                .mentor!
-                                .user
-                                .jobs!
-                                .first
-                                .role;
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .isNotEmpty
+                                ? _upcommingAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .where((element) => element.isCurrent == 1)
+                                    .first
+                                    .role
+                                : "";
                             var company2 = _upcommingAppointments![index]
-                                .mentor!
-                                .user
-                                .jobs!
-                                .first
-                                .company;
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .isNotEmpty
+                                ? _upcommingAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .first
+                                    .company
+                                : "";
                             var string = _upcommingAppointments![index]
                                 .startTime
                                 .toString();
@@ -153,7 +164,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 .toString();
                             var status2 = _upcommingAppointments![index].status;
                             var isEmpty2 = _upcommingAppointments![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .photo
                                 .replaceAll(" ", "")
@@ -382,21 +393,29 @@ class _MyAppointmentsState extends State<MyAppointments> {
                           itemCount: _booking!.length,
                           itemBuilder: (context, index) {
                             var isEmpty2 = _booking![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            var photo2 = _booking![index].mentor!.user.photo;
-                            var name2 = _booking![index].mentor!.user.name;
-                            var role2 =
-                                _booking![index].mentor!.user.jobs!.first.role;
-                            var company2 = _booking![index]
-                                .mentor!
-                                .user
-                                .jobs!
-                                .first
-                                .company;
+                            var photo2 = _booking![index].mentee!.user.photo;
+                            var name2 = _booking![index].mentee!.user.name;
+                            var role2 = _booking![index]
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .isNotEmpty
+                                ? _booking![index].mentee!.user.jobs!.first.role
+                                : "";
+                            var company2 =
+                                _booking![index].mentee!.user.jobs!.isNotEmpty
+                                    ? _booking![index]
+                                        .mentee!
+                                        .user
+                                        .jobs!
+                                        .first
+                                        .company
+                                    : "";
                             return SizedBox(
                               height: 140,
                               child: Column(children: [
@@ -670,7 +689,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                           },
                         ),
               _loading
-                  ? const Loading()
+                  ? Loading()
                   : _completedAppointments == null ||
                           _completedAppointments!.isEmpty
                       ? NoData()
@@ -678,29 +697,41 @@ class _MyAppointmentsState extends State<MyAppointments> {
                           itemCount: _completedAppointments!.length,
                           itemBuilder: (context, index) {
                             var isEmpty2 = _completedAppointments![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            var photo2 = _booking![index].mentor!.user.photo;
+                            var photo2 = _booking![index].mentee!.user.photo;
                             var name2 = _completedAppointments![index]
-                                .mentor!
+                                .mentee!
                                 .user
                                 .name;
                             var role2 = _completedAppointments![index]
-                                .mentor!
-                                .user
-                                .jobs!
-                                .first
-                                .role;
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .isNotEmpty
+                                ? _completedAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .first
+                                    .role
+                                : "";
                             var company2 = _completedAppointments![index]
-                                .mentor!
-                                .user
-                                .jobs!
-                                .first
-                                .company;
-                            return Container(
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .isNotEmpty
+                                ? _completedAppointments![index]
+                                    .mentee!
+                                    .user
+                                    .jobs!
+                                    .first
+                                    .company
+                                : "";
+                            return SizedBox(
                               height: 140,
                               child: Column(children: [
                                 Row(

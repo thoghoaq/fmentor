@@ -80,9 +80,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             context,
             MaterialPageRoute(
                 builder: (context) => MyAppointments(
-                      mentorId: 1,
                       menteeId: 1,
-                      isMentor: 0,
                     )));
         break;
       case 2:
@@ -95,8 +93,6 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             MaterialPageRoute(
                 builder: (context) => MyAppointments(
                       menteeId: 1,
-                      mentorId: 1,
-                      isMentor: 1,
                     )));
         break;
       case 4:
