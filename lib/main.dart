@@ -56,6 +56,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isFirstLogin = true;
+  User? _user;
   // This widget is the root of your application.
   @override
   void initState() {
@@ -63,11 +64,12 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  _checkUserExist() {
-    var user = UserService().getUser();
+  _checkUserExist() async {
+    var user = await UserService().getUser();
     if (user != null) {
       setState(() {
         _isFirstLogin = false;
+        _user = user;
       });
     }
   }
@@ -93,7 +95,19 @@ class _MyAppState extends State<MyApp> {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: _isFirstLogin ? const GetStarted() : const HomePage(),
+      home: _isFirstLogin
+          ? const GetStarted()
+          : MainPage(
+              userId: _user!.userId,
+              initialPage: 0,
+              isMentor: _user!.isMentor,
+              menteeId: _user!.mentees.isNotEmpty
+                  ? _user!.mentees.first.menteeId
+                  : null,
+              mentorId: _user!.mentors!.isNotEmpty
+                  ? _user!.mentors!.first.mentorId
+                  : null,
+            ),
     );
   }
 }

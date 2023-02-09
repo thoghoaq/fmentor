@@ -62,7 +62,7 @@ class _MentorDetailState extends State<MentorDetail> {
   @override
   Widget build(BuildContext context) {
     return !isLoaded
-        ? Loading()
+        ? const Loading()
         : DefaultTabController(
             length: 3,
             child: Scaffold(

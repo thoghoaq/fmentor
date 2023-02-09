@@ -143,10 +143,13 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar:
-          MyBottomNavigationBar(isMentor: widget.isMentor, initialPage: 4),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.only(

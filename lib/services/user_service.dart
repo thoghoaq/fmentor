@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/request/signin_request_model.dart';
 import 'package:mentoo/models/user.dart';
@@ -39,14 +40,17 @@ class UserService {
     return null;
   }
 
-  Future<bool> signIn(SignInRequestModel model) async {
+  Future<int> signIn(SignInRequestModel model) async {
+    var isMentor = -1;
     var isSuccess = false;
     var requestData = {
       "email": model.email,
       "password": model.password,
     };
-    print('Signing...');
-    var url = Uri.parse(Path.path + "/users/signin");
+    if (kDebugMode) {
+      print('Signing...');
+    }
+    var url = Uri.parse("${Path.path}/users/signin");
     final http.Response response = await http.post(
       url,
       headers: <String, String>{
@@ -67,11 +71,14 @@ class UserService {
       ];
       saveSettingsState(settingsState);
       isSuccess = true;
+      isMentor = user.isMentor;
     } else {
       isSuccess = false;
-      print('Signin failed');
+      if (kDebugMode) {
+        print('Signin failed');
+      }
     }
-    return isSuccess;
+    return isMentor;
   }
 
   Future<void> saveSettingsState(List<int> settingsState) async {

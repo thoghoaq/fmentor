@@ -10,7 +10,6 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
-import 'package:mentoo/widgets/navigation_bar.dart';
 
 class Profile extends StatefulWidget {
   final int? userId;
@@ -51,9 +50,7 @@ class _ProfileState extends State<Profile> {
 
   void _getUserData() async {
     _user = await UserService().getUser();
-    if (_user == null) {
-      _user = await UserService().getUserById(widget.userId);
-    }
+    _user ??= await UserService().getUserById(widget.userId);
     setState(() {
       _loading = false;
     });
@@ -64,9 +61,8 @@ class _ProfileState extends State<Profile> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        bottomNavigationBar: MyBottomNavigationBar(isMentor: 1, initialPage: 2),
         body: _loading
-            ? Loading()
+            ? const Loading()
             : CustomScrollView(
                 controller: ScrollController(initialScrollOffset: 0),
                 physics: const BouncingScrollPhysics(),
@@ -623,13 +619,13 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.1),
                       spreadRadius: 3,
                       blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -644,28 +640,26 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                                 ? mentor!.user.name
                                 : "No name data"
                             : "No name data",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     isViewMentor == null
                         ? user != null
-                            ? user!.jobs == null
-                                ? user!.jobs![0].role +
-                                    ", " +
-                                    user!.jobs![0].company
+                            ? user!.jobs != null
+                                ? "${user!.jobs![0].role}, ${user!.jobs![0].company}"
                                 : "No job data"
                             : "No job data"
                         : isViewMentor == true
                             ? mentor != null
-                                ? mentor!.user.jobs![0].role +
-                                    ", " +
-                                    mentor!.user.jobs![0].company
+                                ? "${mentor!.user.jobs![0].role}, ${mentor!.user.jobs![0].company}"
                                 : "No job data"
                             : "No job data",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w300),
                   ),
                 ]),
               ),

@@ -9,7 +9,6 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
-import 'package:mentoo/widgets/navigation_bar.dart';
 import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -93,8 +92,6 @@ class _MyAppointmentsState extends State<MyAppointments> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        bottomNavigationBar: MyBottomNavigationBar(
-            isMentor: 1, initialPage: widget.isMentor == 0 ? 1 : 3),
         appBar: AppBar(
           // leading: BackButton(
           //   color: Colors.black,
@@ -116,13 +113,13 @@ class _MyAppointmentsState extends State<MyAppointments> {
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               height: 48.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border:
                     Border(bottom: BorderSide(color: Colors.grey, width: 1)),
               ),
               child: TabBar(
                 //padding: EdgeInsets.symmetric(horizontal: 20),
-                indicator: UnderlineTabIndicator(
+                indicator: const UnderlineTabIndicator(
                   borderSide: BorderSide(
                     color: AppColors.mLightPurple,
                     width: 2,
@@ -134,7 +131,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                 unselectedLabelStyle: AppFonts.medium(16, AppColors.mGray),
                 labelColor: AppColors.mDarkPurple,
                 unselectedLabelColor: AppColors.mGrayStroke,
-                tabs: [
+                tabs: const [
                   Tab(text: 'Upcoming'),
                   Tab(text: 'Waiting'),
                   Tab(text: 'Completed'),
@@ -149,7 +146,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
           child: TabBarView(
             children: [
               _loading
-                  ? Loading()
+                  ? const Loading()
                   : _upcommingAppointments == null ||
                           _upcommingAppointments!.isEmpty
                       ? NoData()
@@ -243,7 +240,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                     .photo
                                     .replaceAll(" ", "")
                                     .isEmpty;
-                            return Container(
+                            return SizedBox(
                               height: 140,
                               child: Column(children: [
                                 Row(
@@ -251,7 +248,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     isEmpty2
-                                        ? CircleAvatar(
+                                        ? const CircleAvatar(
                                             backgroundImage: AssetImage(
                                               "assets/images/profile.png",
                                             ),
@@ -272,7 +269,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           style:
                                               AppFonts.medium(18, Colors.black),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Row(
@@ -297,7 +294,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                         )
                                                       ])
                                                 ])),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Container(
@@ -307,7 +304,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                   color:
                                                       _upcommingAppointments![
                                                                       index]
-                                                                  .mentee
+                                                                  .mentor
                                                                   ?.user
                                                                   .isMentor ==
                                                               0
@@ -320,7 +317,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               child: Center(
                                                 child: Text(
                                                   _upcommingAppointments![index]
-                                                              .mentee
+                                                              .mentor
                                                               ?.user
                                                               .isMentor ==
                                                           0
@@ -333,7 +330,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Row(
@@ -571,7 +568,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               height: 20,
                                               decoration: BoxDecoration(
                                                   color: _booking![index]
-                                                              .mentee
+                                                              .mentor
                                                               ?.user
                                                               .isMentor ==
                                                           0
@@ -583,7 +580,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               child: Center(
                                                 child: Text(
                                                   _booking![index]
-                                                              .mentee
+                                                              .mentor
                                                               ?.user
                                                               .isMentor ==
                                                           0
@@ -596,7 +593,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Row(
@@ -605,11 +602,11 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.calendar_today_outlined,
                                               size: 16,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 5,
                                             ),
                                             Text(
@@ -621,7 +618,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Row(
@@ -630,11 +627,11 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.schedule_outlined,
                                               size: 18,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 5,
                                             ),
                                             Text(
@@ -644,11 +641,12 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 20),
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
                                               text: "Google Meet - ",
@@ -671,7 +669,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           context: context,
                                           builder: (BuildContext context) =>
                                               AlertDialog(
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.cancel_outlined,
                                                   color: Colors.red,
                                                   size: 100,
@@ -910,7 +908,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                   color:
                                                       _completedAppointments![
                                                                       index]
-                                                                  .mentee
+                                                                  .mentor
                                                                   ?.user
                                                                   .isMentor ==
                                                               0
@@ -923,7 +921,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               child: Center(
                                                 child: Text(
                                                   _completedAppointments![index]
-                                                              .mentee
+                                                              .mentor
                                                               ?.user
                                                               .isMentor ==
                                                           0

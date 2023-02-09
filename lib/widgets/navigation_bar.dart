@@ -129,7 +129,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                 height: 41,
                 width: 46,
                 decoration: _selectedPageIndex == pages.indexOf(page)
-                    ? BoxDecoration(
+                    ? const BoxDecoration(
                         color: AppColors.mBackground,
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.all(Radius.circular(15)))

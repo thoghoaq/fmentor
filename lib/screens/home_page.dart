@@ -4,6 +4,7 @@ import 'package:mentoo/models/mentor.dart' as mentors;
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
+import 'package:mentoo/screens/mentor_detail.dart';
 import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
@@ -58,7 +59,6 @@ class _HomePageState extends State<HomePage> {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
     var searchAreaContainerHeight = AppCommon.screenHeightUnit(context) * 3;
     return Scaffold(
-      bottomNavigationBar: MyBottomNavigationBar(isMentor: 1, initialPage: 0),
       body: !isLoaded
           ? const Loading()
           : ListView(children: [
@@ -319,8 +319,7 @@ class _HomePageState extends State<HomePage> {
                           itemCount: _mentors!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              onTap: () => Get.to(Profile(
-                                  isViewMentor: true,
+                              onTap: () => Get.to(MentorDetail(
                                   mentorId: _mentors![index].mentorId)),
                               // onTap: () => Get.to(BookAppointment(
                               //     menteeId: 1, mentor: _mentors![index])),

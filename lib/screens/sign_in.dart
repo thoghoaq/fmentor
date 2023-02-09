@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mentoo/models/request/signin_request_model.dart';
 import 'package:mentoo/screens/choose_major.dart';
 import 'package:mentoo/screens/home_page.dart';
+import 'package:mentoo/screens/main_home_page.dart';
 import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -217,14 +218,17 @@ class _SignIn extends State<SignIn> {
                             setState(() {
                               _isSigning = true;
                             });
-                            var isSuccess =
+                            var isMentor =
                                 await UserService().signIn(_signinModel);
-                            if (isSuccess) {
+                            if (isMentor != -1) {
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage()),
+                                    builder: (context) => MainPage(
+                                          initialPage: 0,
+                                          isMentor: isMentor,
+                                        )),
                               );
                             } else {
                               setState(() {
