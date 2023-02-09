@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mentoo/models/view/appointment_view.dart';
 import 'package:mentoo/models/view/booking_view.dart';
+import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/appointment_service.dart';
 import 'package:mentoo/services/booking_service.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -18,8 +20,8 @@ class MyAppointments extends StatefulWidget {
 
   const MyAppointments({
     super.key,
-    this.mentorId,
-    this.menteeId,
+    required this.mentorId,
+    required this.menteeId,
     required this.isMentor,
   });
   @override
@@ -1015,19 +1017,38 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                         )
                                       ],
                                     ),
-                                    Container(
-                                        alignment: Alignment.center,
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: Colors.black12)),
-                                        child: Icon(
-                                          Icons.rate_review_outlined,
-                                          size: 30,
-                                        ))
+                                    !_completedAppointments![index].isReviewed
+                                        ? InkWell(
+                                            onTap: () => Get.to(WriteReview(
+                                              menteeId:
+                                                  _completedAppointments![index]
+                                                      .menteeId,
+                                              mentee:
+                                                  _completedAppointments![index]
+                                                      .mentee!,
+                                              appointmentId:
+                                                  _completedAppointments![index]
+                                                      .appointmentId,
+                                              mentor:
+                                                  _completedAppointments![index]
+                                                      .mentor!,
+                                            )),
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Colors.black12)),
+                                                child: Icon(
+                                                  Icons.rate_review_outlined,
+                                                  size: 30,
+                                                )),
+                                          )
+                                        : Container()
                                   ],
                                 ),
                                 SizedBox(

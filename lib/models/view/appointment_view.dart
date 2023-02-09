@@ -11,6 +11,7 @@ class AppointmentViewModel {
   final int duration;
   final String status;
   final String note;
+  final bool isReviewed;
   final Mentor? mentor;
   final Mentee? mentee;
 
@@ -24,6 +25,7 @@ class AppointmentViewModel {
     required this.duration,
     required this.status,
     required this.note,
+    required this.isReviewed,
     this.mentor,
     this.mentee,
   });
@@ -39,6 +41,7 @@ class AppointmentViewModel {
       duration: json['duration'].toInt(),
       status: json['status'],
       note: json['note'],
+      isReviewed: json['isReviewed'],
       mentor: json['mentor'] != null ? Mentor.fromJson(json['mentor']) : null,
       mentee: json['mentee'] != null ? Mentee.fromJson(json['mentee']) : null,
     );

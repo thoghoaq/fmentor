@@ -73,7 +73,7 @@ class MenteeService {
       String? menteeId = await getMenteeByUserId(userId);
       var url = Uri.parse(Path.path +
           "/mentees/followed_mentor?mentorId=" +
-          menteeId.toString() +
+          mentorId.toString() +
           "&menteeId=" +
           menteeId!);
       var response = await http.post(
@@ -96,7 +96,7 @@ class MenteeService {
       String? menteeId = await getMenteeByUserId(userId);
       var url = Uri.parse(Path.path +
           "/mentees/unfollowed_mentor?mentorId=" +
-          menteeId.toString() +
+          mentorId.toString() +
           "&menteeId=" +
           menteeId!);
       var response = await http.post(

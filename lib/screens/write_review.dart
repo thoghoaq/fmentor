@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/models/mentee.dart';
+import 'package:mentoo/models/metor.dart';
+import 'package:mentoo/models/review.dart';
+import 'package:mentoo/screens/my_appointments.dart';
+import 'package:mentoo/services/review_service.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class WriteReview extends StatefulWidget {
-  const WriteReview({super.key});
+  WriteReview(
+      {super.key,
+      required this.appointmentId,
+      required this.mentee,
+      required this.mentor,
+      required this.menteeId});
+  int appointmentId;
+  Mentor mentor;
+  Mentee mentee;
+  int menteeId;
 
   @override
   State<WriteReview> createState() => _WriteReviewState();
@@ -15,6 +31,7 @@ class WriteReview extends StatefulWidget {
 
 class _WriteReviewState extends State<WriteReview> {
   double _rating = 3.0;
+  late String _comment;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +59,7 @@ class _WriteReviewState extends State<WriteReview> {
                   width: 350,
                   alignment: Alignment.center,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/profile.png"),
+                    backgroundImage: NetworkImage(widget.mentor.user.photo),
                     radius: 120,
                   ),
                 ),
@@ -75,7 +92,7 @@ class _WriteReviewState extends State<WriteReview> {
             style: AppFonts.medium(18, Colors.black),
           ),
           Text(
-            "Mentor Hoang Michael?",
+            "Mentor " + widget.mentor.user.name + "?",
             style: AppFonts.medium(18, AppColors.mDarkPurple),
           ),
           SizedBox(
@@ -97,6 +114,7 @@ class _WriteReviewState extends State<WriteReview> {
             onRatingUpdate: (rating) {
               setState(() {
                 _rating = rating;
+                //print(rating);
               });
             },
             updateOnDrag: true,
@@ -130,6 +148,10 @@ class _WriteReviewState extends State<WriteReview> {
               ),
             ),
             child: TextField(
+              onChanged: (value) {
+                _comment = value;
+                //print(value);
+              },
               maxLines: 7,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),
@@ -156,7 +178,25 @@ class _WriteReviewState extends State<WriteReview> {
                         16,
                         Colors.white,
                       )),
-                  onPressed: () => {})),
+                  onPressed: () async {
+                    Review review = Review(
+                      reviewId: 0,
+                      appointmentId: widget.appointmentId,
+                      reviewerId: widget.mentor.userId,
+                      revieweeId: widget.mentee.userId,
+                      rating: _rating.toInt(),
+                      comment: _comment,
+                    );
+                    if (await ReviewService().createReview(review) != null) {
+                      var user = await UserService().getUser();
+                      Get.to(MyAppointments(
+                        isMentor: user!.isMentor,
+                        menteeId: widget.menteeId,
+                        mentorId: widget.mentor.mentorId,
+                      ));
+                    }
+                    ;
+                  })),
         ]),
       ),
     );
