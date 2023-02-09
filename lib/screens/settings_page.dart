@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/user_permission.dart';
+import 'package:mentoo/screens/get_started.dart';
 import 'package:mentoo/screens/make_your_schedule.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'dart:convert';
@@ -16,6 +19,7 @@ class SettingsPage extends StatefulWidget {
 
   const SettingsPage({super.key, required this.isMentor});
   @override
+  // ignore: library_private_types_in_public_api
   _SettingsPageState createState() => _SettingsPageState();
 }
 
@@ -54,7 +58,13 @@ class _SettingsPageState extends State<SettingsPage> {
       'title': 'Logout',
       'backgroundColor': AppColors.mLightRed,
       'icon': Icons.exit_to_app,
-      'action': (context) {}
+      'action': (context) async {
+        await UserService().clearSharedPreferences();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const GetStarted()),
+        );
+      }
     },
   ];
   List<int> settingsState = [];
@@ -89,12 +99,14 @@ class _SettingsPageState extends State<SettingsPage> {
       String apiUrl =
           'https://fmentor.azurewebsites.net/api/userpermissions/${widget.isMentor}';
       try {
-        final response = await http
-            .get(Uri.parse(apiUrl + '?id=' + widget.isMentor.toString()));
+        final response =
+            await http.get(Uri.parse('$apiUrl?id=${widget.isMentor}'));
         if (response.statusCode == 200) {
-          print("API Call: " + apiUrl);
-          print("Status: " + response.statusCode.toString());
-          print("Body: " + response.body);
+          if (kDebugMode) {
+            print("Status: ${response.statusCode}");
+            print("Body: ${response.body}");
+            print("API Call: $apiUrl");
+          }
           var userPermission =
               UserPermission.fromJson(json.decode(response.body));
           setState(() {
@@ -113,10 +125,14 @@ class _SettingsPageState extends State<SettingsPage> {
             _loading = false;
           });
         } else {
-          print('Request failed with status: ${response.statusCode}');
+          if (kDebugMode) {
+            print('Request failed with status: ${response.statusCode}');
+          }
         }
       } catch (e) {
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
     } else {
       setState(() {
@@ -139,12 +155,12 @@ class _SettingsPageState extends State<SettingsPage> {
             top: AppCommon.screenWidthUnit(context)),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: AppCommon.screenHeightUnit(context) * 3,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                   ),
                   SizedBox(height: AppCommon.screenHeightUnit(context) * 0.5),
@@ -159,7 +175,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Container(
                 color: Colors.white,
                 child: _loading
-                    ? Loading()
+                    ? const Loading()
                     : ListView.builder(
                         itemCount: settingsState.length,
                         itemBuilder: (context, index) {
@@ -175,18 +191,18 @@ class _SettingsPageState extends State<SettingsPage> {
                                       height: 50,
                                       width: 50,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(10)),
                                         color: settings[index]
                                             ['backgroundColor'],
                                       ),
+                                      alignment: Alignment.center,
                                       child: Icon(settings[index]['icon'],
                                           size: 30, color: Colors.black),
-                                      alignment: Alignment.center,
                                     ),
                                   ),
                                 ),
-                                Divider()
+                                const Divider()
                               ],
                             );
                           } else {

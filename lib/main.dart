@@ -33,6 +33,7 @@ import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/screens/write_review.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 
 // void main() => runApp(
@@ -43,13 +44,34 @@ import 'package:mentoo/theme/colors.dart';
 //     );
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isFirstLogin = true;
   // This widget is the root of your application.
+  @override
+  void initState() {
+    _checkUserExist();
+    super.initState();
+  }
+
+  _checkUserExist() {
+    var user = UserService().getUser();
+    if (user != null) {
+      setState(() {
+        _isFirstLogin = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -67,34 +89,11 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: AppColors.mPrimary,
         backgroundColor: AppColors.mBackground,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: HomePage(),
-      // home: BookAppointment(
-      //   mentor: new Mentor(
-      //       mentorId: 1,
-      //       userId: 11,
-      //       specialty: "specialty",
-      //       hourlyRate: 1,
-      //       availability: 1,
-      //       user: new User(
-      //           age: 22,
-      //           description: '',
-      //           email: '',
-      //           isMentor: 1,
-      //           jobs: [],
-      //           name: 'Hoang Michael',
-      //           password: '',
-      //           photo: '',
-      //           userId: 11,
-      //           videoIntroduction: '',
-      //           educations: []),
-      //       numberFollower: 12,
-      //       numberMentee: 12),
-      //   menteeId: 1,
-      // ),
+      home: _isFirstLogin ? const GetStarted() : const HomePage(),
     );
   }
 }

@@ -58,11 +58,29 @@ class UserService {
     if (response.statusCode == 200) {
       User user = User.fromJson(jsonDecode(response.body));
       await saveUser(user);
+      List<int> settingsState = [
+        user.isMentorNavigation!.canRequestToMentor,
+        user.isMentorNavigation!.canSeeSettings,
+        user.isMentorNavigation!.canSeePolicy,
+        user.isMentorNavigation!.canMakeSchedule,
+        user.isMentorNavigation!.canLogout,
+      ];
+      saveSettingsState(settingsState);
       isSuccess = true;
     } else {
       isSuccess = false;
       print('Signin failed');
     }
     return isSuccess;
+  }
+
+  Future<void> saveSettingsState(List<int> settingsState) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('settingsState', jsonEncode(settingsState));
+  }
+
+  Future<void> clearSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 }

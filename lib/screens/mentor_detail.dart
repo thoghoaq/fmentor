@@ -42,7 +42,7 @@ class _MentorDetailState extends State<MentorDetail> {
     _menteeId = await MenteeService().getMenteeByUserId(_user!.userId);
     _mentor = (await MentorService().getMentorById(widget.mentorId))!;
     _isFollowed = await MentorService()
-        .checkMentorFollowed(_mentor!.mentorId, _user!.userId);
+        .checkMentorFollowed(_mentor.mentorId, _user!.userId);
     setState(() {
       if (_mentor != null) isLoaded = true;
     });
