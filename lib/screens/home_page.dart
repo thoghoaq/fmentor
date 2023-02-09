@@ -352,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                     //   ),
                     // ),
                     SizedBox(
-                      height: AppCommon.screenHeightUnit(context) * 0.3,
+                      height: AppCommon.screenHeightUnit(context) * 0.2,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -384,10 +384,10 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     SizedBox(
-                      height: AppCommon.screenHeightUnit(context) * 0.2,
+                      height: AppCommon.screenHeightUnit(context) * 0.1,
                     ),
                     Container(
-                      height: 250,
+                      height: 260,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: _mentors!.length,
@@ -445,55 +445,104 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      //margin: EdgeInsets.only(right: 20),
-      //elevation: 5,
+      elevation: 2,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         //set border radius more than 50% of height and width to make circle
       ),
       child: Container(
-        width: 170,
+        height: 290,
+        width: 190,
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            image:
-                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                height: 160,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        image,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               Text(
                 name,
-                style: AppFonts.medium(16, Colors.black),
+                style: AppFonts.medium(18, Colors.black),
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
                 height: 5,
               ),
-              Expanded(
-                child: Text(
-                  job + ',\n' + company,
-                  style: AppFonts.regular(10, Colors.black),
-                ),
+              Text(
+                job + ', ' + company,
+                style: AppFonts.regular(14, Colors.black),
+                overflow: TextOverflow.ellipsis,
               ),
-              Container(
-                width: 90,
-                height: 35,
-                decoration: BoxDecoration(
-                    color: AppColors.mLightPurple,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all()),
-                child: Center(
-                  child: Text(
-                    'Mentor',
-                    style: AppFonts.medium(16, Colors.black),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+            ]),
       ),
     );
+    // Card(
+    //   //margin: EdgeInsets.only(right: 20),
+    //   //elevation: 5,
+    //   clipBehavior: Clip.antiAlias,
+    //   shape: RoundedRectangleBorder(
+    //     borderRadius: BorderRadius.circular(30),
+    //     //set border radius more than 50% of height and width to make circle
+    //   ),
+    //   child: Container(
+    //     width: 170,
+    //     decoration: BoxDecoration(
+    //         image:
+    //             DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
+    //     child: Padding(
+    //       padding: const EdgeInsets.all(16.0),
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Text(
+    //             name,
+    //             style: AppFonts.medium(16, Colors.black),
+    //           ),
+    //           SizedBox(
+    //             height: 5,
+    //           ),
+    //           Expanded(
+    //             child: Text(
+    //               job + ',\n' + company,
+    //               style: AppFonts.regular(10, Colors.black),
+    //             ),
+    //           ),
+    //           Container(
+    //             width: 90,
+    //             height: 35,
+    //             decoration: BoxDecoration(
+    //                 color: AppColors.mLightPurple,
+    //                 borderRadius: BorderRadius.circular(5),
+    //                 border: Border.all()),
+    //             child: Center(
+    //               child: Text(
+    //                 'Mentor',
+    //                 style: AppFonts.medium(16, Colors.black),
+    //               ),
+    //             ),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

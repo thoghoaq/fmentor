@@ -70,7 +70,9 @@ class User {
             ? List<Education>.from(
                 json["educations"].map((x) => Education.fromJson(x)))
             : null,
-        isMentorNavigation: UserPermission.fromJson(json["isMentorNavigation"]),
+        isMentorNavigation: json["isMentorNavigation"] != null
+            ? UserPermission.fromJson(json["isMentorNavigation"])
+            : null,
         mentees:
             List<Mentee>.from(json["mentees"].map((x) => Mentee.fromJson(x))),
         mentors: json["mentors"] != null
@@ -391,7 +393,7 @@ class UserPermission {
 
   factory UserPermission.fromJson(dynamic json) {
     return UserPermission(
-      isMentor: json['isMentor'],
+      isMentor: json['isMentor'] == null ? null : json['isMentor'],
       canSeeSettings: json['canSeeSettings'],
       canSeePolicy: json['canSeePolicy'],
       canLogout: json['canLogout'],

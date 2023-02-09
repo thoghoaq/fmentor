@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:mentoo/models/favorite_couse.dart';
 import 'package:mentoo/models/follow_mentor.dart';
 import 'package:mentoo/models/mentee.dart';
-import 'package:mentoo/models/metor.dart';
 import 'package:mentoo/utils/path.dart';
 
 class MenteeService {
@@ -73,7 +72,7 @@ class MenteeService {
       String? menteeId = await getMenteeByUserId(userId);
       var url = Uri.parse(Path.path +
           "/mentees/followed_mentor?mentorId=" +
-          menteeId.toString() +
+          mentorId.toString() +
           "&menteeId=" +
           menteeId!);
       var response = await http.post(
@@ -96,7 +95,7 @@ class MenteeService {
       String? menteeId = await getMenteeByUserId(userId);
       var url = Uri.parse(Path.path +
           "/mentees/unfollowed_mentor?mentorId=" +
-          menteeId.toString() +
+          mentorId.toString() +
           "&menteeId=" +
           menteeId!);
       var response = await http.post(

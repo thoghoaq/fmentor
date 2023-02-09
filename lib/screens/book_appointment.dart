@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:mentoo/models/metor.dart';
 
 import 'package:get/route_manager.dart';
 import 'package:mentoo/models/mentor.dart';

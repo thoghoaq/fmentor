@@ -4,7 +4,6 @@ import 'package:get/route_manager.dart';
 import 'package:mentoo/models/mentor.dart' as mentors;
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
-import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -44,7 +43,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void _getData() async {
-    _mentor = await MentorService().getMentorById(widget.mentorId);
+    _mentor = await MentorService().getMentorById(widget.mentorId!);
     setState(() {
       _loading = false;
     });
