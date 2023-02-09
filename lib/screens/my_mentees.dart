@@ -237,7 +237,7 @@ class _MyMenteesState extends State<MyMentees> {
                                                   color:
                                                       _upcommingAppointments![
                                                                       index]
-                                                                  .mentor
+                                                                  .mentee
                                                                   ?.user
                                                                   .isMentor ==
                                                               0
@@ -250,7 +250,7 @@ class _MyMenteesState extends State<MyMentees> {
                                               child: Center(
                                                 child: Text(
                                                   _upcommingAppointments![index]
-                                                              .mentor
+                                                              .mentee
                                                               ?.user
                                                               .isMentor ==
                                                           0
@@ -494,7 +494,7 @@ class _MyMenteesState extends State<MyMentees> {
                                                 height: 20,
                                                 decoration: BoxDecoration(
                                                     color: _booking![index]
-                                                                .mentor
+                                                                .mentee
                                                                 ?.user
                                                                 .isMentor ==
                                                             0
@@ -507,7 +507,7 @@ class _MyMenteesState extends State<MyMentees> {
                                                 child: Center(
                                                   child: Text(
                                                     _booking![index]
-                                                                .mentor
+                                                                .mentee
                                                                 ?.user
                                                                 .isMentor ==
                                                             0
@@ -818,7 +818,7 @@ class _MyMenteesState extends State<MyMentees> {
                                                   color:
                                                       _completedAppointments![
                                                                       index]
-                                                                  .mentor
+                                                                  .mentee
                                                                   ?.user
                                                                   .isMentor ==
                                                               0
@@ -831,7 +831,7 @@ class _MyMenteesState extends State<MyMentees> {
                                               child: Center(
                                                 child: Text(
                                                   _completedAppointments![index]
-                                                              .mentor
+                                                              .mentee
                                                               ?.user
                                                               .isMentor ==
                                                           0
