@@ -80,9 +80,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             context,
             MaterialPageRoute(
                 builder: (context) => MyAppointments(
-                      mentorId: 1,
                       menteeId: 1,
-                      isMentor: 0,
                     )));
         break;
       case 2:
@@ -95,13 +93,15 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             MaterialPageRoute(
                 builder: (context) => MyAppointments(
                       menteeId: 1,
-                      mentorId: 1,
-                      isMentor: 1,
                     )));
         break;
       case 4:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => SettingsPage(isMentor: 1)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SettingsPage(
+                      isMentor: 1,
+                    )));
         break;
     }
   }
@@ -129,7 +129,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                 height: 41,
                 width: 46,
                 decoration: _selectedPageIndex == pages.indexOf(page)
-                    ? BoxDecoration(
+                    ? const BoxDecoration(
                         color: AppColors.mBackground,
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.all(Radius.circular(15)))

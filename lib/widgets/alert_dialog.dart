@@ -19,11 +19,11 @@ class AlertPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       icon: icon,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30))),
       alignment: Alignment.center,
-      contentPadding: EdgeInsets.all(30),
-      insetPadding: EdgeInsets.all(30),
+      contentPadding: const EdgeInsets.all(30),
+      insetPadding: const EdgeInsets.all(30),
       title: Text(
         title,
         style: AppFonts.medium(30, AppColors.mDarkPurple),
@@ -32,18 +32,20 @@ class AlertPopup extends StatelessWidget {
         message,
         textAlign: TextAlign.center,
       ),
-      actions: <Widget>[
-        Center(
-          child: Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: 300,
-              height: 46,
-              decoration: BoxDecoration(
-                  color: AppColors.mLightPurple,
-                  borderRadius: BorderRadius.circular(30)),
-              child: buttons?[0]),
-        ),
-      ],
+      actions: buttons != null
+          ? <Widget>[
+              Center(
+                child: Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    width: 300,
+                    height: 46,
+                    decoration: BoxDecoration(
+                        color: AppColors.mLightPurple,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: buttons?[0]),
+              ),
+            ]
+          : null,
     );
   }
 }

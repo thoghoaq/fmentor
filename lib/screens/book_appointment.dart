@@ -197,26 +197,31 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 Row(
                                   children: [
                                     mentorInfo.jobs!.isNotEmpty
-                                        ? RichText(
-                                            text: TextSpan(
-                                                text:
-                                                    mentorInfo.jobs!.first.role,
-                                                style: AppFonts.regular(
-                                                    12, Colors.black),
-                                                children: [
-                                                TextSpan(
-                                                    text: ", ",
+                                        ? SizedBox(
+                                            width: 150,
+                                            child: RichText(
+                                                text: TextSpan(
+                                                    text: mentorInfo
+                                                        .jobs!.first.role,
                                                     style: AppFonts.regular(
                                                         12, Colors.black),
                                                     children: [
-                                                      TextSpan(
-                                                        text: mentorInfo.jobs!
-                                                            .first.company,
-                                                        style: AppFonts.regular(
-                                                            12, Colors.black),
-                                                      )
-                                                    ])
-                                              ]))
+                                                  TextSpan(
+                                                      text: ", ",
+                                                      style: AppFonts.regular(
+                                                          12, Colors.black),
+                                                      children: [
+                                                        TextSpan(
+                                                          text: mentorInfo.jobs!
+                                                              .first.company,
+                                                          style:
+                                                              AppFonts.regular(
+                                                                  12,
+                                                                  Colors.black),
+                                                        )
+                                                      ])
+                                                ])),
+                                          )
                                         : SizedBox(),
                                     SizedBox(
                                       width:
