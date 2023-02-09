@@ -192,26 +192,30 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                         ),
                                         Row(
                                           children: [
-                                            RichText(
-                                                text: TextSpan(
-                                                    text: role2,
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
+                                            SizedBox(
+                                              width: 120,
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text: role2,
                                                       style: AppFonts.regular(
                                                           12, Colors.black),
                                                       children: [
-                                                        TextSpan(
-                                                          text: company2,
-                                                          style:
-                                                              AppFonts.regular(
-                                                                  12,
-                                                                  Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
+                                                    TextSpan(
+                                                        text: ", ",
+                                                        style: AppFonts.regular(
+                                                            12, Colors.black),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: company2,
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                          )
+                                                        ])
+                                                  ])),
+                                            ),
                                             const SizedBox(
                                               width: 10,
                                             ),
@@ -431,26 +435,30 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                         ),
                                         Row(
                                           children: [
-                                            RichText(
-                                                text: TextSpan(
-                                                    text: role2,
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
+                                            SizedBox(
+                                              width: 120,
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text: role2,
                                                       style: AppFonts.regular(
                                                           12, Colors.black),
                                                       children: [
-                                                        TextSpan(
-                                                          text: company2,
-                                                          style:
-                                                              AppFonts.regular(
-                                                                  12,
-                                                                  Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
+                                                    TextSpan(
+                                                        text: ", ",
+                                                        style: AppFonts.regular(
+                                                            12, Colors.black),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: company2,
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                          )
+                                                        ])
+                                                  ])),
+                                            ),
                                             const SizedBox(
                                               width: 10,
                                             ),
@@ -734,26 +742,30 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                         ),
                                         Row(
                                           children: [
-                                            RichText(
-                                                text: TextSpan(
-                                                    text: role2,
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
+                                            SizedBox(
+                                              width: 120,
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text: role2,
                                                       style: AppFonts.regular(
                                                           12, Colors.black),
                                                       children: [
-                                                        TextSpan(
-                                                          text: company2,
-                                                          style:
-                                                              AppFonts.regular(
-                                                                  12,
-                                                                  Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
+                                                    TextSpan(
+                                                        text: ", ",
+                                                        style: AppFonts.regular(
+                                                            12, Colors.black),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: company2,
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                          )
+                                                        ])
+                                                  ])),
+                                            ),
                                             const SizedBox(
                                               width: 10,
                                             ),

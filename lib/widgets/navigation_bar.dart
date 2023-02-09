@@ -96,8 +96,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                     )));
         break;
       case 4:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => SettingsPage(isMentor: 1)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SettingsPage(
+                      isMentor: 1,
+                    )));
         break;
     }
   }

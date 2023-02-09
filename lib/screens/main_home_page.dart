@@ -3,6 +3,7 @@ import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/screens/my_mentees.dart';
 import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 
 import 'my_appointments.dart';
@@ -87,7 +88,9 @@ class _MainPageState extends State<MainPage> {
         MyMentees(
           mentorId: widget.mentorId,
         ),
-        SettingsPage(isMentor: isMentor)
+        SettingsPage(
+          isMentor: isMentor,
+        )
       ];
     } else {
       pages = [
@@ -96,7 +99,9 @@ class _MainPageState extends State<MainPage> {
           menteeId: widget.menteeId,
         ),
         Profile(userId: widget.userId),
-        SettingsPage(isMentor: isMentor)
+        SettingsPage(
+          isMentor: isMentor,
+        )
       ];
       pageItems = [
         {

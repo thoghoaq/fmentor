@@ -203,26 +203,30 @@ class _MyMenteesState extends State<MyMentees> {
                                         ),
                                         Row(
                                           children: [
-                                            RichText(
-                                                text: TextSpan(
-                                                    text: role2,
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
+                                            SizedBox(
+                                              width: 120,
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text: role2,
                                                       style: AppFonts.regular(
                                                           12, Colors.black),
                                                       children: [
-                                                        TextSpan(
-                                                          text: company2,
-                                                          style:
-                                                              AppFonts.regular(
-                                                                  12,
-                                                                  Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
+                                                    TextSpan(
+                                                        text: ", ",
+                                                        style: AppFonts.regular(
+                                                            12, Colors.black),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: company2,
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                          )
+                                                        ])
+                                                  ])),
+                                            ),
                                             const SizedBox(
                                               width: 10,
                                             ),
@@ -436,143 +440,158 @@ class _MyMenteesState extends State<MyMentees> {
                                             ),
                                             radius: 45,
                                           ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          name2,
-                                          style:
-                                              AppFonts.medium(18, Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            RichText(
-                                                text: TextSpan(
-                                                    text: role2,
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            name2,
+                                            style: AppFonts.medium(
+                                                18, Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 120,
+                                                child: RichText(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    text: TextSpan(
+                                                        text: role2,
+                                                        style: AppFonts.regular(
+                                                            12, Colors.black),
+                                                        children: [
+                                                          TextSpan(
+                                                              text: ", ",
+                                                              style: AppFonts
+                                                                  .regular(
+                                                                      12,
+                                                                      Colors
+                                                                          .black),
+                                                              children: [
+                                                                TextSpan(
+                                                                  text:
+                                                                      company2,
+                                                                  style: AppFonts
+                                                                      .regular(
+                                                                          12,
+                                                                          Colors
+                                                                              .black),
+                                                                )
+                                                              ])
+                                                        ])),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Container(
+                                                width: 70,
+                                                height: 20,
+                                                decoration: BoxDecoration(
+                                                    color: _booking![index]
+                                                                .mentor
+                                                                ?.user
+                                                                .isMentor ==
+                                                            0
+                                                        ? AppColors.mLightPurple
+                                                        : AppColors.mLightRed,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7),
+                                                    border: Border.all()),
+                                                child: Center(
+                                                  child: Text(
+                                                    _booking![index]
+                                                                .mentor
+                                                                ?.user
+                                                                .isMentor ==
+                                                            0
+                                                        ? 'Mentee'
+                                                        : 'Mentor',
                                                     style: AppFonts.regular(
                                                         12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
-                                                      style: AppFonts.regular(
-                                                          12, Colors.black),
-                                                      children: [
-                                                        TextSpan(
-                                                          text: company2,
-                                                          style:
-                                                              AppFonts.regular(
-                                                                  12,
-                                                                  Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Container(
-                                              width: 70,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                  color: _booking![index]
-                                                              .mentor
-                                                              ?.user
-                                                              .isMentor ==
-                                                          0
-                                                      ? AppColors.mLightPurple
-                                                      : AppColors.mLightRed,
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
-                                                  border: Border.all()),
-                                              child: Center(
-                                                child: Text(
-                                                  _booking![index]
-                                                              .mentor
-                                                              ?.user
-                                                              .isMentor ==
-                                                          0
-                                                      ? 'Mentee'
-                                                      : 'Mentor',
-                                                  style: AppFonts.regular(
-                                                      12, Colors.black),
+                                                  ),
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.calendar_today_outlined,
-                                              size: 16,
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              _booking![index]
-                                                  .startTime
-                                                  .toString(),
-                                              style: AppFonts.regular(
-                                                  12, Colors.black),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.schedule_outlined,
-                                              size: 18,
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "60 minutes",
-                                              style: AppFonts.regular(
-                                                  12, Colors.black),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20),
-                                          child: RichText(
-                                            text: TextSpan(
-                                              text: "Google Meet - ",
-                                              style: AppFonts.regular(
-                                                  12, Colors.black),
-                                              children: [
-                                                TextSpan(
-                                                  text: _booking![index].status,
-                                                  style: AppFonts.medium(
-                                                      12, Colors.blue),
-                                                )
-                                              ],
-                                            ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.calendar_today_outlined,
+                                                size: 16,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                _booking![index]
+                                                    .startTime
+                                                    .toString(),
+                                                style: AppFonts.regular(
+                                                    12, Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.schedule_outlined,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "60 minutes",
+                                                style: AppFonts.regular(
+                                                    12, Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 20),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text: "Google Meet - ",
+                                                style: AppFonts.regular(
+                                                    12, Colors.black),
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        _booking![index].status,
+                                                    style: AppFonts.medium(
+                                                        12, Colors.blue),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                     InkWell(
                                       onTap: () => showDialog<String>(
@@ -689,7 +708,7 @@ class _MyMenteesState extends State<MyMentees> {
                           },
                         ),
               _loading
-                  ? Loading()
+                  ? const Loading()
                   : _completedAppointments == null ||
                           _completedAppointments!.isEmpty
                       ? NoData()
@@ -765,26 +784,30 @@ class _MyMenteesState extends State<MyMentees> {
                                         ),
                                         Row(
                                           children: [
-                                            RichText(
-                                                text: TextSpan(
-                                                    text: role2,
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
+                                            SizedBox(
+                                              width: 120,
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text: role2,
                                                       style: AppFonts.regular(
                                                           12, Colors.black),
                                                       children: [
-                                                        TextSpan(
-                                                          text: company2,
-                                                          style:
-                                                              AppFonts.regular(
-                                                                  12,
-                                                                  Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
+                                                    TextSpan(
+                                                        text: ", ",
+                                                        style: AppFonts.regular(
+                                                            12, Colors.black),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: company2,
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                          )
+                                                        ])
+                                                  ])),
+                                            ),
                                             const SizedBox(
                                               width: 10,
                                             ),

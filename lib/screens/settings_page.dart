@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mentoo/models/user_permission.dart';
+import 'package:mentoo/models/user.dart';
+import 'package:mentoo/models/user_permission.dart' as permission;
 import 'package:mentoo/screens/get_started.dart';
 import 'package:mentoo/screens/make_your_schedule.dart';
 import 'package:mentoo/services/user_service.dart';
@@ -17,7 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsPage extends StatefulWidget {
   final int isMentor;
 
-  const SettingsPage({super.key, required this.isMentor});
+  const SettingsPage({
+    super.key,
+    required this.isMentor,
+  });
   @override
   // ignore: library_private_types_in_public_api
   _SettingsPageState createState() => _SettingsPageState();
@@ -69,6 +73,8 @@ class _SettingsPageState extends State<SettingsPage> {
   ];
   List<int> settingsState = [];
   bool _loading = true;
+  String? _userName = null;
+  String? _userPhoto = null;
 
   @override
   void initState() {
@@ -93,6 +99,9 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   _fetchSettings() async {
+    var user = await UserService().getUser();
+    _userName = user?.name;
+    _userPhoto = user?.photo;
     //get setting list from sharedreferences
     var settingsStateString = await getSettingsState();
     if (settingsStateString.isEmpty) {
@@ -108,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
             print("API Call: $apiUrl");
           }
           var userPermission =
-              UserPermission.fromJson(json.decode(response.body));
+              permission.UserPermission.fromJson(json.decode(response.body));
           setState(() {
             settingsState = [
               userPermission.canRequestToMentor,
@@ -163,12 +172,15 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
+                    backgroundImage: _userPhoto != null
+                        ? NetworkImage(_userPhoto.toString())
+                        : null,
                     radius: 50,
                   ),
                   SizedBox(height: AppCommon.screenHeightUnit(context) * 0.5),
                   Text(
-                    'User Name',
+                    _userName.toString(),
                     style: AppFonts.medium(24, AppColors.mText),
                   )
                 ],
