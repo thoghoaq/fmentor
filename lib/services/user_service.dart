@@ -10,18 +10,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserService {
   Future<User?> getUserById(int? id) async {
     try {
-      print("Calling service getUserById...");
-      var url = Uri.parse(Path.path + "/users/" + id.toString());
+      if (kDebugMode) {
+        print("Calling service getUserById...");
+      }
+      var url = Uri.parse("${Path.path}/users/$id");
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        User _user = User.fromJson(jsonDecode(response.body));
-        saveUser(_user);
-        return _user;
+        User user = User.fromJson(jsonDecode(response.body));
+        saveUser(user);
+        return user;
       }
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       log(e.toString());
     }
+    return null;
   }
 
   Future<void> saveUser(User user) async {
@@ -30,11 +35,15 @@ class UserService {
   }
 
   Future<User?> getUser() async {
-    print("Calling service getUser...");
+    if (kDebugMode) {
+      print("Calling service getUser...");
+    }
     final prefs = await SharedPreferences.getInstance();
     final string = prefs.getString('user');
     if (string != null) {
-      print("Calling service getUser success");
+      if (kDebugMode) {
+        print("Calling service getUser success");
+      }
       return User.fromJson(json.decode(string));
     }
     return null;

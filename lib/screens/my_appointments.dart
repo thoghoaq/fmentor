@@ -6,12 +6,12 @@ import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/appointment_service.dart';
 import 'package:mentoo/services/booking_service.dart';
 import 'package:mentoo/services/mentee_service.dart';
-import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
 import 'package:mentoo/widgets/no_data.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:url_launcher/url_launcher.dart';
 
 class MyAppointments extends StatefulWidget {
@@ -121,15 +121,11 @@ class _MyAppointmentsState extends State<MyAppointments> {
                   ? const Loading()
                   : _upcommingAppointments == null ||
                           _upcommingAppointments!.isEmpty
-                      ? NoData()
+                      ? const NoData()
                       : ListView.builder(
                           itemCount: _upcommingAppointments!.length,
                           itemBuilder: (context, index) {
                             var photo2 = _upcommingAppointments![index]
-                                .mentor!
-                                .user
-                                .photo;
-                            var photo3 = _upcommingAppointments![index]
                                 .mentor!
                                 .user
                                 .photo;
@@ -384,7 +380,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
               _loading
                   ? const Loading()
                   : _booking == null || _booking!.isEmpty
-                      ? NoData()
+                      ? const NoData()
                       : ListView.builder(
                           itemCount: _booking!.length,
                           itemBuilder: (context, index) {
@@ -688,7 +684,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                   ? const Loading()
                   : _completedAppointments == null ||
                           _completedAppointments!.isEmpty
-                      ? NoData()
+                      ? const NoData()
                       : ListView.builder(
                           itemCount: _completedAppointments!.length,
                           itemBuilder: (context, index) {
@@ -874,7 +870,8 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                           height: 5,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 20),
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
                                               text: "Google Meet - ",

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -46,12 +44,12 @@ class _RecommendCoursesState extends State<RecommendCourses> {
             ),
             Container(
               height: 270,
-              padding: EdgeInsets.symmetric(horizontal: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ListView.builder(
                   itemCount: 2,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      margin: EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
                       height: 120,
                       alignment: Alignment.center,
                       child: Column(
@@ -84,7 +82,7 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                       "UI/UX Design",
                                       style: AppFonts.medium(20, Colors.black),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     RichText(
@@ -100,7 +98,7 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     RichText(
@@ -124,14 +122,14 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.red),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.favorite,
                                       color: Colors.white,
                                       size: 40,
                                     )),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                               width: 250,
                               child: Divider(
@@ -142,7 +140,7 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                     );
                   }),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Container(

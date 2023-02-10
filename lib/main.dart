@@ -46,7 +46,7 @@ import 'package:mentoo/widgets/loading.dart';
 //     );
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

@@ -38,7 +38,7 @@ class Notifications extends StatelessWidget {
                         width: searchAreaContainerWidth * 0.16,
                         height: searchAreaContainerHeight * 0.4,
                       ),
-                      title: Text(
+                      title: const Text(
                         'Two-line ListTile anh vui ve anh vui ve Two-line ListTile Two-line ListTile anh vui ve anh vui ve Two-line ListTile Two-line ListTile anh vui ve anh vui ve Two-line ListTile',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
@@ -47,7 +47,7 @@ class Notifications extends StatelessWidget {
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.calendar_month_outlined,
                             size: 16,

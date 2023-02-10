@@ -71,11 +71,15 @@ class BookingServivce {
       // The API call was successful
       String reply = await response.transform(utf8.decoder).join();
       bookingSuccess = true;
-      print(reply);
+      if (kDebugMode) {
+        print(reply);
+      }
     } else {
       // The API call was not successful
       bookingSuccess = false;
-      print("Failed to create booking, status code: ${response.statusCode}");
+      if (kDebugMode) {
+        print("Failed to create booking, status code: ${response.statusCode}");
+      }
     }
 
     httpClient.close();

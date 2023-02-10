@@ -36,12 +36,12 @@ class _EditProfileState extends State<EditProfile> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
-              children: [
+              children: const [
                 Text('Fullname',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: EdgeInsets.only(bottom: 8.0),
                   child: Text('*',
                       style: TextStyle(
                           color: Colors.red,
@@ -56,12 +56,12 @@ class _EditProfileState extends State<EditProfile> {
               height: AppCommon.screenHeightUnit(context) * 0.2,
             ),
             Row(
-              children: [
+              children: const [
                 Text('Age',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: EdgeInsets.only(bottom: 8.0),
                   child: Text('*',
                       style: TextStyle(
                           color: Colors.red,
@@ -85,14 +85,14 @@ class _EditProfileState extends State<EditProfile> {
               maxLines: 10,
               initialValue: "Type your message",
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(
                     color: AppColors.mDarkPurple,
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(
                     color: AppColors.mDarkPurple,
                   ),
@@ -121,13 +121,13 @@ class _EditProfileState extends State<EditProfile> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: itemCount,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      visualDensity: const VisualDensity(vertical: -4),
+                    return const ListTile(
+                      visualDensity: VisualDensity(vertical: -4),
                       leading: Icon(
                         Icons.check_box_outlined,
                         color: AppColors.mDarkPurple,
                       ),
-                      title: const Text('Marketer at Shoppe'),
+                      title: Text('Marketer at Shoppe'),
                       subtitle: Divider(
                         thickness: 2,
                         color: AppColors.mDarkPurple,
@@ -165,13 +165,13 @@ class _EditProfileState extends State<EditProfile> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: itemCount,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      visualDensity: const VisualDensity(vertical: -4),
+                    return const ListTile(
+                      visualDensity: VisualDensity(vertical: -4),
                       leading: Icon(
                         Icons.check_box_outlined,
                         color: AppColors.mDarkPurple,
                       ),
-                      title: const Text('Study at FPT University'),
+                      title: Text('Study at FPT University'),
                       subtitle: Divider(
                         thickness: 2,
                         color: AppColors.mDarkPurple,

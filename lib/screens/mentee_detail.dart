@@ -4,17 +4,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:mentoo/models/user.dart';
-import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/services/mentee_service.dart';
 
+// ignore: library_prefixes
 import 'package:mentoo/models/mentee.dart' as Mentee;
 
-import 'package:mentoo/services/mentee_service.dart';
-import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/widgets/loading.dart';
 
+// ignore: must_be_immutable
 class MenteeDetail extends StatefulWidget {
   int menteeId;
   MenteeDetail({Key? key, required this.menteeId}) : super(key: key);
@@ -26,7 +25,7 @@ class MenteeDetail extends StatefulWidget {
 class _MenteeDetailState extends State<MenteeDetail> {
   late Mentee.Mentee _mentee;
   User? _user;
-  String? _menteeId;
+  late String _menteeId;
   bool? _isFollowed;
 
   var isLoaded = false;
@@ -38,16 +37,10 @@ class _MenteeDetailState extends State<MenteeDetail> {
   }
 
   void _getData() async {
-    _user = (await UserService().getUser());
-    _menteeId = await MenteeService().getMenteeByUserId(_user!.userId);
-    _mentee = (await MenteeService().getMenteeById(widget.menteeId))!;
+    _menteeId = widget.menteeId.toString();
+    var mentee = await MenteeService().getMenteeById(int.parse(_menteeId));
     setState(() {
-      if (_mentee != null) isLoaded = true;
-    });
-  }
-
-  void _reload() {
-    setState(() {
+      _mentee = mentee!;
       isLoaded = true;
     });
   }
@@ -74,9 +67,9 @@ class _MenteeDetailState extends State<MenteeDetail> {
                         expandedHeight: 500,
                         mentee: _mentee,
                         isFollowed: _isFollowed!,
-                        menteeId: _menteeId!),
+                        menteeId: _menteeId),
                   ),
-                  SliverAppBar(
+                  const SliverAppBar(
                     //expandedHeight: 0,
                     backgroundColor: Colors.white,
                     pinned: true,
@@ -112,9 +105,9 @@ class _MenteeDetailState extends State<MenteeDetail> {
                     delegate: SliverChildListDelegate(
                       <Widget>[
                         Container(
-                          padding:
-                              EdgeInsets.only(top: 20, left: 20, right: 20),
-                          margin: EdgeInsets.only(top: 0),
+                          padding: const EdgeInsets.only(
+                              top: 20, left: 20, right: 20),
+                          margin: const EdgeInsets.only(top: 0),
                           height: 2000,
                           child: TabBarView(children: [
                             Column(
@@ -122,15 +115,15 @@ class _MenteeDetailState extends State<MenteeDetail> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(_mentee.user.description),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
-                                Text(
+                                const Text(
                                   "More...",
                                   style:
                                       TextStyle(color: AppColors.mGrayStroke),
                                 ),
-                                Center(
+                                const Center(
                                   child: SizedBox(
                                     width: 250,
                                     child: Divider(
@@ -153,13 +146,13 @@ class _MenteeDetailState extends State<MenteeDetail> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              SizedBox(width: 30),
-                                              Icon(
+                                              const SizedBox(width: 30),
+                                              const Icon(
                                                 Icons.adjust_rounded,
                                                 size: 30,
                                                 color: AppColors.mLightPurple,
                                               ),
-                                              SizedBox(width: 30),
+                                              const SizedBox(width: 30),
                                               Container(
                                                 width: 40,
                                                 height: 40,
@@ -174,7 +167,7 @@ class _MenteeDetailState extends State<MenteeDetail> {
                                                   'assets/images/apple.png',
                                                 ),
                                               ),
-                                              SizedBox(width: 20),
+                                              const SizedBox(width: 20),
                                               Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -198,26 +191,7 @@ class _MenteeDetailState extends State<MenteeDetail> {
                                                     width: 30,
                                                   ),
                                                   Text(
-                                                    DateFormat("MMMM yyyy")
-                                                            .format(_mentee
-                                                                .user
-                                                                .jobs![index]
-                                                                .startDate) +
-                                                        " - " +
-                                                        (_mentee
-                                                                    .user
-                                                                    .jobs![
-                                                                        index]
-                                                                    .endDate ==
-                                                                null
-                                                            ? "Now"
-                                                            : DateFormat(
-                                                                    "MMMM yyyy")
-                                                                .format(_mentee
-                                                                    .user
-                                                                    .jobs![
-                                                                        index]
-                                                                    .endDate!)),
+                                                    "${DateFormat("MMMM yyyy").format(_mentee.user.jobs![index].startDate)} - ${_mentee.user.jobs![index].endDate == null ? "Now" : DateFormat("MMMM yyyy").format(_mentee.user.jobs![index].endDate!)}",
                                                     style: AppFonts.regular(12,
                                                         AppColors.mGrayStroke),
                                                   )
@@ -226,10 +200,9 @@ class _MenteeDetailState extends State<MenteeDetail> {
                                             ],
                                           ),
                                           index != _mentee.user.jobs!.length - 1
-                                              ? Padding(
+                                              ? const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          left: 43),
+                                                      EdgeInsets.only(left: 43),
                                                   child: DottedLine(
                                                     lineLength: 50,
                                                     dashColor:
@@ -246,8 +219,8 @@ class _MenteeDetailState extends State<MenteeDetail> {
                                 ),
                               ],
                             ),
-                            Text("Comming soon"),
-                            Text("Comming soon"),
+                            const Text("Comming soon"),
+                            const Text("Comming soon"),
                           ]),
                         ),
                       ],
@@ -277,9 +250,6 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final size = 500;
-    final top = expandedHeight - shrinkOffset - size / 2;
-
     return Stack(
       clipBehavior: Clip.none,
       fit: StackFit.expand,
@@ -306,7 +276,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           top: 50,
           left: 20,
           right: 20,
-          child: Container(
+          child: SizedBox(
             height: 50,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -322,7 +292,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                           onPressed: () {
                             Get.back();
                           },
-                          icon: BackButtonIcon()),
+                          icon: const BackButtonIcon()),
                     ),
                   ),
                 ]),
@@ -362,27 +332,28 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.1),
                   spreadRadius: 3,
                   blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
             child: Column(children: [
               InkWell(
+                // ignore: avoid_print
                 onTap: () => print("tap"),
                 child: RichText(
                   text: TextSpan(
-                    text: mentee.user.name + ' ',
-                    style: TextStyle(
+                    text: '${mentee.user.name} ',
+                    style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
-                    children: [
+                    children: const [
                       WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
                         child: Icon(
@@ -395,14 +366,15 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
-                mentee.user.jobs![0].role + ", " + mentee.user.jobs![0].company,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                "${mentee.user.jobs![0].role}, ${mentee.user.jobs![0].company}",
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
             ]),
@@ -438,7 +410,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             // onTap: () => Get.to(
             //     BookAppointment(mentee: mentee, menteeId: int.parse(menteeId))),
             child: Padding(
-              padding: EdgeInsets.only(top: 120, left: 70),
+              padding: const EdgeInsets.only(top: 120, left: 70),
               child: Container(
                 alignment: Alignment.topCenter,
                 width: 250,
@@ -451,7 +423,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                       Icon(
                         Icons.calendar_month_sharp,
                         color: Colors.white,

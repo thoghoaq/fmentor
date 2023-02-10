@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/request/signin_request_model.dart';
-import 'package:mentoo/screens/choose_major.dart';
-import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/screens/main_home_page.dart';
 import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/services/user_service.dart';
@@ -22,7 +20,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignIn extends State<SignIn> {
-  SignInRequestModel _signinModel = SignInRequestModel(email: "", password: "");
+  final SignInRequestModel _signinModel =
+      SignInRequestModel(email: "", password: "");
   bool passEnable = true;
   bool _isSigning = false;
   bool? _singinSuccess;

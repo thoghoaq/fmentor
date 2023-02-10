@@ -84,8 +84,8 @@ class _SignUp extends State<SignUp> {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: BreakLine(),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: SizedBox(
                   width: 288,
                   height: 44,
@@ -95,18 +95,17 @@ class _SignUp extends State<SignUp> {
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: AppColors.mGray),
                       hintText: 'Name',
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(100.0)),
                           borderSide:
                               BorderSide(color: Colors.black, width: sqrt1_2)),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
                         borderSide: BorderSide(color: AppColors.mDarkPurple),
                       ),
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                        padding: EdgeInsets.only(left: 20.0, right: 10.0),
                         child:
                             Icon(Icons.person_outline, color: AppColors.mGray),
                       ),
@@ -114,8 +113,8 @@ class _SignUp extends State<SignUp> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: SizedBox(
                   width: 288,
                   height: 44,
@@ -125,18 +124,17 @@ class _SignUp extends State<SignUp> {
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: AppColors.mGray),
                       hintText: 'Email',
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(100.0)),
                           borderSide:
                               BorderSide(color: Colors.black, width: sqrt1_2)),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
                         borderSide: BorderSide(color: AppColors.mDarkPurple),
                       ),
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                        padding: EdgeInsets.only(left: 20.0, right: 10.0),
                         child:
                             Icon(Icons.email_outlined, color: AppColors.mGray),
                       ),
@@ -153,21 +151,20 @@ class _SignUp extends State<SignUp> {
                     obscureText: passEnable,
                     cursorColor: AppColors.mDarkPurple,
                     textAlignVertical: TextAlignVertical.bottom,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintStyle: TextStyle(color: AppColors.mGray),
                       hintText: 'Password',
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(100.0)),
                           borderSide:
                               BorderSide(color: Colors.black, width: sqrt1_2)),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
                         borderSide: BorderSide(color: AppColors.mDarkPurple),
                       ),
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                        padding: EdgeInsets.only(left: 20.0, right: 10.0),
                         child: Icon(Icons.lock_outline, color: AppColors.mGray),
                       ),
                     ),
@@ -183,21 +180,20 @@ class _SignUp extends State<SignUp> {
                     obscureText: passEnable,
                     cursorColor: AppColors.mDarkPurple,
                     textAlignVertical: TextAlignVertical.bottom,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintStyle: TextStyle(color: AppColors.mGray),
                       hintText: 'Confirm password',
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(100.0)),
                           borderSide:
                               BorderSide(color: Colors.black, width: sqrt1_2)),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
                         borderSide: BorderSide(color: AppColors.mDarkPurple),
                       ),
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                        padding: EdgeInsets.only(left: 20.0, right: 10.0),
                         child: Icon(Icons.lock_outline, color: AppColors.mGray),
                       ),
                     ),

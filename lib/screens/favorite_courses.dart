@@ -48,7 +48,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
     var searchAreaContainerHeight = AppCommon.screenHeightUnit(context) * 3;
     return !isLoaded
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             appBar: AppBar(
               leading: BackButton(
@@ -71,7 +71,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                   itemCount: _courses!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      margin: EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
                       height: 120,
                       //color: Colors.amber[100],
                       alignment: Alignment.center,
@@ -105,7 +105,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                                       _courses![index].title,
                                       style: AppFonts.medium(20, Colors.black),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     RichText(
@@ -121,7 +121,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     RichText(
@@ -146,10 +146,11 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                                         _courses![index].courseId);
                                     _courses = await CourseService()
                                         .getFavoriteCourses(_user!.userId);
-                                    if (_courses != null)
+                                    if (_courses != null) {
                                       setState(() {
                                         isLoaded = true;
                                       });
+                                    }
                                   },
                                   child: Container(
                                       height: 40,
@@ -159,11 +160,11 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                                               BorderRadius.circular(10),
                                           border: Border.all(
                                               color: AppColors.mGray)),
-                                      child: Icon(Icons.close)),
+                                      child: const Icon(Icons.close)),
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                               width: 250,
                               child: Divider(

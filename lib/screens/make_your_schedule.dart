@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mentoo/screens/settings_page.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/button.dart';
 
 class SchedulePage extends StatefulWidget {
+  const SchedulePage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SchedulePageState createState() => _SchedulePageState();
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  final _days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
   final _selectedDays = <String>[];
 
   TimeOfDay _fromTime = TimeOfDay.now();
@@ -69,13 +62,6 @@ class _SchedulePageState extends State<SchedulePage> {
                   crossAxisCount: 3,
                   children: [
                     OutlinedButton(
-                      child: Text(
-                        'Monday',
-                        style: TextStyle(
-                            color: _selectedDays.contains('Monday')
-                                ? Colors.white
-                                : Colors.black),
-                      ),
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Monday')) {
@@ -89,24 +75,24 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Monday')
                               ? AppColors.mLightPurple
                               : Colors.grey[300],
                           backgroundColor: _selectedDays.contains('Monday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
-                    ),
-                    OutlinedButton(
                       child: Text(
-                        'Tuesday',
+                        'Monday',
                         style: TextStyle(
-                            color: _selectedDays.contains('Tuesday')
+                            color: _selectedDays.contains('Monday')
                                 ? Colors.white
                                 : Colors.black),
                       ),
+                    ),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Tuesday')) {
@@ -120,24 +106,24 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Tuesday')
                               ? AppColors.mLightPurple
                               : Colors.white,
                           backgroundColor: _selectedDays.contains('Tuesday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
-                    ),
-                    OutlinedButton(
                       child: Text(
-                        'Wednesday',
+                        'Tuesday',
                         style: TextStyle(
-                            color: _selectedDays.contains('Wednesday')
+                            color: _selectedDays.contains('Tuesday')
                                 ? Colors.white
                                 : Colors.black),
                       ),
+                    ),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Wednesday')) {
@@ -151,24 +137,24 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Wednesday')
                               ? AppColors.mLightPurple
                               : Colors.grey[300],
                           backgroundColor: _selectedDays.contains('Wednesday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
-                    ),
-                    OutlinedButton(
                       child: Text(
-                        'Thurday',
+                        'Wednesday',
                         style: TextStyle(
-                            color: _selectedDays.contains('Thurday')
+                            color: _selectedDays.contains('Wednesday')
                                 ? Colors.white
                                 : Colors.black),
                       ),
+                    ),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Thurday')) {
@@ -182,24 +168,24 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Thurday')
                               ? AppColors.mLightPurple
                               : Colors.grey[300],
                           backgroundColor: _selectedDays.contains('Thurday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
-                    ),
-                    OutlinedButton(
                       child: Text(
-                        'Friday',
+                        'Thurday',
                         style: TextStyle(
-                            color: _selectedDays.contains('Friday')
+                            color: _selectedDays.contains('Thurday')
                                 ? Colors.white
                                 : Colors.black),
                       ),
+                    ),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Friday')) {
@@ -213,24 +199,24 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Friday')
                               ? AppColors.mLightPurple
                               : Colors.grey[300],
                           backgroundColor: _selectedDays.contains('Friday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
-                    ),
-                    OutlinedButton(
                       child: Text(
-                        'Saturday',
+                        'Friday',
                         style: TextStyle(
-                            color: _selectedDays.contains('Saturday')
+                            color: _selectedDays.contains('Friday')
                                 ? Colors.white
                                 : Colors.black),
                       ),
+                    ),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Saturday')) {
@@ -244,24 +230,24 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Saturday')
                               ? AppColors.mLightPurple
                               : Colors.grey[300],
                           backgroundColor: _selectedDays.contains('Saturday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
-                    ),
-                    OutlinedButton(
                       child: Text(
-                        'Sunday',
+                        'Saturday',
                         style: TextStyle(
-                            color: _selectedDays.contains('Sunday')
+                            color: _selectedDays.contains('Saturday')
                                 ? Colors.white
                                 : Colors.black),
                       ),
+                    ),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {
                           if (_selectedDays.contains('Sunday')) {
@@ -275,21 +261,28 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          fixedSize: Size(10, 10),
+                          fixedSize: const Size(10, 10),
                           foregroundColor: _selectedDays.contains('Sunday')
                               ? AppColors.mLightPurple
                               : Colors.grey[300],
                           backgroundColor: _selectedDays.contains('Sunday')
                               ? AppColors.mPrimary
                               : Colors.white,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
+                      child: Text(
+                        'Sunday',
+                        style: TextStyle(
+                            color: _selectedDays.contains('Sunday')
+                                ? Colors.white
+                                : Colors.black),
+                      ),
                     ),
                   ],
                 ),
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.view_timeline_outlined,
                   color: AppColors.mDarkPurple,
                 ),
@@ -316,17 +309,15 @@ class _SchedulePageState extends State<SchedulePage> {
                           });
                         }
                       },
-                      child: Container(
-                        child: Text('${_fromTime.format(context)}'),
-                      ),
                       style: OutlinedButton.styleFrom(
-                          fixedSize: Size(50, 40),
+                          fixedSize: const Size(50, 40),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           foregroundColor: Colors.black,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
+                      child: Text(_fromTime.format(context)),
                     ),
                   ),
                   Padding(
@@ -347,17 +338,15 @@ class _SchedulePageState extends State<SchedulePage> {
                           });
                         }
                       },
-                      child: Container(
-                        child: Text('${_toTime.format(context)}'),
-                      ),
                       style: OutlinedButton.styleFrom(
-                          fixedSize: Size(50, 40),
+                          fixedSize: const Size(50, 40),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           foregroundColor: Colors.black,
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mPrimary, width: 1.5)),
+                      child: Text(_toTime.format(context)),
                     ),
                   ),
                 ],
@@ -369,7 +358,7 @@ class _SchedulePageState extends State<SchedulePage> {
             child: Padding(
               padding:
                   EdgeInsets.only(bottom: AppCommon.screenWidthUnit(context)),
-              child: PrimaryButton(),
+              child: const PrimaryButton(),
             ),
           ),
         ]),
