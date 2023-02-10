@@ -43,6 +43,7 @@ class _ProfileState extends State<Profile> {
 
   void _getData() async {
     _mentor = await MentorService().getMentorById(widget.mentorId!);
+    if (!mounted) return;
     setState(() {
       _loading = false;
     });
@@ -51,6 +52,7 @@ class _ProfileState extends State<Profile> {
   void _getUserData() async {
     _user = await UserService().getUser();
     _user ??= await UserService().getUserById(widget.userId);
+    if (!mounted) return;
     setState(() {
       _loading = false;
     });

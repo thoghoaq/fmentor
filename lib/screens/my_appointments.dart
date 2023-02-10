@@ -51,6 +51,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
         appointments.where((element) => element.status != "Completed").toList();
     upcommingAppointmentsFiltered
         .sort(((a, b) => b.status.compareTo(a.status)));
+    if (!mounted) return;
     setState(() {
       _booking = booking;
       _upcommingAppointments = upcommingAppointmentsFiltered;
