@@ -37,6 +37,20 @@ class MentorService {
     }
   }
 
+  Future<String?> getMentorByUserId(int id) async {
+    try {
+      var url = Uri.parse(Path.path + "/mentors/user/" + id.toString());
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var _mentor = jsonDecode(response.body);
+        return _mentor["mentorId"].toString();
+      }
+    } catch (e) {
+      print(e.toString());
+      log(e.toString());
+    }
+  }
+
   Future<Mentor?> getMentorById(int id) async {
     try {
       var url = Uri.parse(Path.path + "/mentors/" + id.toString());

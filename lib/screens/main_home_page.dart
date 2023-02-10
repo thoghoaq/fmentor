@@ -87,6 +87,7 @@ class _MainPageState extends State<MainPage> {
         Profile(userId: widget.userId),
         MyMentees(
           mentorId: widget.mentorId,
+          userId: int.parse(widget.userId.toString()),
         ),
         SettingsPage(
           isMentor: isMentor,

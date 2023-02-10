@@ -40,9 +40,8 @@ class UserService {
     return null;
   }
 
-  Future<int> signIn(SignInRequestModel model) async {
-    var isMentor = -1;
-    var isSuccess = false;
+  Future<User?> signIn(SignInRequestModel model) async {
+    User? user;
     var requestData = {
       "email": model.email,
       "password": model.password,
@@ -60,7 +59,7 @@ class UserService {
     );
 
     if (response.statusCode == 200) {
-      User user = User.fromJson(jsonDecode(response.body));
+      user = User.fromJson(jsonDecode(response.body));
       await saveUser(user);
       List<int> settingsState = [
         user.isMentorNavigation!.canRequestToMentor,
@@ -70,15 +69,13 @@ class UserService {
         user.isMentorNavigation!.canLogout,
       ];
       saveSettingsState(settingsState);
-      isSuccess = true;
-      isMentor = user.isMentor;
+      return user;
     } else {
-      isSuccess = false;
       if (kDebugMode) {
         print('Signin failed');
       }
     }
-    return isMentor;
+    return user;
   }
 
   Future<void> saveSettingsState(List<int> settingsState) async {

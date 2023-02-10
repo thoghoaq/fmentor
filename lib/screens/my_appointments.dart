@@ -162,8 +162,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            return SizedBox(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -405,8 +404,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 .jobs!
                                 .first
                                 .company;
-                            return SizedBox(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -466,31 +464,36 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Container(
-                                              width: 70,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                  color: _booking![index]
-                                                              .mentor
-                                                              ?.user
-                                                              .isMentor ==
-                                                          0
-                                                      ? AppColors.mLightPurple
-                                                      : AppColors.mLightRed,
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
-                                                  border: Border.all()),
-                                              child: Center(
-                                                child: Text(
-                                                  _booking![index]
-                                                              .mentor
-                                                              ?.user
-                                                              .isMentor ==
-                                                          0
-                                                      ? 'Mentee'
-                                                      : 'Mentor',
-                                                  style: AppFonts.regular(
-                                                      12, Colors.black),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10),
+                                              child: Container(
+                                                width: 70,
+                                                height: 20,
+                                                decoration: BoxDecoration(
+                                                    color: _booking![index]
+                                                                .mentor
+                                                                ?.user
+                                                                .isMentor ==
+                                                            0
+                                                        ? AppColors.mLightPurple
+                                                        : AppColors.mLightRed,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7),
+                                                    border: Border.all()),
+                                                child: Center(
+                                                  child: Text(
+                                                    _booking![index]
+                                                                .mentor
+                                                                ?.user
+                                                                .isMentor ==
+                                                            0
+                                                        ? 'Mentee'
+                                                        : 'Mentor',
+                                                    style: AppFonts.regular(
+                                                        12, Colors.black),
+                                                  ),
                                                 ),
                                               ),
                                             )
@@ -712,8 +715,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 .jobs!
                                 .first
                                 .company;
-                            return Container(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:

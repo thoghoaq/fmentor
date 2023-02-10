@@ -218,16 +218,16 @@ class _SignIn extends State<SignIn> {
                             setState(() {
                               _isSigning = true;
                             });
-                            var isMentor =
-                                await UserService().signIn(_signinModel);
-                            if (isMentor != -1) {
+                            var user = await UserService().signIn(_signinModel);
+                            if (user != null) {
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MainPage(
                                           initialPage: 0,
-                                          isMentor: isMentor,
+                                          isMentor: user.isMentor,
+                                          userId: user.userId,
                                         )),
                               );
                             } else {

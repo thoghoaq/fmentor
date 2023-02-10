@@ -6,6 +6,7 @@ import 'package:mentoo/screens/mentee_detail.dart';
 import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/appointment_service.dart';
 import 'package:mentoo/services/booking_service.dart';
+import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -15,11 +16,13 @@ import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyMentees extends StatefulWidget {
+  final int userId;
   final int? mentorId;
 
   const MyMentees({
     super.key,
     required this.mentorId,
+    required this.userId,
   });
   @override
   State<MyMentees> createState() => _MyMenteesState();
@@ -39,6 +42,7 @@ class _MyMenteesState extends State<MyMentees> {
   }
 
   _fetchDataMentor() async {
+    var mentorId = await MentorService().getMentorById(widget.userId);
     //waiting tab
     var booking =
         await BookingServivce().fetchBookingViewModelMentor(widget.mentorId!);
@@ -139,12 +143,21 @@ class _MyMenteesState extends State<MyMentees> {
                                     .jobs!
                                     .isNotEmpty
                                 ? _upcommingAppointments![index]
-                                    .mentee!
-                                    .user
-                                    .jobs!
-                                    .where((element) => element.isCurrent == 1)
-                                    .first
-                                    .role
+                                        .mentee!
+                                        .user
+                                        .jobs!
+                                        .where(
+                                            (element) => element.isCurrent == 1)
+                                        .isNotEmpty
+                                    ? _upcommingAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs!
+                                        .where(
+                                            (element) => element.isCurrent == 1)
+                                        .first
+                                        .role
+                                    : ""
                                 : "";
                             var company2 = _upcommingAppointments![index]
                                     .mentee!
@@ -171,7 +184,7 @@ class _MyMenteesState extends State<MyMentees> {
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            return SizedBox(
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -421,8 +434,7 @@ class _MyMenteesState extends State<MyMentees> {
                                         .first
                                         .company
                                     : "";
-                            return SizedBox(
-                              height: 230,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -748,7 +760,13 @@ class _MyMenteesState extends State<MyMentees> {
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            var photo2 = _booking![index].mentee!.user.photo;
+                            var photo2 =
+                                _completedAppointments![index].mentee != null
+                                    ? _completedAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .photo
+                                    : "";
                             var name2 = _completedAppointments![index]
                                 .mentee!
                                 .user
@@ -777,8 +795,7 @@ class _MyMenteesState extends State<MyMentees> {
                                     .first
                                     .company
                                 : "";
-                            return SizedBox(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
