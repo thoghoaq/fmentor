@@ -698,7 +698,10 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            var photo2 = _booking![index].mentor!.user.photo;
+                            var photo2 = _completedAppointments![index]
+                                .mentor!
+                                .user
+                                .photo;
                             var name2 = _completedAppointments![index]
                                 .mentor!
                                 .user
