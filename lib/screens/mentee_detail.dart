@@ -7,24 +7,24 @@ import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/services/mentee_service.dart';
 
-import 'package:mentoo/models/mentor.dart' as Mentor;
+import 'package:mentoo/models/mentee.dart' as Mentee;
 
-import 'package:mentoo/services/mentor_service.dart';
+import 'package:mentoo/services/mentee_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/widgets/loading.dart';
 
-class MentorDetail extends StatefulWidget {
-  int mentorId;
-  MentorDetail({Key? key, required this.mentorId}) : super(key: key);
+class MenteeDetail extends StatefulWidget {
+  int menteeId;
+  MenteeDetail({Key? key, required this.menteeId}) : super(key: key);
 
   @override
-  State<MentorDetail> createState() => _MentorDetailState();
+  State<MenteeDetail> createState() => _MenteeDetailState();
 }
 
-class _MentorDetailState extends State<MentorDetail> {
-  late Mentor.Mentor _mentor;
+class _MenteeDetailState extends State<MenteeDetail> {
+  late Mentee.Mentee _mentee;
   User? _user;
   String? _menteeId;
   bool? _isFollowed;
@@ -40,11 +40,9 @@ class _MentorDetailState extends State<MentorDetail> {
   void _getData() async {
     _user = (await UserService().getUser());
     _menteeId = await MenteeService().getMenteeByUserId(_user!.userId);
-    _mentor = (await MentorService().getMentorById(widget.mentorId))!;
-    _isFollowed = await MentorService()
-        .checkMentorFollowed(_mentor.mentorId, _user!.userId);
+    _mentee = (await MenteeService().getMenteeById(widget.menteeId))!;
     setState(() {
-      if (_mentor != null) isLoaded = true;
+      if (_mentee != null) isLoaded = true;
     });
   }
 
@@ -74,7 +72,7 @@ class _MentorDetailState extends State<MentorDetail> {
                     delegate: CustomSliverAppBarDelegate(
                         userId: _user!.userId,
                         expandedHeight: 500,
-                        mentor: _mentor,
+                        mentee: _mentee,
                         isFollowed: _isFollowed!,
                         menteeId: _menteeId!),
                   ),
@@ -123,7 +121,7 @@ class _MentorDetailState extends State<MentorDetail> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(_mentor.user.description),
+                                Text(_mentee.user.description),
                                 SizedBox(
                                   height: 5,
                                 ),
@@ -143,9 +141,9 @@ class _MentorDetailState extends State<MentorDetail> {
                                 ),
                                 SizedBox(
                                   height: 100 *
-                                      _mentor.user.jobs!.length.toDouble(),
+                                      _mentee.user.jobs!.length.toDouble(),
                                   child: ListView.builder(
-                                    itemCount: _mentor.user.jobs!.length,
+                                    itemCount: _mentee.user.jobs!.length,
                                     itemBuilder: (context, index) {
                                       return Column(
                                         children: [
@@ -184,8 +182,7 @@ class _MentorDetailState extends State<MentorDetail> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    _mentor
-                                                        .user.jobs![index].role,
+                                                    "Marketer",
                                                     style: AppFonts.medium(
                                                         18, Colors.black),
                                                   ),
@@ -193,8 +190,7 @@ class _MentorDetailState extends State<MentorDetail> {
                                                     width: 30,
                                                   ),
                                                   Text(
-                                                    _mentor.user.jobs![index]
-                                                        .company,
+                                                    "Shoppe",
                                                     style: AppFonts.medium(14,
                                                         AppColors.mGrayStroke),
                                                   ),
@@ -203,12 +199,12 @@ class _MentorDetailState extends State<MentorDetail> {
                                                   ),
                                                   Text(
                                                     DateFormat("MMMM yyyy")
-                                                            .format(_mentor
+                                                            .format(_mentee
                                                                 .user
                                                                 .jobs![index]
                                                                 .startDate) +
                                                         " - " +
-                                                        (_mentor
+                                                        (_mentee
                                                                     .user
                                                                     .jobs![
                                                                         index]
@@ -217,7 +213,7 @@ class _MentorDetailState extends State<MentorDetail> {
                                                             ? "Now"
                                                             : DateFormat(
                                                                     "MMMM yyyy")
-                                                                .format(_mentor
+                                                                .format(_mentee
                                                                     .user
                                                                     .jobs![
                                                                         index]
@@ -229,7 +225,7 @@ class _MentorDetailState extends State<MentorDetail> {
                                               ),
                                             ],
                                           ),
-                                          index != _mentor.user.jobs!.length - 1
+                                          index != _mentee.user.jobs!.length - 1
                                               ? Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -266,14 +262,14 @@ class _MentorDetailState extends State<MentorDetail> {
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
-  Mentor.Mentor mentor;
+  Mentee.Mentee mentee;
   bool isFollowed;
   int userId;
   String menteeId;
 
   CustomSliverAppBarDelegate(
       {required this.expandedHeight,
-      required this.mentor,
+      required this.mentee,
       required this.isFollowed,
       required this.userId,
       required this.menteeId});
@@ -293,7 +289,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           height: 500,
           color: Colors.amber,
         ),
-        buildBackground(shrinkOffset, mentor),
+        buildBackground(shrinkOffset, mentee),
         Positioned(
           top: 400,
           right: 0,
@@ -329,36 +325,6 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                           icon: BackButtonIcon()),
                     ),
                   ),
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: IconButton(
-                          onPressed: () async {
-                            if (isFollowed) {
-                              await MenteeService()
-                                  .unFollowMentor(userId, mentor.mentorId);
-                            } else
-                              await MenteeService()
-                                  .followMentor(userId, mentor.mentorId);
-                            //function();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MentorDetail(
-                                  mentorId: mentor.mentorId,
-                                ),
-                              ),
-                            );
-                          },
-                          icon: !isFollowed
-                              ? Icon(Icons.person_add_alt)
-                              : Icon(Icons.person_remove_alt_1)),
-                    ),
-                  ),
                 ]),
           ),
         ),
@@ -377,10 +343,10 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double disappear(double shrinkOffset) =>
       1 - (shrinkOffset / expandedHeight * 10) * 0.01;
 
-  Widget buildBackground(double shrinkOffset, Mentor.Mentor mentor) => Opacity(
+  Widget buildBackground(double shrinkOffset, Mentee.Mentee mentee) => Opacity(
         opacity: disappear(shrinkOffset),
         child: Image.network(
-          mentor.user.photo,
+          mentee.user.photo,
           fit: BoxFit.cover,
         ),
       );
@@ -411,7 +377,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 onTap: () => print("tap"),
                 child: RichText(
                   text: TextSpan(
-                    text: mentor.user.name + ' ',
+                    text: mentee.user.name + ' ',
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -433,19 +399,12 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 height: 5,
               ),
               Text(
-                mentor.user.jobs![0].role + ", " + mentor.user.jobs![0].company,
+                mentee.user.jobs![0].role + ", " + mentee.user.jobs![0].company,
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
               SizedBox(
                 height: 5,
               ),
-              Text(
-                mentor.numberMentee.toString() +
-                    " Mentees, " +
-                    mentor.numberMentee.toString() +
-                    " Followers",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
-              )
             ]),
           ),
           Positioned(
@@ -468,7 +427,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                     border: Border.all()),
                 child: Center(
                   child: Text(
-                    'Mentor',
+                    'Mentee',
                     style: AppFonts.medium(16, Colors.black),
                   ),
                 ),
@@ -476,8 +435,8 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
           InkWell(
-            onTap: () => Get.to(
-                BookAppointment(mentor: mentor, menteeId: int.parse(menteeId))),
+            // onTap: () => Get.to(
+            //     BookAppointment(mentee: mentee, menteeId: int.parse(menteeId))),
             child: Padding(
               padding: EdgeInsets.only(top: 120, left: 70),
               child: Container(

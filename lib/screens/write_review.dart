@@ -190,7 +190,7 @@ class _WriteReviewState extends State<WriteReview> {
                     if (await ReviewService().createReview(review) != null) {
                       var user = await UserService().getUser();
                       Get.to(MyAppointments(
-                        menteeId: widget.menteeId,
+                        userId: widget.menteeId,
                       ));
                     }
                     ;

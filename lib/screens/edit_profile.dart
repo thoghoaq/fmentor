@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -19,20 +20,24 @@ class _EditProfileState extends State<EditProfile> {
     var labelTextBoxSpace = AppCommon.screenHeightUnit(context) * 0.1;
     var itemCount = 5;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: false,
-          elevation: 0,
-          title: Text(
-            "Edit profile",
-            style: AppFonts.medium(24, AppColors.mDarkPurple),
-          ),
-          leading: BackButton(
-            color: AppColors.mDarkPurple,
-            onPressed: () {},
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        elevation: 0,
+        title: Text(
+          "Edit profile",
+          style: AppFonts.medium(24, AppColors.mDarkPurple),
         ),
-        body: SingleChildScrollView(
+        leading: BackButton(
+          color: AppColors.mDarkPurple,
+          onPressed: () {
+            Get.back();
+          },
+        ),
+      ),
+      body: ListView(children: [
+        Padding(
+          padding: EdgeInsets.all(AppCommon.screenHeightUnit(context) * 0.5),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
@@ -83,8 +88,9 @@ class _EditProfileState extends State<EditProfile> {
               keyboardType: TextInputType.multiline,
               minLines: 7,
               maxLines: 10,
-              initialValue: "Type your message",
+              //initialValue: "Type your message",
               decoration: InputDecoration(
+                hintText: "Type your message",
                 focusedBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(
@@ -203,6 +209,8 @@ class _EditProfileState extends State<EditProfile> {
             ),
             const PrimaryButton()
           ]),
-        ));
+        ),
+      ]),
+    );
   }
 }

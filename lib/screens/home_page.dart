@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
     _specialties = await SpecialtyService().getTop3Specialties();
     // (await UserService().getUserById(9));
     _user = await UserService().getUser();
+    if (!mounted) return;
     setState(() {
       if (_mentors != null && _user != null && _specialties != null) {
         isLoaded = true;

@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/request/signin_request_model.dart';
+import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
+import 'package:mentoo/models/view/sign_up_view.dart';
+import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/utils/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,9 +43,8 @@ class UserService {
     return null;
   }
 
-  Future<int> signIn(SignInRequestModel model) async {
-    var isMentor = -1;
-    var isSuccess = false;
+  Future<User?> signIn(SignInRequestModel model) async {
+    User? user;
     var requestData = {
       "email": model.email,
       "password": model.password,
@@ -56,11 +58,11 @@ class UserService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: utf8.encode(json.encode(requestData)),
+      body: json.encode(requestData),
     );
 
     if (response.statusCode == 200) {
-      User user = User.fromJson(jsonDecode(response.body));
+      user = User.fromJson(jsonDecode(response.body));
       await saveUser(user);
       List<int> settingsState = [
         user.isMentorNavigation!.canRequestToMentor,
@@ -70,15 +72,43 @@ class UserService {
         user.isMentorNavigation!.canLogout,
       ];
       saveSettingsState(settingsState);
-      isSuccess = true;
-      isMentor = user.isMentor;
+      return user;
     } else {
-      isSuccess = false;
       if (kDebugMode) {
         print('Signin failed');
       }
     }
-    return isMentor;
+    return user;
+  }
+
+  Future<User?> signUp(SignUpModel signUp) async {
+    var url = Uri.parse(Path.path + "/users/sign-up");
+    var response = await http.post(url,
+        headers: {"accept": "text/plain", "Content-Type": "application/json"},
+        body: jsonEncode(signUp));
+
+    if (response.statusCode == 200) {
+      User _user = User.fromJson(jsonDecode(response.body));
+      return _user;
+    } else
+      throw new Exception(response.body);
+  }
+
+  Future<bool?> addSpecialties(List<String?> specialties, int id) async {
+    try {
+      var url =
+          Uri.parse(Path.path + "/users/add-specialties/" + id.toString());
+      var response = await http.post(url,
+          headers: {"accept": "text/plain", "Content-Type": "application/json"},
+          body: jsonEncode(specialties));
+
+      if (response.statusCode == 200) {
+        bool isAdd = (jsonDecode(response.body));
+        return isAdd;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> saveSettingsState(List<int> settingsState) async {

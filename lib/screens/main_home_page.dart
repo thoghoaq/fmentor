@@ -41,7 +41,7 @@ class _MainPageState extends State<MainPage> {
     },
     {
       'title': 'Profile',
-      'icon': Icons.person,
+      'icon': Icons.person_outline,
       'state': true,
     },
     {
@@ -66,9 +66,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
+    super.initState();
     _settingPage(widget.isMentor);
     _selectedPageIndex = widget.initialPage;
-    super.initState();
   }
 
   @override
@@ -82,11 +82,12 @@ class _MainPageState extends State<MainPage> {
       pages = [
         const HomePage(),
         MyAppointments(
-          menteeId: widget.menteeId,
+          userId: int.parse(widget.userId.toString()),
         ),
         Profile(userId: widget.userId),
         MyMentees(
           mentorId: widget.mentorId,
+          userId: int.parse(widget.userId.toString()),
         ),
         SettingsPage(
           isMentor: isMentor,
@@ -96,7 +97,7 @@ class _MainPageState extends State<MainPage> {
       pages = [
         const HomePage(),
         MyAppointments(
-          menteeId: widget.menteeId,
+          userId: int.parse(widget.userId.toString()),
         ),
         Profile(userId: widget.userId),
         SettingsPage(
@@ -116,7 +117,7 @@ class _MainPageState extends State<MainPage> {
         },
         {
           'title': 'Profile',
-          'icon': Icons.person,
+          'icon': Icons.person_outline,
           'state': true,
         },
         {

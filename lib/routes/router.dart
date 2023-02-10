@@ -19,10 +19,10 @@ class AppRouter {
         {
           return MaterialPageRoute(builder: (_) => const SignUp());
         }
-      case 'ChooseMajor':
-        {
-          return MaterialPageRoute(builder: (_) => const ChooseMajor());
-        }
+      // case 'ChooseMajor':
+      //   {
+      //     //return MaterialPageRoute(builder: (_) => ChooseMajor());
+      //   }
       default:
         {
           return MaterialPageRoute(

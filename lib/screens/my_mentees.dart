@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/view/appointment_view.dart';
 import 'package:mentoo/models/view/booking_view.dart';
+import 'package:mentoo/screens/mentee_detail.dart';
 import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/appointment_service.dart';
 import 'package:mentoo/services/booking_service.dart';
+import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/button.dart';
 import 'package:mentoo/widgets/loading.dart';
 import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyMentees extends StatefulWidget {
+  final int userId;
   final int? mentorId;
 
   const MyMentees({
     super.key,
     required this.mentorId,
+    required this.userId,
   });
   @override
   State<MyMentees> createState() => _MyMenteesState();
@@ -37,6 +42,7 @@ class _MyMenteesState extends State<MyMentees> {
   }
 
   _fetchDataMentor() async {
+    var mentorId = await MentorService().getMentorById(widget.userId);
     //waiting tab
     var booking =
         await BookingServivce().fetchBookingViewModelMentor(widget.mentorId!);
@@ -48,7 +54,7 @@ class _MyMenteesState extends State<MyMentees> {
         appointments.where((element) => element.status != "Completed").toList();
     upcommingAppointmentsFiltered
         .sort(((a, b) => b.status.compareTo(a.status)));
-
+    if (!mounted) return;
     setState(() {
       _booking = booking;
       _upcommingAppointments = upcommingAppointmentsFiltered;
@@ -137,12 +143,21 @@ class _MyMenteesState extends State<MyMentees> {
                                     .jobs!
                                     .isNotEmpty
                                 ? _upcommingAppointments![index]
-                                    .mentee!
-                                    .user
-                                    .jobs!
-                                    .where((element) => element.isCurrent == 1)
-                                    .first
-                                    .role
+                                        .mentee!
+                                        .user
+                                        .jobs!
+                                        .where(
+                                            (element) => element.isCurrent == 1)
+                                        .isNotEmpty
+                                    ? _upcommingAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .jobs!
+                                        .where(
+                                            (element) => element.isCurrent == 1)
+                                        .first
+                                        .role
+                                    : ""
                                 : "";
                             var company2 = _upcommingAppointments![index]
                                     .mentee!
@@ -169,8 +184,7 @@ class _MyMenteesState extends State<MyMentees> {
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            return SizedBox(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -382,7 +396,7 @@ class _MyMenteesState extends State<MyMentees> {
                                   height: 10,
                                 ),
                                 const SizedBox(
-                                  width: 250,
+                                  width: 26,
                                   child: Divider(color: AppColors.mGray),
                                 )
                               ]),
@@ -420,8 +434,7 @@ class _MyMenteesState extends State<MyMentees> {
                                         .first
                                         .company
                                     : "";
-                            return SizedBox(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -699,10 +712,36 @@ class _MyMenteesState extends State<MyMentees> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Container(
+                                  width: 250,
+                                  decoration: const BoxDecoration(
+                                      color: AppColors.mLightPurple,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          shadowColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      Colors.transparent),
+                                          backgroundColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      Colors.transparent)),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MenteeDetail(menteeId: 1)));
+                                      },
+                                      child: const Text("View Profile")),
+                                ),
                                 const SizedBox(
                                   width: 250,
                                   child: Divider(color: AppColors.mGray),
-                                )
+                                ),
                               ]),
                             );
                           },
@@ -721,7 +760,13 @@ class _MyMenteesState extends State<MyMentees> {
                                 .photo
                                 .replaceAll(" ", "")
                                 .isEmpty;
-                            var photo2 = _booking![index].mentee!.user.photo;
+                            var photo2 =
+                                _completedAppointments![index].mentee != null
+                                    ? _completedAppointments![index]
+                                        .mentee!
+                                        .user
+                                        .photo
+                                    : "";
                             var name2 = _completedAppointments![index]
                                 .mentee!
                                 .user
@@ -750,8 +795,7 @@ class _MyMenteesState extends State<MyMentees> {
                                     .first
                                     .company
                                 : "";
-                            return SizedBox(
-                              height: 140,
+                            return FittedBox(
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:

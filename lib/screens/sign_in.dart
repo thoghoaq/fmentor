@@ -122,6 +122,7 @@ class _SignIn extends State<SignIn> {
                           child: TextField(
                             onSubmitted: (value) =>
                                 {_signinModel.email = value},
+                            onChanged: (value) => _signinModel.email = value,
                             textAlignVertical: TextAlignVertical.bottom,
                             cursorColor: AppColors.mDarkPurple,
                             decoration: const InputDecoration(
@@ -156,6 +157,7 @@ class _SignIn extends State<SignIn> {
                           child: TextField(
                             onSubmitted: (value) =>
                                 {_signinModel.password = value},
+                            onChanged: (value) => _signinModel.password = value,
                             obscureText: passEnable,
                             cursorColor: AppColors.mDarkPurple,
                             textAlignVertical: TextAlignVertical.bottom,
@@ -218,16 +220,16 @@ class _SignIn extends State<SignIn> {
                             setState(() {
                               _isSigning = true;
                             });
-                            var isMentor =
-                                await UserService().signIn(_signinModel);
-                            if (isMentor != -1) {
+                            var user = await UserService().signIn(_signinModel);
+                            if (user != null) {
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MainPage(
                                           initialPage: 0,
-                                          isMentor: isMentor,
+                                          isMentor: user.isMentor,
+                                          userId: user.userId,
                                         )),
                               );
                             } else {
