@@ -5,6 +5,8 @@ import 'package:mentoo/models/view/booking_view.dart';
 import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/appointment_service.dart';
 import 'package:mentoo/services/booking_service.dart';
+import 'package:mentoo/services/mentee_service.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
@@ -13,11 +15,11 @@ import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyAppointments extends StatefulWidget {
-  final int? menteeId;
+  final int userId;
 
   const MyAppointments({
     super.key,
-    required this.menteeId,
+    required this.userId,
   });
   @override
   State<MyAppointments> createState() => _MyAppointmentsState();
@@ -32,17 +34,18 @@ class _MyAppointmentsState extends State<MyAppointments> {
 
   @override
   void initState() {
-    _fetchData();
     super.initState();
+    _fetchData();
   }
 
   _fetchData() async {
+    var menteeId = await MenteeService().getMenteeByUserId(widget.userId);
     //waiting tab
     var booking =
-        await BookingServivce().fetchBookingViewModel(widget.menteeId!);
+        await BookingServivce().fetchBookingViewModel(int.parse(menteeId!));
     //fetch all appointment
-    var appointments =
-        await AppointmentService().fetchAppointmentViewModel(widget.menteeId);
+    var appointments = await AppointmentService()
+        .fetchAppointmentViewModel(int.parse(menteeId));
     //upcomming tab
     var upcommingAppointmentsFiltered =
         appointments.where((element) => element.status != "Completed").toList();

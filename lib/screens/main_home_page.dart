@@ -66,9 +66,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
+    super.initState();
     _settingPage(widget.isMentor);
     _selectedPageIndex = widget.initialPage;
-    super.initState();
   }
 
   @override
@@ -82,7 +82,7 @@ class _MainPageState extends State<MainPage> {
       pages = [
         const HomePage(),
         MyAppointments(
-          menteeId: widget.menteeId,
+          userId: int.parse(widget.userId.toString()),
         ),
         Profile(userId: widget.userId),
         MyMentees(
@@ -96,7 +96,7 @@ class _MainPageState extends State<MainPage> {
       pages = [
         const HomePage(),
         MyAppointments(
-          menteeId: widget.menteeId,
+          userId: int.parse(widget.userId.toString()),
         ),
         Profile(userId: widget.userId),
         SettingsPage(

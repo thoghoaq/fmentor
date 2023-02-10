@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/view/appointment_view.dart';
 import 'package:mentoo/models/view/booking_view.dart';
+import 'package:mentoo/screens/mentee_detail.dart';
 import 'package:mentoo/screens/write_review.dart';
 import 'package:mentoo/services/appointment_service.dart';
 import 'package:mentoo/services/booking_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/button.dart';
 import 'package:mentoo/widgets/loading.dart';
 import 'package:mentoo/widgets/no_data.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -170,7 +172,6 @@ class _MyMenteesState extends State<MyMentees> {
                                 .replaceAll(" ", "")
                                 .isEmpty;
                             return SizedBox(
-                              height: 140,
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -382,7 +383,7 @@ class _MyMenteesState extends State<MyMentees> {
                                   height: 10,
                                 ),
                                 const SizedBox(
-                                  width: 250,
+                                  width: 26,
                                   child: Divider(color: AppColors.mGray),
                                 )
                               ]),
@@ -421,7 +422,7 @@ class _MyMenteesState extends State<MyMentees> {
                                         .company
                                     : "";
                             return SizedBox(
-                              height: 140,
+                              height: 230,
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment:
@@ -699,10 +700,36 @@ class _MyMenteesState extends State<MyMentees> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Container(
+                                  width: 250,
+                                  decoration: const BoxDecoration(
+                                      color: AppColors.mLightPurple,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          shadowColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      Colors.transparent),
+                                          backgroundColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      Colors.transparent)),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MenteeDetail(menteeId: 1)));
+                                      },
+                                      child: const Text("View Profile")),
+                                ),
                                 const SizedBox(
                                   width: 250,
                                   child: Divider(color: AppColors.mGray),
-                                )
+                                ),
                               ]),
                             );
                           },

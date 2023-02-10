@@ -75,6 +75,10 @@ class _MyAppState extends State<MyApp> {
         _user = user;
         _loading = false;
       });
+    } else {
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
