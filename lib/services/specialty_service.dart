@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/utils/path.dart';
 
