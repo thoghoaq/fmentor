@@ -75,7 +75,7 @@ class _GetStartedState extends State<GetStarted> {
                         padding: const EdgeInsets.only(
                             right: 50.0, left: 50.0, bottom: 50.0),
                         child: Text(
-                          'Mentoo provides quality mentors to help with your career',
+                          'FMentor provides quality mentors to help with your career',
                           style: AppFonts.regular(14, AppColors.mText),
                           textAlign: TextAlign.center,
                         ),
@@ -109,7 +109,7 @@ class _GetStartedState extends State<GetStarted> {
                               height: 30,
                             ),
                           ),
-                          Text('Mentoo',
+                          Text('FMentor',
                               style: AppFonts.bold(20, AppColors.mDarkPurple))
                         ],
                       )
