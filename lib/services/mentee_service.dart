@@ -21,6 +21,20 @@ class MenteeService {
     }
   }
 
+  Future<Mentee?> getMenteeById(int id) async {
+    try {
+      var url = Uri.parse("${Path.path}/mentees/$id");
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        Mentee model = Mentee.fromJson(jsonDecode(response.body));
+        return model;
+      }
+    } catch (e) {
+      print(e.toString());
+      log(e.toString());
+    }
+  }
+
   Future<bool?> favoriteCourse(int userId, int courseId) async {
     try {
       String? menteeId = await getMenteeByUserId(userId);

@@ -1,16 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/mentor.dart' as mentors;
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
-import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
-import 'package:mentoo/screens/follow_mentors.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
 import 'package:mentoo/screens/profile.dart';
-import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/services/mentor_service.dart';
@@ -43,13 +38,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getData() async {
-    _mentors = (await MentorService().getMentors());
+    _mentors = await MentorService().getMentors();
     _specialties = await SpecialtyService().getTop3Specialties();
-    (await UserService().getUserById(9));
-    _user = (await UserService().getUser());
+    // (await UserService().getUserById(9));
+    _user = await UserService().getUser();
+    if (!mounted) return;
     setState(() {
-      if (_mentors != null && _user != null && _specialties != null)
+      if (_mentors != null && _user != null && _specialties != null) {
         isLoaded = true;
+      }
     });
   }
 
@@ -63,12 +60,10 @@ class _HomePageState extends State<HomePage> {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
     var searchAreaContainerHeight = AppCommon.screenHeightUnit(context) * 3;
     return Scaffold(
-      bottomNavigationBar: MyBottomNavigationBar(isMentor: 1, initialPage: 0),
       body: !isLoaded
-          ? Loading()
-          : SingleChildScrollView(
-              child: Container(
-                height: AppCommon.screenHeight(context) * 2,
+          ? const Loading()
+          : ListView(children: [
+              Container(
                 padding:
                     EdgeInsets.all(AppCommon.screenHeightUnit(context) * 0.5),
                 child: SafeArea(
@@ -86,17 +81,18 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 TextSpan(
                                     text: _user!.name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.ellipsis)),
-                                WidgetSpan(
+                                const WidgetSpan(
                                   child: Icon(
                                     Icons.hive_outlined,
                                     size: 20,
                                     color: Colors.yellow,
                                   ),
                                 ),
-                                TextSpan(text: '\nFind your great mentor!'),
+                                const TextSpan(
+                                    text: '\nFind your great mentor!'),
                               ],
                             ),
                           ),
@@ -104,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: [
                             InkWell(
-                              onTap: () => Get.to(FavoriteCourses()),
+                              onTap: () => Get.to(const FavoriteCourses()),
                               child: Container(
                                 height: 40,
                                 width: 40,
@@ -112,14 +108,14 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.red,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.favorite,
                                   size: 28,
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Container(
@@ -129,12 +125,12 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(10),
                                   border:
                                       Border.all(color: AppColors.mGrayStroke)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.notifications_none_outlined,
                                 size: 28,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             InkWell(
@@ -148,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
                                         color: AppColors.mGrayStroke)),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.person_add_alt,
                                   size: 28,
                                 ),
@@ -179,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: InputDecoration(
                             enabled: false,
                             hintText: "Search for mentor",
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.search,
                               color: AppColors.mDarkPurple,
                             ),
@@ -211,13 +207,13 @@ class _HomePageState extends State<HomePage> {
                           style: AppFonts.medium(24, Colors.black),
                         ),
                         InkWell(
-                          onTap: () => Get.to(SpecialistMentors()),
+                          onTap: () => Get.to(const SpecialistMentors()),
                           child: RichText(
                             text: TextSpan(
                               text: "See all",
                               style:
                                   AppFonts.regular(16, AppColors.mDarkPurple),
-                              children: [
+                              children: const [
                                 WidgetSpan(
                                   child: Icon(
                                     Icons.arrow_forward_ios,
@@ -234,15 +230,15 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: AppCommon.screenHeightUnit(context) * 0.2,
                     ),
-                    Container(
+                    SizedBox(
                       height: 170,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: _specialties!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
-                              margin: EdgeInsets.only(right: 15),
+                              margin: const EdgeInsets.only(right: 15),
                               width: 105,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
@@ -262,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                                     width: searchAreaContainerWidth * 0.3,
                                     height: searchAreaContainerHeight * 0.35,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   SizedBox(
@@ -274,10 +270,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   Text(
-                                    _specialties![index]
-                                            .numberMentor
-                                            .toString() +
-                                        " Mentors",
+                                    "${_specialties![index].numberMentor} Mentors",
                                     style: AppFonts.regular(13, Colors.white),
                                   )
                                 ],
@@ -285,72 +278,6 @@ class _HomePageState extends State<HomePage> {
                             );
                           }),
                     ),
-                    // Container(
-                    //   height: searchAreaContainerHeight,
-                    //   width: searchAreaContainerWidth,
-                    //   decoration: BoxDecoration(
-                    //       color: AppColors.mLightPurple,
-                    //       borderRadius: BorderRadius.circular(30)),
-                    //   child: Padding(
-                    //     padding:
-                    //         const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    //     child: Column(children: [
-                    //       TextFormField(
-                    //         decoration: InputDecoration(
-                    //           hintText: "Search for mentor",
-                    //           prefixIcon: Icon(
-                    //             Icons.search,
-                    //             color: AppColors.mDarkPurple,
-                    //           ),
-                    //           contentPadding: const EdgeInsets.only(left: 10),
-                    //           filled: true,
-                    //           fillColor: Colors.white,
-                    //           // focusColor: AppColors.grayColor,
-                    //           // hoverColor: AppColors.grayColor,
-                    //           //labelText: "Search for mentor ",
-                    //           labelStyle: AppFonts.medium(16, AppColors.mText),
-                    //           //errorText: 'Error message',
-                    //           border: OutlineInputBorder(
-                    //               borderRadius: BorderRadius.circular(30.0),
-                    //               borderSide: BorderSide.none),
-                    //         ),
-                    //       ),
-                    //       SizedBox(
-                    //         height: AppCommon.screenHeightUnit(context) * 0.3,
-                    //       ),
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           SizedBox(
-                    //             width: searchAreaContainerWidth * 1 / 2 - 10,
-                    //             child: RichText(
-                    //               maxLines: 3,
-                    //               text: TextSpan(
-                    //                 text: 'Get connect with ',
-                    //                 style: TextStyle(fontSize: 16),
-                    //                 children: [
-                    //                   TextSpan(
-                    //                       text: '300+',
-                    //                       style:
-                    //                           TextStyle(fontWeight: FontWeight.bold)),
-                    //                   TextSpan(
-                    //                       text:
-                    //                           ' best Mentor and get solutions for your career'),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           Image.asset(
-                    //             "assets/images/home_page.png",
-                    //             width: searchAreaContainerWidth * 0.3,
-                    //             height: searchAreaContainerHeight * 0.5,
-                    //           )
-                    //         ],
-                    //       )
-                    //     ]),
-                    //   ),
-                    // ),
                     SizedBox(
                       height: AppCommon.screenHeightUnit(context) * 0.2,
                     ),
@@ -369,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                               text: "See all",
                               style:
                                   AppFonts.regular(16, AppColors.mDarkPurple),
-                              children: [
+                              children: const [
                                 WidgetSpan(
                                   child: Icon(
                                     Icons.arrow_forward_ios,
@@ -386,18 +313,17 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: AppCommon.screenHeightUnit(context) * 0.1,
                     ),
-                    Container(
+                    SizedBox(
                       height: 260,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: _mentors!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              // onTap: () => Get.to(Profile(
-                              //     isViewMentor: true,
-                              //     mentorId: _mentors![index].mentorId)),
-                              onTap: () => Get.to(BookAppointment(
-                                  menteeId: 1, mentor: _mentors![index])),
+                              onTap: () => Get.to(MentorDetail(
+                                  mentorId: _mentors![index].mentorId)),
+                              // onTap: () => Get.to(BookAppointment(
+                              //     menteeId: 1, mentor: _mentors![index])),
                               child: ProfileCard(
                                 company: _mentors![index].user.jobs![0].company,
                                 job: _mentors![index].user.jobs![0].role,
@@ -407,28 +333,15 @@ class _HomePageState extends State<HomePage> {
                             );
                           }),
                     ),
-                    // Expanded(
-                    //   child: GridView.count(
-                    //       physics: const NeverScrollableScrollPhysics(),
-                    //       padding: EdgeInsets.zero,
-                    //       primary: false,
-                    //       crossAxisSpacing: 10,
-                    //       mainAxisSpacing: 10,
-                    //       crossAxisCount: 2,
-                    //       childAspectRatio: 0.75,
-                    //       children: List.generate(
-                    //         10,
-                    //         (index) => const ProfileCard(),
-                    //       )),
-                    // )
                   ]),
                 ),
               ),
-            ),
+            ]),
     );
   }
 }
 
+// ignore: must_be_immutable
 class ProfileCard extends StatelessWidget {
   ProfileCard({
     required this.company,
@@ -454,7 +367,7 @@ class ProfileCard extends StatelessWidget {
       child: Container(
         height: 290,
         width: 190,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -474,7 +387,7 @@ class ProfileCard extends StatelessWidget {
                       )),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
@@ -482,67 +395,16 @@ class ProfileCard extends StatelessWidget {
                 style: AppFonts.medium(18, Colors.black),
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
-                job + ', ' + company,
+                '$job, $company',
                 style: AppFonts.regular(14, Colors.black),
                 overflow: TextOverflow.ellipsis,
               ),
             ]),
       ),
     );
-    // Card(
-    //   //margin: EdgeInsets.only(right: 20),
-    //   //elevation: 5,
-    //   clipBehavior: Clip.antiAlias,
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.circular(30),
-    //     //set border radius more than 50% of height and width to make circle
-    //   ),
-    //   child: Container(
-    //     width: 170,
-    //     decoration: BoxDecoration(
-    //         image:
-    //             DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(16.0),
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Text(
-    //             name,
-    //             style: AppFonts.medium(16, Colors.black),
-    //           ),
-    //           SizedBox(
-    //             height: 5,
-    //           ),
-    //           Expanded(
-    //             child: Text(
-    //               job + ',\n' + company,
-    //               style: AppFonts.regular(10, Colors.black),
-    //             ),
-    //           ),
-    //           Container(
-    //             width: 90,
-    //             height: 35,
-    //             decoration: BoxDecoration(
-    //                 color: AppColors.mLightPurple,
-    //                 borderRadius: BorderRadius.circular(5),
-    //                 border: Border.all()),
-    //             child: Center(
-    //               child: Text(
-    //                 'Mentor',
-    //                 style: AppFonts.medium(16, Colors.black),
-    //               ),
-    //             ),
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

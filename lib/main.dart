@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
@@ -33,7 +34,9 @@ import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/screens/write_review.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
+import 'package:mentoo/widgets/loading.dart';
 
 // void main() => runApp(
 //       DevicePreview(
@@ -43,13 +46,42 @@ import 'package:mentoo/theme/colors.dart';
 //     );
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _loading = true;
+  bool _isFirstLogin = true;
+  User? _user;
   // This widget is the root of your application.
+  @override
+  void initState() {
+    _checkUserExist();
+    super.initState();
+  }
+
+  _checkUserExist() async {
+    var user = await UserService().getUser();
+    if (user != null) {
+      setState(() {
+        _isFirstLogin = false;
+        _user = user;
+        _loading = false;
+      });
+    } else {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -67,34 +99,25 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: AppColors.mPrimary,
         backgroundColor: AppColors.mBackground,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: HomePage(),
-      // home: BookAppointment(
-      //   mentor: new Mentor(
-      //       mentorId: 1,
-      //       userId: 11,
-      //       specialty: "specialty",
-      //       hourlyRate: 1,
-      //       availability: 1,
-      //       user: new User(
-      //           age: 22,
-      //           description: '',
-      //           email: '',
-      //           isMentor: 1,
-      //           jobs: [],
-      //           name: 'Hoang Michael',
-      //           password: '',
-      //           photo: '',
-      //           userId: 11,
-      //           videoIntroduction: '',
-      //           educations: []),
-      //       numberFollower: 12,
-      //       numberMentee: 12),
-      //   menteeId: 1,
-      // ),
+      home: !_loading
+          ? _isFirstLogin
+              ? const GetStarted()
+              : MainPage(
+                  userId: _user!.userId,
+                  initialPage: 0,
+                  isMentor: _user!.isMentor,
+                  menteeId: _user!.mentees.isNotEmpty
+                      ? _user!.mentees.first.menteeId
+                      : null,
+                  mentorId: _user!.mentors!.isNotEmpty
+                      ? _user!.mentors!.first.mentorId
+                      : null,
+                )
+          : const Loading(),
     );
   }
 }
