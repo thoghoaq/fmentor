@@ -42,7 +42,7 @@ class _SpecialistMentorsState extends State<SpecialistMentors> {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
     var searchAreaContainerHeight = AppCommon.screenHeightUnit(context) * 3;
     return !isLoaded
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             appBar: AppBar(
               leading: BackButton(
@@ -84,7 +84,7 @@ class _SpecialistMentorsState extends State<SpecialistMentors> {
                             width: searchAreaContainerWidth * 0.50,
                             height: searchAreaContainerHeight * 0.35,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -96,12 +96,11 @@ class _SpecialistMentorsState extends State<SpecialistMentors> {
                           //   "Design",
                           //   style: AppFonts.medium(15, Colors.white),
                           // ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
-                            _specialties![index].numberMentor.toString() +
-                                " Mentors",
+                            "${_specialties![index].numberMentor} Mentors",
                             style: AppFonts.regular(13, Colors.white),
                           )
                         ],

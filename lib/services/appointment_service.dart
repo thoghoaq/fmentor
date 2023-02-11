@@ -8,9 +8,8 @@ import '../utils/path.dart';
 class AppointmentService {
   Future<List<AppointmentViewModel>> fetchAppointmentViewModel(
       int? menteeId) async {
-    String apiUrl = Path.path + '/appointments/mentee/${menteeId}';
-    final response =
-        await http.get(Uri.parse(apiUrl + '?id=' + menteeId.toString()));
+    String apiUrl = '${Path.path}/appointments/mentee/$menteeId';
+    final response = await http.get(Uri.parse('$apiUrl?id=$menteeId'));
     if (response.statusCode == 200) {
       List<dynamic> jsonArray = json.decode(response.body);
       List<AppointmentViewModel> viewModels = [];
@@ -18,7 +17,6 @@ class AppointmentService {
         viewModels.add(AppointmentViewModel.fromJson(jsonObject));
       }
       return viewModels;
-      ;
     } else {
       throw Exception('Failed to load booking view model');
     }
@@ -26,9 +24,8 @@ class AppointmentService {
 
   Future<List<AppointmentViewModel>> fetchAppointmentViewModelMentor(
       int? mentorId) async {
-    String apiUrl = Path.path + '/appointments/mentor/${mentorId}';
-    final response =
-        await http.get(Uri.parse(apiUrl + '?id=' + mentorId.toString()));
+    String apiUrl = '${Path.path}/appointments/mentor/$mentorId';
+    final response = await http.get(Uri.parse('$apiUrl?id=$mentorId'));
     if (response.statusCode == 200) {
       List<dynamic> jsonArray = json.decode(response.body);
       List<AppointmentViewModel> viewModels = [];
@@ -36,7 +33,6 @@ class AppointmentService {
         viewModels.add(AppointmentViewModel.fromJson(jsonObject));
       }
       return viewModels;
-      ;
     } else {
       throw Exception('Failed to load booking view model');
     }

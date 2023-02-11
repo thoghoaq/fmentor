@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/mentee.dart';
 import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/review.dart';
 import 'package:mentoo/screens/my_appointments.dart';
 import 'package:mentoo/services/review_service.dart';
-import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+// ignore: must_be_immutable
 class WriteReview extends StatefulWidget {
   WriteReview(
       {super.key,
@@ -84,7 +82,7 @@ class _WriteReviewState extends State<WriteReview> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Text(
@@ -92,10 +90,10 @@ class _WriteReviewState extends State<WriteReview> {
             style: AppFonts.medium(18, Colors.black),
           ),
           Text(
-            "Mentor " + widget.mentor.user.name + "?",
+            "Mentor ${widget.mentor.user.name}?",
             style: AppFonts.medium(18, AppColors.mDarkPurple),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           RatingBar.builder(
@@ -106,8 +104,8 @@ class _WriteReviewState extends State<WriteReview> {
             unratedColor: Colors.amber.withAlpha(100),
             itemCount: 5,
             itemSize: 50.0,
-            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => Icon(
+            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => const Icon(
               Icons.star,
               color: Colors.amber,
             ),
@@ -119,7 +117,7 @@ class _WriteReviewState extends State<WriteReview> {
             },
             updateOnDrag: true,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -135,11 +133,11 @@ class _WriteReviewState extends State<WriteReview> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
@@ -153,14 +151,14 @@ class _WriteReviewState extends State<WriteReview> {
                 //print(value);
               },
               maxLines: 7,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 contentPadding: EdgeInsets.all(10),
                 hintText: "Type your message",
                 border: InputBorder.none,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Container(
@@ -188,12 +186,10 @@ class _WriteReviewState extends State<WriteReview> {
                       comment: _comment,
                     );
                     if (await ReviewService().createReview(review) != null) {
-                      var user = await UserService().getUser();
                       Get.to(MyAppointments(
                         userId: widget.menteeId,
                       ));
                     }
-                    ;
                   })),
         ]),
       ),

@@ -10,9 +10,9 @@ import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
-import 'package:mentoo/widgets/button.dart';
 import 'package:mentoo/widgets/loading.dart';
 import 'package:mentoo/widgets/no_data.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:url_launcher/url_launcher.dart';
 
 class MyMentees extends StatefulWidget {
@@ -42,13 +42,13 @@ class _MyMenteesState extends State<MyMentees> {
   }
 
   _fetchDataMentor() async {
-    var mentorId = await MentorService().getMentorById(widget.userId);
+    var mentorId = await MentorService().getMentorIdByUserId(widget.userId);
     //waiting tab
-    var booking =
-        await BookingServivce().fetchBookingViewModelMentor(widget.mentorId!);
+    var booking = await BookingServivce()
+        .fetchBookingViewModelMentor(int.parse(mentorId.toString()));
     //fetch all appointment
     var appointments = await AppointmentService()
-        .fetchAppointmentViewModelMentor(widget.mentorId);
+        .fetchAppointmentViewModelMentor(int.parse(mentorId.toString()));
     //upcomming tab
     var upcommingAppointmentsFiltered =
         appointments.where((element) => element.status != "Completed").toList();
@@ -121,15 +121,11 @@ class _MyMenteesState extends State<MyMentees> {
                   ? const Loading()
                   : _upcommingAppointments == null ||
                           _upcommingAppointments!.isEmpty
-                      ? NoData()
+                      ? const NoData()
                       : ListView.builder(
                           itemCount: _upcommingAppointments!.length,
                           itemBuilder: (context, index) {
                             var photo2 = _upcommingAppointments![index]
-                                .mentee!
-                                .user
-                                .photo;
-                            var photo3 = _upcommingAppointments![index]
                                 .mentee!
                                 .user
                                 .photo;
@@ -406,7 +402,7 @@ class _MyMenteesState extends State<MyMentees> {
               _loading
                   ? const Loading()
                   : _booking == null || _booking!.isEmpty
-                      ? NoData()
+                      ? const NoData()
                       : ListView.builder(
                           itemCount: _booking!.length,
                           itemBuilder: (context, index) {
@@ -434,323 +430,315 @@ class _MyMenteesState extends State<MyMentees> {
                                         .first
                                         .company
                                     : "";
-                            return FittedBox(
-                              child: Column(children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    isEmpty2
-                                        ? const CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                              "assets/images/profile.png",
+                            return Column(children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  isEmpty2
+                                      ? const CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                            "assets/images/profile.png",
+                                          ),
+                                          radius: 45,
+                                        )
+                                      : CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                            photo2,
+                                          ),
+                                          radius: 45,
+                                        ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          name2,
+                                          style:
+                                              AppFonts.medium(18, Colors.black),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 120,
+                                              child: RichText(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  text: TextSpan(
+                                                      text: role2,
+                                                      style: AppFonts.regular(
+                                                          12, Colors.black),
+                                                      children: [
+                                                        TextSpan(
+                                                            text: ", ",
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                            children: [
+                                                              TextSpan(
+                                                                text: company2,
+                                                                style: AppFonts
+                                                                    .regular(
+                                                                        12,
+                                                                        Colors
+                                                                            .black),
+                                                              )
+                                                            ])
+                                                      ])),
                                             ),
-                                            radius: 45,
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                              photo2,
+                                            const SizedBox(
+                                              width: 10,
                                             ),
-                                            radius: 45,
-                                          ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            name2,
-                                            style: AppFonts.medium(
-                                                18, Colors.black),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 120,
-                                                child: RichText(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    text: TextSpan(
-                                                        text: role2,
-                                                        style: AppFonts.regular(
-                                                            12, Colors.black),
-                                                        children: [
-                                                          TextSpan(
-                                                              text: ", ",
-                                                              style: AppFonts
-                                                                  .regular(
-                                                                      12,
-                                                                      Colors
-                                                                          .black),
-                                                              children: [
-                                                                TextSpan(
-                                                                  text:
-                                                                      company2,
-                                                                  style: AppFonts
-                                                                      .regular(
-                                                                          12,
-                                                                          Colors
-                                                                              .black),
-                                                                )
-                                                              ])
-                                                        ])),
+                                            Container(
+                                              width: 70,
+                                              height: 20,
+                                              decoration: BoxDecoration(
+                                                  color: _booking![index]
+                                                              .mentee
+                                                              ?.user
+                                                              .isMentor ==
+                                                          0
+                                                      ? AppColors.mLightPurple
+                                                      : AppColors.mLightRed,
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                  border: Border.all()),
+                                              child: Center(
+                                                child: Text(
+                                                  _booking![index]
+                                                              .mentee
+                                                              ?.user
+                                                              .isMentor ==
+                                                          0
+                                                      ? 'Mentee'
+                                                      : 'Mentor',
+                                                  style: AppFonts.regular(
+                                                      12, Colors.black),
+                                                ),
                                               ),
-                                              const SizedBox(
-                                                width: 10,
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.calendar_today_outlined,
+                                              size: 16,
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              _booking![index]
+                                                  .startTime
+                                                  .toString(),
+                                              style: AppFonts.regular(
+                                                  12, Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.schedule_outlined,
+                                              size: 18,
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "60 minutes",
+                                              style: AppFonts.regular(
+                                                  12, Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: "Google Meet - ",
+                                              style: AppFonts.regular(
+                                                  12, Colors.black),
+                                              children: [
+                                                TextSpan(
+                                                  text: _booking![index].status,
+                                                  style: AppFonts.medium(
+                                                      12, Colors.blue),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () => showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                              icon: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Colors.red,
+                                                size: 100,
                                               ),
-                                              Container(
-                                                width: 70,
-                                                height: 20,
-                                                decoration: BoxDecoration(
-                                                    color: _booking![index]
-                                                                .mentee
-                                                                ?.user
-                                                                .isMentor ==
-                                                            0
-                                                        ? AppColors.mLightPurple
-                                                        : AppColors.mLightRed,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                    border: Border.all()),
-                                                child: Center(
-                                                  child: Text(
-                                                    _booking![index]
-                                                                .mentee
-                                                                ?.user
-                                                                .isMentor ==
-                                                            0
-                                                        ? 'Mentee'
-                                                        : 'Mentor',
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
+                                              iconPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 30,
+                                                      vertical: 40),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  30))),
+                                              alignment: Alignment.center,
+                                              contentPadding:
+                                                  const EdgeInsets.all(30),
+                                              //insetPadding: EdgeInsets.all(30),
+                                              title: Text(
+                                                "Are you want to cancel?",
+                                                style: AppFonts.medium(
+                                                    20, AppColors.mDarkPurple),
+                                              ),
+                                              actionsAlignment:
+                                                  MainAxisAlignment.center,
+                                              actions: <Widget>[
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      bottom: 20, left: 30),
+                                                  width: 120,
+                                                  height: 46,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: AppColors
+                                                              .mLightPurple),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
+                                                  child: TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'No'),
+                                                    child: Text(
+                                                      'No',
+                                                      style: AppFonts.medium(
+                                                          18,
+                                                          AppColors
+                                                              .mLightPurple),
+                                                    ),
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.calendar_today_outlined,
-                                                size: 16,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                _booking![index]
-                                                    .startTime
-                                                    .toString(),
-                                                style: AppFonts.regular(
-                                                    12, Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.schedule_outlined,
-                                                size: 18,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "60 minutes",
-                                                style: AppFonts.regular(
-                                                    12, Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 20),
-                                            child: RichText(
-                                              text: TextSpan(
-                                                text: "Google Meet - ",
-                                                style: AppFonts.regular(
-                                                    12, Colors.black),
-                                                children: [
-                                                  TextSpan(
-                                                    text:
-                                                        _booking![index].status,
-                                                    style: AppFonts.medium(
-                                                        12, Colors.blue),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      bottom: 20, right: 30),
+                                                  width: 120,
+                                                  height: 46,
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .mLightPurple,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
+                                                  child: TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Yes'),
+                                                    child: Text(
+                                                      'Yes',
+                                                      style: AppFonts.medium(
+                                                          18, Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: Colors.black12)),
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 30,
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () => showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                                icon: const Icon(
-                                                  Icons.cancel_outlined,
-                                                  color: Colors.red,
-                                                  size: 100,
-                                                ),
-                                                iconPadding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 30,
-                                                        vertical: 40),
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    30))),
-                                                alignment: Alignment.center,
-                                                contentPadding:
-                                                    const EdgeInsets.all(30),
-                                                //insetPadding: EdgeInsets.all(30),
-                                                title: Text(
-                                                  "Are you want to cancel?",
-                                                  style: AppFonts.medium(20,
-                                                      AppColors.mDarkPurple),
-                                                ),
-                                                actionsAlignment:
-                                                    MainAxisAlignment.center,
-                                                actions: <Widget>[
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20,
-                                                            left: 30),
-                                                    width: 120,
-                                                    height: 46,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .mLightPurple),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30)),
-                                                    child: TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context, 'No'),
-                                                      child: Text(
-                                                        'No',
-                                                        style: AppFonts.medium(
-                                                            18,
-                                                            AppColors
-                                                                .mLightPurple),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20,
-                                                            right: 30),
-                                                    width: 120,
-                                                    height: 46,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .mLightPurple,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30)),
-                                                    child: TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context, 'Yes'),
-                                                      child: Text(
-                                                        'Yes',
-                                                        style: AppFonts.medium(
-                                                            18, Colors.white),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: Colors.black12)),
-                                        child: const Icon(
-                                          Icons.close,
-                                          size: 30,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  width: 250,
-                                  decoration: const BoxDecoration(
-                                      color: AppColors.mLightPurple,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  height: 40,
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          shadowColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) =>
-                                                      Colors.transparent),
-                                          backgroundColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) =>
-                                                      Colors.transparent)),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MenteeDetail(menteeId: 1)));
-                                      },
-                                      child: const Text("View Profile")),
-                                ),
-                                const SizedBox(
-                                  width: 250,
-                                  child: Divider(color: AppColors.mGray),
-                                ),
-                              ]),
-                            );
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 250,
+                                decoration: const BoxDecoration(
+                                    color: AppColors.mLightPurple,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                height: 40,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        shadowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Colors.transparent),
+                                        backgroundColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) =>
+                                                    Colors.transparent)),
+                                    onPressed: () {
+                                      var menteeId = _booking![index].menteeId;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MenteeDetail(
+                                                      menteeId: menteeId)));
+                                    },
+                                    child: const Text("View Profile")),
+                              ),
+                              const SizedBox(
+                                width: 250,
+                                child: Divider(color: AppColors.mGray),
+                              ),
+                            ]);
                           },
                         ),
               _loading
                   ? const Loading()
                   : _completedAppointments == null ||
                           _completedAppointments!.isEmpty
-                      ? NoData()
+                      ? const NoData()
                       : ListView.builder(
                           itemCount: _completedAppointments!.length,
                           itemBuilder: (context, index) {
@@ -951,7 +939,8 @@ class _MyMenteesState extends State<MyMentees> {
                                           height: 5,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 20),
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
                                               text: "Google Meet - ",

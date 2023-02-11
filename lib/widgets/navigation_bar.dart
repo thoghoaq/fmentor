@@ -5,18 +5,19 @@ import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/settings_page.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
-import 'package:mentoo/theme/fonts.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
   final int isMentor;
   final int initialPage;
 
-  MyBottomNavigationBar({
+  const MyBottomNavigationBar({
+    super.key,
     required this.isMentor,
     this.initialPage = 0,
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
 }
 
@@ -73,13 +74,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     switch (index) {
       case 0:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
         break;
       case 1:
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyAppointments(
+                builder: (context) => const MyAppointments(
                       userId: 1,
                     )));
         break;
@@ -91,7 +92,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyAppointments(
+                builder: (context) => const MyAppointments(
                       userId: 1,
                     )));
         break;
@@ -99,7 +100,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => SettingsPage(
+                builder: (context) => const SettingsPage(
                       isMentor: 1,
                     )));
         break;
@@ -120,7 +121,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       backgroundColor: AppColors.mNavigationBar,
       onTap: _selectPage,
       showSelectedLabels: false,
-      selectedIconTheme: IconThemeData(size: 30),
+      selectedIconTheme: const IconThemeData(size: 30),
       items: pages
           .where((element) => element['state'] == true)
           .map(

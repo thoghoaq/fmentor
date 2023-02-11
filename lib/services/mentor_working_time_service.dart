@@ -6,9 +6,8 @@ import 'package:http/http.dart' as http;
 
 class MentorWorkingTimeService {
   Future<List<MentorWorkingTime>> fetchMentorWorkingTime(int? mentorId) async {
-    String apiUrl = Path.path + '/mentorworkingtimes/${mentorId}';
-    final response =
-        await http.get(Uri.parse(apiUrl + '?id=' + mentorId.toString()));
+    String apiUrl = '${Path.path}/mentorworkingtimes/$mentorId';
+    final response = await http.get(Uri.parse('$apiUrl?id=$mentorId'));
     if (response.statusCode == 200) {
       List<dynamic> jsonArray = json.decode(response.body);
       List<MentorWorkingTime> mentorWorkingTime = [];

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -34,8 +33,8 @@ class _BookAppointmentState extends State<BookAppointment> {
   bool _loading = true;
   bool bookingSuccess = false;
   List<MentorWorkingTime> _mentorWorkingTime = [];
-  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
-  BookingRequestModel _booking = new BookingRequestModel();
+  TimeOfDay _time = const TimeOfDay(hour: 7, minute: 15);
+  final BookingRequestModel _booking = BookingRequestModel();
 
   DateTime _date = DateTime.now();
   final DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm aa');
@@ -133,7 +132,7 @@ class _BookAppointmentState extends State<BookAppointment> {
     var mentorInfo = widget.mentor.user;
     var listDay = "";
     for (MentorWorkingTime day in _mentorWorkingTime) {
-      listDay += day.dayOfWeek.toString().substring(0, 3) + " - ";
+      listDay += "${day.dayOfWeek.toString().substring(0, 3)} - ";
     }
     listDay =
         listDay.isNotEmpty ? listDay.substring(0, listDay.length - 3) : "";
@@ -157,7 +156,7 @@ class _BookAppointmentState extends State<BookAppointment> {
           ),
         ),
         body: _loading
-            ? Loading()
+            ? const Loading()
             : Padding(
                 padding: EdgeInsets.only(
                     left: AppCommon.screenWidthUnit(context),
@@ -167,7 +166,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           height: 90,
                           child: Row(children: [
                             mentorInfo.photo.replaceAll(" ", "").isEmpty
@@ -222,7 +221,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                                       ])
                                                 ])),
                                           )
-                                        : SizedBox(),
+                                        : const SizedBox(),
                                     SizedBox(
                                       width:
                                           mentorInfo.jobs!.isNotEmpty ? 10 : 0,
@@ -249,25 +248,25 @@ class _BookAppointmentState extends State<BookAppointment> {
                             )
                           ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           "Working time",
                           style: AppFonts.bold(25, AppColors.mDarkPurple),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.calendar_today_outlined,
                               size: 20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
@@ -276,18 +275,18 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.schedule_outlined,
                               size: 20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
@@ -296,10 +295,10 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Center(
+                        const Center(
                           child: SizedBox(
                             width: 300,
                             child: Divider(
@@ -307,7 +306,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         RichText(
@@ -323,7 +322,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -355,7 +354,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         RichText(
@@ -371,7 +370,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -379,14 +378,14 @@ class _BookAppointmentState extends State<BookAppointment> {
                           child: DropdownButtonFormField(
                             //icon: const Icon(Icons.expand_more),
                             iconEnabledColor: AppColors.mDarkPurple,
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8.0)),
                                   borderSide: BorderSide(
                                       color: Colors.blue, width: 20)),
                               contentPadding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                                  EdgeInsets.only(left: 10, right: 10),
                               filled: true,
                               fillColor: AppColors.mBackground,
                             ),
@@ -447,19 +446,19 @@ class _BookAppointmentState extends State<BookAppointment> {
                         //               color: AppColors.mDarkPurple,
                         //               width: 20))),
                         // ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           "Appointment type",
                           style: AppFonts.bold(25, AppColors.mDarkPurple),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
                             height: 56,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: AppColors.mBackground,
                                 //borderRadius: BorderRadius.circular(5),
                                 border: Border(
@@ -468,11 +467,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Image.asset("assets/images/google_meet.png"),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 Text(
@@ -482,7 +481,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 )
                               ],
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
@@ -498,17 +497,18 @@ class _BookAppointmentState extends State<BookAppointment> {
                             onPressed: () async {
                               bookingSuccess =
                                   await BookingServivce().postBooking(_booking);
+                              // ignore: use_build_context_synchronously
                               showDialogWidget(context);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.calendar_today_outlined,
                                   size: 20,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text('Book',
@@ -520,7 +520,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                       ]),

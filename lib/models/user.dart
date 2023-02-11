@@ -393,7 +393,7 @@ class UserPermission {
 
   factory UserPermission.fromJson(dynamic json) {
     return UserPermission(
-      isMentor: json['isMentor'] == null ? null : json['isMentor'],
+      isMentor: json['isMentor'],
       canSeeSettings: json['canSeeSettings'],
       canSeePolicy: json['canSeePolicy'],
       canLogout: json['canLogout'],
