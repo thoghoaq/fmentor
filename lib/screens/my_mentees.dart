@@ -335,7 +335,7 @@ class _MyMenteesState extends State<MyMentees> {
                                               const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: "Google Meet - ",
+                                              text: "Zoom - ",
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                               children: [
@@ -391,6 +391,8 @@ class _MyMenteesState extends State<MyMentees> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Text(
+                                    "Password: ${_upcommingAppointments![index].password}"),
                                 const SizedBox(
                                   width: 26,
                                   child: Divider(color: AppColors.mGray),
@@ -582,7 +584,7 @@ class _MyMenteesState extends State<MyMentees> {
                                               const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: "Google Meet - ",
+                                              text: "Zoom - ",
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                               children: [
@@ -723,7 +725,9 @@ class _MyMenteesState extends State<MyMentees> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   MenteeDetail(
-                                                      menteeId: menteeId)));
+                                                    menteeId: menteeId,
+                                                    booking: _booking![index],
+                                                  )));
                                     },
                                     child: const Text("View Profile")),
                               ),
@@ -943,7 +947,7 @@ class _MyMenteesState extends State<MyMentees> {
                                               const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: "Google Meet - ",
+                                              text: "Zoom - ",
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                               children: [

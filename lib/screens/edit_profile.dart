@@ -84,36 +84,36 @@ class _EditProfileState extends State<EditProfile> {
             SizedBox(
               height: labelTextBoxSpace,
             ),
-            TextFormField(
-              keyboardType: TextInputType.multiline,
-              minLines: 7,
-              maxLines: 10,
-              //initialValue: "Type your message",
-              decoration: InputDecoration(
-                hintText: "Type your message",
-                  borderSide: BorderSide(
-                    color: AppColors.mDarkPurple,
-                  ),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(
-                    color: AppColors.mDarkPurple,
-                  ),
-                ),
-                contentPadding: const EdgeInsets.all(10),
-                filled: true,
-                // fillColor: AppColors.grayColor,
-                // focusColor: AppColors.grayColor,
-                // hoverColor: AppColors.grayColor,
-                //labelText: lable,
-                labelStyle: AppFonts.medium(16, AppColors.mText),
-                //errorText: 'Error message',
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-              ),
-            ),
+            // TextFormField(
+            //   keyboardType: TextInputType.multiline,
+            //   minLines: 7,
+            //   maxLines: 10,
+            //   //initialValue: "Type your message",
+            //   decoration: InputDecoration(
+            //     hintText: "Type your message",
+            //       borderSide: BorderSide(
+            //         color: AppColors.mDarkPurple,
+            //       ),
+            //     ),
+            //     enabledBorder: const OutlineInputBorder(
+            //       borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            //       borderSide: BorderSide(
+            //         color: AppColors.mDarkPurple,
+            //       ),
+            //     ),
+            //     contentPadding: const EdgeInsets.all(10),
+            //     filled: true,
+            //     // fillColor: AppColors.grayColor,
+            //     // focusColor: AppColors.grayColor,
+            //     // hoverColor: AppColors.grayColor,
+            //     //labelText: lable,
+            //     labelStyle: AppFonts.medium(16, AppColors.mText),
+            //     //errorText: 'Error message',
+            //     border: const OutlineInputBorder(
+            //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: AppCommon.screenHeightUnit(context) * 0.2,
             ),
