@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:mentoo/models/user.dart';
+import 'package:mentoo/models/view/booking_view.dart';
+import 'package:mentoo/services/appointment_service.dart';
+import 'package:mentoo/services/booking_service.dart';
 import 'package:mentoo/services/mentee_service.dart';
 
 // ignore: library_prefixes
@@ -11,12 +14,15 @@ import 'package:mentoo/models/mentee.dart' as Mentee;
 
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
+import 'package:mentoo/widgets/alert_dialog.dart';
 import 'package:mentoo/widgets/loading.dart';
 
 // ignore: must_be_immutable
 class MenteeDetail extends StatefulWidget {
+  BookingViewModel? booking;
   int menteeId;
-  MenteeDetail({Key? key, required this.menteeId}) : super(key: key);
+  MenteeDetail({Key? key, required this.menteeId, this.booking})
+      : super(key: key);
 
   @override
   State<MenteeDetail> createState() => _MenteeDetailState();
@@ -27,6 +33,7 @@ class _MenteeDetailState extends State<MenteeDetail> {
   User? _user;
   late String _menteeId;
   bool? _isFollowed;
+  BookingViewModel? _booking;
 
   var isLoaded = false;
 
@@ -40,8 +47,11 @@ class _MenteeDetailState extends State<MenteeDetail> {
     _menteeId = widget.menteeId.toString();
     var mentee = await MenteeService().getMenteeById(int.parse(_menteeId));
     setState(() {
+      _isFollowed = false;
       _mentee = mentee!;
+      _user = _mentee.user;
       isLoaded = true;
+      _booking = widget.booking;
     });
   }
 
@@ -67,7 +77,8 @@ class _MenteeDetailState extends State<MenteeDetail> {
                         expandedHeight: 500,
                         mentee: _mentee,
                         isFollowed: _isFollowed!,
-                        menteeId: _menteeId),
+                        menteeId: _menteeId,
+                        booking: _booking),
                   ),
                   const SliverAppBar(
                     //expandedHeight: 0,
@@ -239,13 +250,51 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   bool isFollowed;
   int userId;
   String menteeId;
+  BookingViewModel? booking;
+  bool bookingSuccess = false;
 
   CustomSliverAppBarDelegate(
       {required this.expandedHeight,
       required this.mentee,
       required this.isFollowed,
       required this.userId,
-      required this.menteeId});
+      required this.menteeId,
+      required this.booking});
+
+  void showDialogWidget(BuildContext context) {
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => bookingSuccess
+            ? AlertPopup(
+                icon: Image.asset("assets/images/booking_success.png"),
+                title: "Sucess",
+                message:
+                    "Your appointment make successfully completed. Follow your time to meet mentee",
+                buttons: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: Text(
+                      'OK',
+                      style: AppFonts.medium(18, Colors.white),
+                    ),
+                  ),
+                ],
+              )
+            : AlertPopup(
+                icon: Image.asset("assets/images/booking_fail.png"),
+                title: "Opps, Failed",
+                message: "Something when wrong",
+                buttons: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: Text(
+                      'Try again',
+                      style: AppFonts.medium(18, Colors.white),
+                    ),
+                  ),
+                ],
+              ));
+  }
 
   @override
   Widget build(
@@ -302,7 +351,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           top: 320,
           left: 20,
           right: 20,
-          child: buildFloating(shrinkOffset),
+          child: buildFloating(shrinkOffset, context),
         ),
       ],
     );
@@ -315,13 +364,18 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   Widget buildBackground(double shrinkOffset, Mentee.Mentee mentee) => Opacity(
         opacity: disappear(shrinkOffset),
-        child: Image.network(
-          mentee.user.photo,
-          fit: BoxFit.cover,
-        ),
+        child: mentee.user.photo.replaceAll(" ", "").isNotEmpty
+            ? Image.network(
+                mentee.user.photo,
+                fit: BoxFit.cover,
+              )
+            : Image.asset(
+                "assets/images/profile.png",
+                fit: BoxFit.cover,
+              ),
       );
 
-  Widget buildFloating(double shrinkOffset) => Visibility(
+  Widget buildFloating(double shrinkOffset, BuildContext context) => Visibility(
         visible: shrinkOffset > 0 ? false : true,
         child: Stack(clipBehavior: Clip.none, children: [
           Container(
@@ -370,7 +424,9 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 height: 5,
               ),
               Text(
-                "${mentee.user.jobs![0].role}, ${mentee.user.jobs![0].company}",
+                mentee.user.jobs != null && mentee.user.jobs!.isNotEmpty
+                    ? "${mentee.user.jobs![0].role}, ${mentee.user.jobs![0].company}"
+                    : "No job data",
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
@@ -407,37 +463,45 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
           InkWell(
-            // onTap: () => Get.to(
-            //     BookAppointment(mentee: mentee, menteeId: int.parse(menteeId))),
+            onTap: () async {
+              if (booking != null) {
+                bookingSuccess = await AppointmentService()
+                    .createAppointment(booking!.bookingId, null);
+                // ignore: use_build_context_synchronously
+                showDialogWidget(context);
+              }
+            },
             child: Padding(
-              padding: const EdgeInsets.only(top: 120, left: 70),
-              child: Container(
-                alignment: Alignment.topCenter,
-                width: 250,
-                height: 56,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.mLightPurple,
+              padding: const EdgeInsets.only(top: 120),
+              child: Center(
+                child: Container(
+                  alignment: Alignment.topCenter,
+                  width: 150,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 24, 128, 56),
+                  ),
+                  child: Center(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                        Icon(
+                          Icons.approval_outlined,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Accept",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ])),
                 ),
-                child: Center(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                      Icon(
-                        Icons.calendar_month_sharp,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "Book Appointment",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ])),
               ),
             ),
           ),

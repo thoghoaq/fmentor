@@ -313,7 +313,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: "Google Meet - ",
+                                              text: "Zoom - ",
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                               children: [
@@ -369,6 +369,8 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Text(
+                                    "Password: ${_upcommingAppointments![index].password}"),
                                 const SizedBox(
                                   width: 250,
                                   child: Divider(color: AppColors.mGray),
@@ -551,7 +553,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: "Google Meet - ",
+                                              text: "Zoom - ",
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                               children: [
@@ -874,7 +876,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                               const EdgeInsets.only(left: 20),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: "Google Meet - ",
+                                              text: "Zoom - ",
                                               style: AppFonts.regular(
                                                   12, Colors.black),
                                               children: [
