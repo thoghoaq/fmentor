@@ -121,6 +121,7 @@ class _SignIn extends State<SignIn> {
                           child: TextField(
                             onSubmitted: (value) =>
                                 {_signinModel.email = value},
+                            onChanged: (value) => _signinModel.email = value,
                             textAlignVertical: TextAlignVertical.bottom,
                             cursorColor: AppColors.mDarkPurple,
                             decoration: const InputDecoration(
@@ -155,6 +156,7 @@ class _SignIn extends State<SignIn> {
                           child: TextField(
                             onSubmitted: (value) =>
                                 {_signinModel.password = value},
+                            onChanged: (value) => _signinModel.password = value,
                             obscureText: passEnable,
                             cursorColor: AppColors.mDarkPurple,
                             textAlignVertical: TextAlignVertical.bottom,

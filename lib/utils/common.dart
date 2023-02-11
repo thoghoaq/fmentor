@@ -20,8 +20,8 @@ class AppCommon {
     return MediaQuery.of(context).size.height * Constants.SCREEN_DIVIDE_VALUE;
   }
 
-  static navigateToChooseMajor(context) {
-    return Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => const ChooseMajor()));
-  }
+  // static navigateToChooseMajor(context) {
+  //   return Navigator.of(context).pushReplacement(MaterialPageRoute(
+  //       builder: (BuildContext context) => const ChooseMajor()));
+  // }
 }

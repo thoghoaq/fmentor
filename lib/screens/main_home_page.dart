@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
     },
     {
       'title': 'Profile',
-      'icon': Icons.person,
+      'icon': Icons.person_outline,
       'state': true,
     },
     {
@@ -116,7 +116,7 @@ class _MainPageState extends State<MainPage> {
         },
         {
           'title': 'Profile',
-          'icon': Icons.person,
+          'icon': Icons.person_outline,
           'state': true,
         },
         {

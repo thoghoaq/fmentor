@@ -1,13 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/models/specialty.dart';
+import 'package:mentoo/screens/home_page.dart';
+import 'package:mentoo/screens/main_home_page.dart';
+import 'package:mentoo/services/specialty_service.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/loading.dart';
 
 class ChooseMajor extends StatefulWidget {
-  const ChooseMajor({super.key});
+  ChooseMajor({super.key, required this.userId});
+  int userId;
 
   @override
   State<ChooseMajor> createState() => _ChooseMajorState();
@@ -19,50 +27,58 @@ class Major {
   Major({this.name, this.avatar});
 }
 
-List<Major> majorList = [
-  Major(name: "Marketing", avatar: ""),
-  Major(name: "UI/UX", avatar: ""),
-  Major(name: "Business", avatar: ""),
-  Major(name: "Hotel", avatar: ""),
-  Major(name: "Software Engineering", avatar: ""),
-  Major(name: "Human Resources", avatar: ""),
-  Major(name: "Education", avatar: ""),
-  Major(name: "Dietetics ", avatar: ""),
-  Major(name: "Biomedical Engineering", avatar: ""),
-  Major(name: "Forensic", avatar: ""),
-  Major(name: "Speech-Language Pathology", avatar: ""),
-  Major(name: "Graphic Design ", avatar: ""),
-  Major(name: "Marketing", avatar: ""),
-  Major(name: "UI/UX", avatar: ""),
-  Major(name: "Business", avatar: ""),
-  Major(name: "Hotel", avatar: ""),
-  Major(name: "Software Engineering", avatar: ""),
-  Major(name: "Human Resources", avatar: ""),
-  Major(name: "Education", avatar: ""),
-  Major(name: "Dietetics ", avatar: ""),
-  Major(name: "Biomedical Engineering", avatar: ""),
-  Major(name: "Forensic", avatar: ""),
-  Major(name: "Speech-Language Pathology", avatar: ""),
-  Major(name: "Graphic Design ", avatar: ""),
-];
-
 class _ChooseMajorState extends State<ChooseMajor> {
+  List<Specialty>? _specialties;
   List<Major>? selectedMajorList = [];
+  List<Major> _majors = [];
+
+  var isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  void _getData() async {
+    _specialties = await SpecialtyService().getSpecialties();
+    //if (!mounted) return;
+    setState(() {
+      if (_specialties != null) {
+        for (var specialty in _specialties!) {
+          _majors.add(Major(avatar: specialty.picture, name: specialty.name));
+        }
+        isLoaded = true;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double whiteSpace = AppCommon.screenHeight(context) * 0.1;
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.bottomCenter,
-        height: AppCommon.screenHeight(context),
-        child: Column(
-          children: [
-            Header(whiteSpace: whiteSpace),
-            ListMajors(selectedMajorList: selectedMajorList),
-          ],
-        ),
-      ),
-    );
+    return !isLoaded
+        ? Loading()
+        : Scaffold(
+            body: Container(
+              alignment: Alignment.bottomCenter,
+              height: AppCommon.screenHeight(context),
+              child: Column(
+                children: [
+                  Header(whiteSpace: whiteSpace),
+                  ListMajors(
+                    selectedMajorList: selectedMajorList,
+                    majorList: _majors,
+                    userId: widget.userId,
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
 
@@ -116,12 +132,18 @@ class Header extends StatelessWidget {
 }
 
 class ListMajors extends StatelessWidget {
-  const ListMajors({
-    Key? key,
-    required this.selectedMajorList,
-  }) : super(key: key);
+  ListMajors(
+      {Key? key,
+      required this.selectedMajorList,
+      required this.majorList,
+      specialtiesName,
+      required this.userId})
+      : super(key: key);
 
   final List<Major>? selectedMajorList;
+  final List<Major> majorList;
+  List<String?>? specialtiesName = [];
+  int userId;
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +194,23 @@ class ListMajors extends StatelessWidget {
         listData: majorList,
         applyButtonText: 'Submit',
         selectedListData: selectedMajorList,
-        onApplyButtonClick: (list) {
+        onApplyButtonClick: (list) async {
           // do something with list ..
+
+          for (var element in list!) {
+            print(element.name);
+            specialtiesName!.add(element.name);
+          }
+          var isAdd =
+              await UserService().addSpecialties(specialtiesName!, userId);
+          if (isAdd!)
+            Get.to(MainPage(
+              isMentor: 0,
+              initialPage: 0,
+              userId: userId,
+              //menteeId: ,
+            ));
+          //print(selectedMajorList);
         },
         choiceChipLabel: (item) {
           /// Used to display text on chip
@@ -181,6 +218,7 @@ class ListMajors extends StatelessWidget {
         },
         validateSelectedItem: (list, val) {
           ///  identify if item is selected or not
+
           return list!.contains(val);
         },
         onItemSearch: (major, query) {

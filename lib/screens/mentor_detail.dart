@@ -181,7 +181,8 @@ class _MentorDetailState extends State<MentorDetail> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Marketer",
+                                                    _mentor
+                                                        .user.jobs![index].role,
                                                     style: AppFonts.medium(
                                                         18, Colors.black),
                                                   ),
@@ -189,7 +190,8 @@ class _MentorDetailState extends State<MentorDetail> {
                                                     width: 30,
                                                   ),
                                                   Text(
-                                                    "Shoppe",
+                                                    _mentor.user.jobs![index]
+                                                        .company,
                                                     style: AppFonts.medium(14,
                                                         AppColors.mGrayStroke),
                                                   ),

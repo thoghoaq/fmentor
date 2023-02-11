@@ -1,9 +1,11 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:mentoo/models/mentor.dart' as mentors;
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
+import 'package:mentoo/screens/edit_profile.dart';
 import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -71,7 +73,7 @@ class _ProfileState extends State<Profile> {
                 slivers: <Widget>[
                   SliverPersistentHeader(
                     delegate: CustomSliverAppBarDelegate(
-                      expandedHeight: 400,
+                      expandedHeight: 485,
                       isViewMentor: widget.isViewMentor,
                       mentor: _mentor,
                       user: _user,
@@ -80,31 +82,33 @@ class _ProfileState extends State<Profile> {
                   const SliverAppBar(
                     backgroundColor: Colors.white,
                     pinned: true,
-                    title: Text(
-                      "Profile",
-                      style: TextStyle(
-                          color: AppColors.mLightPurple, fontSize: 24),
-                    ),
+                    // title: Text(
+                    //   "Profile",
+                    //   style: TextStyle(color: AppColors.mLightPurple),
+                    // ),
                     centerTitle: true,
                     elevation: 0,
-                    bottom: TabBar(
-                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                        indicatorColor: AppColors.mLightPurple,
-                        labelColor: AppColors.mLightPurple,
-                        labelStyle: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                        unselectedLabelColor: AppColors.mGrayStroke,
-                        tabs: [
-                          Tab(
-                            text: "Profile",
-                          ),
-                          Tab(
-                            text: "Reviews",
-                          ),
-                          Tab(
-                            text: "Cetificates",
-                          ),
-                        ]),
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(0.0),
+                      child: TabBar(
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          indicatorColor: AppColors.mLightPurple,
+                          labelColor: AppColors.mLightPurple,
+                          labelStyle: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          unselectedLabelColor: AppColors.mGrayStroke,
+                          tabs: [
+                            Tab(
+                              text: "Profile",
+                            ),
+                            Tab(
+                              text: "Reviews",
+                            ),
+                            Tab(
+                              text: "Cetificates",
+                            ),
+                          ]),
+                    ),
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate(
@@ -149,342 +153,125 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(width: 30),
-                                            const Icon(
-                                              Icons.adjust_rounded,
-                                              size: 30,
-                                              color: AppColors.mLightPurple,
-                                            ),
-                                            const SizedBox(width: 30),
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .mGrayStroke),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: Image.asset(
-                                                'assets/images/apple.png',
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Marketer",
-                                                  style: AppFonts.medium(
-                                                      18, Colors.black),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "Shoppe",
-                                                  style: AppFonts.medium(14,
-                                                      AppColors.mGrayStroke),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "August 2019 - Now",
-                                                  style: AppFonts.regular(12,
-                                                      AppColors.mGrayStroke),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: 43),
-                                          child: DottedLine(
-                                            lineLength: 50,
-                                            dashColor: AppColors.mDarkPurple,
-                                            direction: Axis.vertical,
-                                            lineThickness: 2,
+                                  _user!.jobs != null
+                                      ? SizedBox(
+                                          height: 100 *
+                                              _user!.jobs!.length.toDouble(),
+                                          child: ListView.builder(
+                                            itemCount: _user!.jobs!.length,
+                                            itemBuilder: (context, index) {
+                                              return Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(width: 30),
+                                                      Icon(
+                                                        Icons.adjust_rounded,
+                                                        size: 30,
+                                                        color: AppColors
+                                                            .mLightPurple,
+                                                      ),
+                                                      SizedBox(width: 30),
+                                                      Container(
+                                                        width: 40,
+                                                        height: 40,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: AppColors
+                                                                    .mGrayStroke),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        7)),
+                                                        child: Image.asset(
+                                                          'assets/images/apple.png',
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 20),
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            _user!.jobs![index]
+                                                                .role,
+                                                            style:
+                                                                AppFonts.medium(
+                                                                    18,
+                                                                    Colors
+                                                                        .black),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 30,
+                                                          ),
+                                                          Text(
+                                                            _user!.jobs![index]
+                                                                .company,
+                                                            style: AppFonts.medium(
+                                                                14,
+                                                                AppColors
+                                                                    .mGrayStroke),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 30,
+                                                          ),
+                                                          Text(
+                                                            DateFormat("MMMM yyyy")
+                                                                    .format(_user!
+                                                                        .jobs![
+                                                                            index]
+                                                                        .startDate) +
+                                                                " - " +
+                                                                (_user!.jobs![index].endDate ==
+                                                                        null
+                                                                    ? "Now"
+                                                                    : DateFormat(
+                                                                            "MMMM yyyy")
+                                                                        .format(_user!
+                                                                            .jobs![index]
+                                                                            .endDate!)),
+                                                            style: AppFonts.regular(
+                                                                12,
+                                                                AppColors
+                                                                    .mGrayStroke),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  index !=
+                                                          _user!.jobs!.length -
+                                                              1
+                                                      ? Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 43),
+                                                          child: DottedLine(
+                                                            lineLength: 50,
+                                                            dashColor: AppColors
+                                                                .mDarkPurple,
+                                                            direction:
+                                                                Axis.vertical,
+                                                            lineThickness: 2,
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                ],
+                                              );
+                                            },
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(width: 30),
-                                            const Icon(
-                                              Icons.adjust_rounded,
-                                              size: 30,
-                                              color: AppColors.mLightPurple,
-                                            ),
-                                            const SizedBox(width: 30),
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .mGrayStroke),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: Image.asset(
-                                                'assets/images/apple.png',
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Marketer",
-                                                  style: AppFonts.medium(
-                                                      18, Colors.black),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "Shoppe",
-                                                  style: AppFonts.medium(14,
-                                                      AppColors.mGrayStroke),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "August 2019 - Now",
-                                                  style: AppFonts.regular(12,
-                                                      AppColors.mGrayStroke),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: 43),
-                                          child: DottedLine(
-                                            lineLength: 50,
-                                            dashColor: AppColors.mDarkPurple,
-                                            direction: Axis.vertical,
-                                            lineThickness: 2,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(width: 30),
-                                            const Icon(
-                                              Icons.adjust_rounded,
-                                              size: 30,
-                                              color: AppColors.mLightPurple,
-                                            ),
-                                            const SizedBox(width: 30),
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .mGrayStroke),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: Image.asset(
-                                                'assets/images/apple.png',
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Marketer",
-                                                  style: AppFonts.medium(
-                                                      18, Colors.black),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "Shoppe",
-                                                  style: AppFonts.medium(14,
-                                                      AppColors.mGrayStroke),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "August 2019 - Now",
-                                                  style: AppFonts.regular(12,
-                                                      AppColors.mGrayStroke),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: 43),
-                                          child: DottedLine(
-                                            lineLength: 50,
-                                            dashColor: AppColors.mDarkPurple,
-                                            direction: Axis.vertical,
-                                            lineThickness: 2,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(width: 30),
-                                            const Icon(
-                                              Icons.adjust_rounded,
-                                              size: 30,
-                                              color: AppColors.mLightPurple,
-                                            ),
-                                            const SizedBox(width: 30),
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .mGrayStroke),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: Image.asset(
-                                                'assets/images/apple.png',
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Marketer",
-                                                  style: AppFonts.medium(
-                                                      18, Colors.black),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "Shoppe",
-                                                  style: AppFonts.medium(14,
-                                                      AppColors.mGrayStroke),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "August 2019 - Now",
-                                                  style: AppFonts.regular(12,
-                                                      AppColors.mGrayStroke),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: 43),
-                                          child: DottedLine(
-                                            lineLength: 50,
-                                            dashColor: AppColors.mDarkPurple,
-                                            direction: Axis.vertical,
-                                            lineThickness: 2,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(width: 30),
-                                            const Icon(
-                                              Icons.adjust_rounded,
-                                              size: 30,
-                                              color: AppColors.mLightPurple,
-                                            ),
-                                            const SizedBox(width: 30),
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .mGrayStroke),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: Image.asset(
-                                                'assets/images/apple.png',
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Marketer",
-                                                  style: AppFonts.medium(
-                                                      18, Colors.black),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "Shoppe",
-                                                  style: AppFonts.medium(14,
-                                                      AppColors.mGrayStroke),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  "August 2019 - Now",
-                                                  style: AppFonts.regular(12,
-                                                      AppColors.mGrayStroke),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                        )
+                                      : Container()
                                 ],
                               ),
                               const Text("Comming soon"),
@@ -545,6 +332,18 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       //overflow: Overflow.visible,
       children: [
         buildBackground(shrinkOffset),
+        Positioned(
+          top: 400,
+          right: 0,
+          child: Visibility(
+            visible: shrinkOffset > 0 ? false : true,
+            child: Container(
+              height: 85,
+              width: 500,
+              color: Colors.white,
+            ),
+          ),
+        ),
         Positioned(
           top: 320,
           left: 20,
@@ -742,45 +541,76 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                           ),
               ),
             ),
-            Positioned(
-              bottom: -25,
-              left: 50,
-              right: 50,
-              child: Center(
-                child: isViewMentor == null
-                    ? Container(
-                        alignment: Alignment.bottomCenter,
-                        width: 160,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.mLightPurple,
-                        ),
-                        child: Center(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const [
-                              Icon(
-                                Icons.edit_outlined,
-                                color: Colors.white,
-                                size: 25,
+            InkWell(
+              onTap: () => Get.to(EditProfile()),
+              child: Padding(
+                padding: EdgeInsets.only(top: 115, left: 10),
+                child: Center(
+                  child: isViewMentor == null
+                      ? Container(
+                          alignment: Alignment.bottomCenter,
+                          width: 160,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.mLightPurple,
+                          ),
+                          child: Center(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                Icon(
+                                  Icons.edit_outlined,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  "Edit profile",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ])),
+                        )
+                      : isViewMentor == true
+                          ? InkWell(
+                              onTap: () => Get.to(BookAppointment(
+                                  menteeId: 1, mentor: mentor!)),
+                              child: Container(
+                                alignment: Alignment.topCenter,
+                                width: 250,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColors.mLightPurple,
+                                ),
+                                child: Center(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                      Icon(
+                                        Icons.calendar_month_sharp,
+                                        color: Colors.white,
+                                        size: 25,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        "Book Appointment",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ])),
                               ),
-                              SizedBox(width: 10),
-                              Text(
-                                "Edit profile",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ])),
-                      )
-                    : isViewMentor == true
-                        ? InkWell(
-                            onTap: () => Get.to(
-                                BookAppointment(menteeId: 1, mentor: mentor!)),
-                            child: Container(
+                            )
+                          : Container(
                               alignment: Alignment.topCenter,
                               width: 250,
                               height: 50,
@@ -802,7 +632,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                                     ),
                                     SizedBox(width: 10),
                                     Text(
-                                      "Book Appointment",
+                                      "Book Appointments",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
@@ -810,36 +640,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                                     )
                                   ])),
                             ),
-                          )
-                        : Container(
-                            alignment: Alignment.topCenter,
-                            width: 250,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.mLightPurple,
-                            ),
-                            child: Center(
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: const [
-                                  Icon(
-                                    Icons.calendar_month_sharp,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    "Book Appointments",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ])),
-                          ),
+                ),
               ),
             ),
           ]),
