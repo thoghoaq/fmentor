@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/request/signin_request_model.dart';
+import 'package:mentoo/models/request/user_request_model.dart';
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/models/view/sign_up_view.dart';
@@ -128,5 +129,18 @@ class UserService {
   Future<void> clearSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
+  }
+
+  Future<User?> updateUser(UserRequestModel user, int id) async {
+    var url = Uri.parse(Path.path + "/users/" + id.toString());
+    var response = await http.put(url,
+        headers: {"accept": "text/plain", "Content-Type": "application/json"},
+        body: jsonEncode(user));
+
+    if (response.statusCode == 200) {
+      User _user = User.fromJson(jsonDecode(response.body));
+      return _user;
+    } else
+      throw Exception(response.body);
   }
 }

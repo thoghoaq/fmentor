@@ -107,7 +107,7 @@ class User {
         "description": description,
         "videoIntroduction": videoIntroduction,
         "photo": photo,
-        "jobs": jobs == null
+        "jobs": jobs != null
             ? List<dynamic>.from(jobs!.map((x) => x.toJson()))
             : null,
         "educations": educations != null
@@ -171,7 +171,7 @@ class Education {
         "school": school,
         "major": major,
         "startDate": startDate.toIso8601String(),
-        "endDate": endDate!.toIso8601String(),
+        "endDate": endDate == null ? null : endDate!.toIso8601String(),
         "isCurrent": isCurrent,
       };
 }
@@ -212,7 +212,7 @@ class Job {
         "company": company,
         "role": role,
         "startDate": startDate.toIso8601String(),
-        "endDate": endDate!.toIso8601String(),
+        "endDate": endDate == null ? null : endDate!.toIso8601String(),
         "isCurrent": isCurrent,
       };
 }

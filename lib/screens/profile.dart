@@ -1,17 +1,25 @@
+import 'dart:io';
+
 import 'package:dotted_line/dotted_line.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:mentoo/models/mentor.dart' as mentors;
+import 'package:mentoo/models/request/user_request_model.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
 import 'package:mentoo/screens/edit_profile.dart';
+import 'package:mentoo/screens/main_home_page.dart';
 import 'package:mentoo/services/mentor_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/alert_dialog.dart';
 import 'package:mentoo/widgets/loading.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   final int? userId;
@@ -30,6 +38,7 @@ class _ProfileState extends State<Profile> {
   mentors.Mentor? _mentor;
   User? _user;
   bool _loading = true;
+  String imageUrl = "";
 
   _ProfileState();
 
@@ -73,11 +82,11 @@ class _ProfileState extends State<Profile> {
                 slivers: <Widget>[
                   SliverPersistentHeader(
                     delegate: CustomSliverAppBarDelegate(
-                      expandedHeight: 485,
-                      isViewMentor: widget.isViewMentor,
-                      mentor: _mentor,
-                      user: _user,
-                    ),
+                        expandedHeight: 485,
+                        isViewMentor: widget.isViewMentor,
+                        mentor: _mentor,
+                        user: _user,
+                        imageUrl: imageUrl),
                   ),
                   const SliverAppBar(
                     backgroundColor: Colors.white,
@@ -155,12 +164,16 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   _user!.jobs != null
                                       ? SizedBox(
-                                          height: 100 *
+                                          height: 130 *
                                               _user!.jobs!.length.toDouble(),
                                           child: ListView.builder(
                                             itemCount: _user!.jobs!.length,
                                             itemBuilder: (context, index) {
                                               return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
                                                     mainAxisAlignment:
@@ -177,22 +190,22 @@ class _ProfileState extends State<Profile> {
                                                             .mLightPurple,
                                                       ),
                                                       SizedBox(width: 30),
-                                                      Container(
-                                                        width: 40,
-                                                        height: 40,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color: AppColors
-                                                                    .mGrayStroke),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        7)),
-                                                        child: Image.asset(
-                                                          'assets/images/apple.png',
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 20),
+                                                      // Container(
+                                                      //   width: 40,
+                                                      //   height: 40,
+                                                      //   decoration: BoxDecoration(
+                                                      //       border: Border.all(
+                                                      //           color: AppColors
+                                                      //               .mGrayStroke),
+                                                      //       borderRadius:
+                                                      //           BorderRadius
+                                                      //               .circular(
+                                                      //                   7)),
+                                                      //   child: Image.asset(
+                                                      //     'assets/images/apple.png',
+                                                      //   ),
+                                                      // ),
+                                                      //SizedBox(width: 20),
                                                       Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -202,6 +215,9 @@ class _ProfileState extends State<Profile> {
                                                                 .start,
                                                         children: [
                                                           Text(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             _user!.jobs![index]
                                                                 .role,
                                                             style:
@@ -225,6 +241,9 @@ class _ProfileState extends State<Profile> {
                                                             width: 30,
                                                           ),
                                                           Text(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             DateFormat("MMMM yyyy")
                                                                     .format(_user!
                                                                         .jobs![
@@ -289,6 +308,29 @@ class _ProfileState extends State<Profile> {
   }
 }
 
+void showDialogWidget(BuildContext context, String error) {
+  showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertPopup(
+            icon: Icon(
+              Icons.error,
+              size: 200,
+              color: Colors.red,
+            ),
+            title: "Opps, Failed",
+            message: error,
+            buttons: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: Text(
+                  'Try again',
+                  style: AppFonts.medium(18, Colors.white),
+                ),
+              ),
+            ],
+          ));
+}
+
 class ImageWidget extends StatelessWidget {
   final int index;
 
@@ -315,13 +357,14 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   User? user;
   final bool? isViewMentor;
   final double expandedHeight;
+  String imageUrl;
 
-  CustomSliverAppBarDelegate({
-    this.user,
-    this.mentor,
-    this.isViewMentor,
-    required this.expandedHeight,
-  });
+  CustomSliverAppBarDelegate(
+      {this.user,
+      this.mentor,
+      this.isViewMentor,
+      required this.expandedHeight,
+      required this.imageUrl});
 
   @override
   Widget build(
@@ -348,7 +391,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           top: 320,
           left: 20,
           right: 20,
-          child: buildFloating(context, shrinkOffset),
+          child: buildFloating(context, shrinkOffset, user!.name, user!.userId),
         ),
       ],
     );
@@ -397,7 +440,9 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   ),
       );
 
-  Widget buildFloating(BuildContext context, double shrinkOffset) => Visibility(
+  Widget buildFloating(
+          BuildContext context, double shrinkOffset, String name, int id) =>
+      Visibility(
         visible: shrinkOffset > 0 ? false : true,
         child: Padding(
           padding: EdgeInsets.only(
@@ -462,89 +507,164 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               top: -25,
               left: 50,
               right: 50,
-              child: Center(
-                child: isViewMentor == null
-                    ? Container(
-                        alignment: Alignment.topCenter,
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 42,
-                            height: 42,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: AppColors.mLightPurple,
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.add,
-                                size: 40,
-                                color: Colors.white,
-                              ),
-                            ),
+              child: InkWell(
+                onTap: () async {
+                  print("click");
+                  /*
+                * Step 1. Pick/Capture an image   (image_picker)
+                * Step 2. Upload the image to Firebase storage
+                * Step 3. Get the URL of the uploaded image
+                * Step 4. Store the image URL inside the corresponding
+                *         document of the database.
+                * Step 5. Display the image on the list
+                *
+                * */
+
+                  /*Step 1:Pick image*/
+                  //Install image_picker
+                  //Import the corresponding library
+                  try {
+                    ImagePicker imagePicker = ImagePicker();
+                    XFile? file;
+
+                    file = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+
+                    //print('${file?.path}');
+
+                    if (file == null) return;
+                    //Import dart:core
+                    String uniqueFileName =
+                        DateTime.now().millisecondsSinceEpoch.toString();
+
+                    /*Step 2: Upload to Firebase storage*/
+                    //Install firebase_storage
+                    //Import the library
+
+                    //Get a reference to storage root
+                    Reference referenceRoot = FirebaseStorage.instance.ref();
+                    Reference referenceDirImages =
+                        referenceRoot.child('images');
+
+                    //Create a reference for the image to be stored
+                    Reference referenceImageToUpload =
+                        referenceDirImages.child(uniqueFileName);
+
+                    //Handle errors/success
+
+                    //Store the file
+                    await referenceImageToUpload.putFile(File(file.path));
+                    //Success: get the download URL
+                    imageUrl = await referenceImageToUpload.getDownloadURL();
+                    UserRequestModel user =
+                        UserRequestModel(name: name, photo: imageUrl);
+                    await UserService().updateUser(user, id);
+                    var user1 = await UserService().getUserById(id);
+                    await UserService().saveUser(user1!);
+                    await UserService().getUser();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainPage(
+                                isMentor: 0,
+                                initialPage: 2,
+                                userId: user1.userId,
+                              )),
+                    );
+                  } on PlatformException catch (e) {
+                    if (e.code == 'invalid_image') {
+                      //print('Invalid image format');
+                      showDialogWidget(context,
+                          'Invalid image format! Do not support type .jpeg');
+                    }
+                  } catch (error) {
+                    showDialogWidget(context, error.toString());
+                  }
+                },
+                child: Center(
+                  child: isViewMentor == null
+                      ? Container(
+                          alignment: Alignment.topCenter,
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
                           ),
-                        ),
-                      )
-                    : isViewMentor!
-                        ? Container(
-                            alignment: Alignment.topCenter,
-                            height: 50,
-                            width: 90,
-                            child: Center(
-                                child: Container(
-                              width: 90,
-                              height: 35,
+                          child: Center(
+                            child: Container(
+                              width: 42,
+                              height: 42,
                               decoration: BoxDecoration(
-                                  color: isViewMentor == true
-                                      ? AppColors.mLightRed
-                                      : AppColors.mLightPurple,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all()),
-                              child: Center(
-                                child: isViewMentor == true
-                                    ? Text(
-                                        'Mentor',
-                                        style:
-                                            AppFonts.medium(16, Colors.black),
-                                      )
-                                    : Text(
-                                        'Mentee',
-                                        style:
-                                            AppFonts.medium(16, Colors.black),
-                                      ),
+                                borderRadius: BorderRadius.circular(30),
+                                color: AppColors.mLightPurple,
                               ),
-                            )),
-                          )
-                        : Container(
-                            alignment: Alignment.topCenter,
-                            width: 90,
-                            child: Center(
-                                child: Container(
-                              width: 90,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                  color: AppColors.mLightPurple,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all()),
                               child: Center(
-                                child: Text(
-                                  'Mentee',
-                                  style: AppFonts.medium(16, Colors.black),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 40,
+                                  color: Colors.white,
                                 ),
                               ),
-                            )),
+                            ),
                           ),
+                        )
+                      : isViewMentor!
+                          ? Container(
+                              alignment: Alignment.topCenter,
+                              height: 50,
+                              width: 90,
+                              child: Center(
+                                  child: Container(
+                                width: 90,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                    color: isViewMentor == true
+                                        ? AppColors.mLightRed
+                                        : AppColors.mLightPurple,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all()),
+                                child: Center(
+                                  child: isViewMentor == true
+                                      ? Text(
+                                          'Mentor',
+                                          style:
+                                              AppFonts.medium(16, Colors.black),
+                                        )
+                                      : Text(
+                                          'Mentee',
+                                          style:
+                                              AppFonts.medium(16, Colors.black),
+                                        ),
+                                ),
+                              )),
+                            )
+                          : Container(
+                              alignment: Alignment.topCenter,
+                              width: 90,
+                              child: Center(
+                                  child: Container(
+                                width: 90,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                    color: AppColors.mLightPurple,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all()),
+                                child: Center(
+                                  child: Text(
+                                    'Mentee',
+                                    style: AppFonts.medium(16, Colors.black),
+                                  ),
+                                ),
+                              )),
+                            ),
+                ),
               ),
             ),
-            InkWell(
-              onTap: () => Get.to(EditProfile()),
-              child: Padding(
-                padding: EdgeInsets.only(top: 115, left: 10),
+            Padding(
+              padding: EdgeInsets.only(top: 115, left: 10),
+              child: InkWell(
+                onTap: () => Get.to(EditProfile()),
                 child: Center(
                   child: isViewMentor == null
                       ? Container(
