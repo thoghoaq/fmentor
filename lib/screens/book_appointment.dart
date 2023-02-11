@@ -475,7 +475,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                   width: 20,
                                 ),
                                 Text(
-                                  "Google Meet",
+                                  "Zoom",
                                   style: AppFonts.regular(
                                       18, AppColors.mDarkPurple),
                                 )

@@ -103,22 +103,21 @@ class _MyAppState extends State<MyApp> {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: SignUp(),
-      // !_loading
-      //     ? _isFirstLogin
-      //         ? const GetStarted()
-      //         : MainPage(
-      //             userId: _user!.userId,
-      //             initialPage: 0,
-      //             isMentor: _user!.isMentor,
-      //             menteeId: _user!.mentees.isNotEmpty
-      //                 ? _user!.mentees.first.menteeId
-      //                 : null,
-      //             mentorId: _user!.mentors!.isNotEmpty
-      //                 ? _user!.mentors!.first.mentorId
-      //                 : null,
-      //           )
-      //     : const Loading(),
+      home: !_loading
+          ? _isFirstLogin
+              ? const GetStarted()
+              : MainPage(
+                  userId: _user!.userId,
+                  initialPage: 0,
+                  isMentor: _user!.isMentor,
+                  menteeId: _user!.mentees.isNotEmpty
+                      ? _user!.mentees.first.menteeId
+                      : null,
+                  mentorId: _user!.mentors!.isNotEmpty
+                      ? _user!.mentors!.first.mentorId
+                      : null,
+                )
+          : const Loading(),
     );
   }
 }
