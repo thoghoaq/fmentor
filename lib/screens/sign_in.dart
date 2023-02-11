@@ -20,7 +20,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignIn extends State<SignIn> {
-  final SignInRequestModel _signinModel =
+  SignInRequestModel _signinModel =
       SignInRequestModel(email: "", password: "");
   bool passEnable = true;
   bool _isSigning = false;
