@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "958895427361",
+    "project_id": "fmentor-73e2f",
+    "storage_bucket": "fmentor-73e2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958895427361:android:5caaa4404055d96aa47860",
+        "android_client_info": {
+          "package_name": "com.example.mentoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958895427361-v7teivan4vn0r0inpcebd1iehv3dd72l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFgAHElh6ZK8I3HRVxZ_iG_bRj_aJbwKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958895427361-v7teivan4vn0r0inpcebd1iehv3dd72l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "958895427361-nd5ca6mg3nshomrj9uhmf2r0bk47d3m1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mentoo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

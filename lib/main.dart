@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
@@ -45,8 +46,10 @@ import 'package:mentoo/widgets/loading.dart';
 //       ),
 //     );
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -103,22 +106,22 @@ class _MyAppState extends State<MyApp> {
           bodyText1: TextStyle(color: AppColors.mText),
         ),
       ),
-      home: SignUp(),
-      // !_loading
-      //     ? _isFirstLogin
-      //         ? const GetStarted()
-      //         : MainPage(
-      //             userId: _user!.userId,
-      //             initialPage: 0,
-      //             isMentor: _user!.isMentor,
-      //             menteeId: _user!.mentees.isNotEmpty
-      //                 ? _user!.mentees.first.menteeId
-      //                 : null,
-      //             mentorId: _user!.mentors!.isNotEmpty
-      //                 ? _user!.mentors!.first.mentorId
-      //                 : null,
-      //           )
-      //     : const Loading(),
+      home: //SignIn(),
+          !_loading
+              ? _isFirstLogin
+                  ? const GetStarted()
+                  : MainPage(
+                      userId: _user!.userId,
+                      initialPage: 0,
+                      isMentor: _user!.isMentor,
+                      menteeId: _user!.mentees.isNotEmpty
+                          ? _user!.mentees.first.menteeId
+                          : null,
+                      mentorId: _user!.mentors!.isNotEmpty
+                          ? _user!.mentors!.first.mentorId
+                          : null,
+                    )
+              : const Loading(),
     );
   }
 }

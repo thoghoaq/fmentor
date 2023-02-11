@@ -63,7 +63,7 @@ class Education {
     required this.school,
     required this.major,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
     required this.isCurrent,
   });
 
@@ -72,7 +72,7 @@ class Education {
   String school;
   String major;
   DateTime startDate;
-  DateTime endDate;
+  DateTime? endDate;
   int isCurrent;
 
   factory Education.fromJson(Map<String, dynamic> json) => Education(
@@ -81,7 +81,8 @@ class Education {
         school: json["school"],
         major: json["major"],
         startDate: DateTime.parse(json["startDate"]),
-        endDate: DateTime.parse(json["endDate"]),
+        endDate:
+            json["endDate"] != null ? DateTime.parse(json["endDate"]) : null,
         isCurrent: json["isCurrent"],
       );
 
@@ -91,7 +92,7 @@ class Education {
         "school": school,
         "major": major,
         "startDate": startDate.toIso8601String(),
-        "endDate": endDate.toIso8601String(),
+        "endDate": endDate != null ? endDate!.toIso8601String() : null,
         "isCurrent": isCurrent,
       };
 }
@@ -103,7 +104,7 @@ class Job {
     required this.company,
     required this.role,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
     required this.isCurrent,
   });
 
