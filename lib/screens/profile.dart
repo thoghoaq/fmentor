@@ -18,7 +18,7 @@ class Profile extends StatefulWidget {
   final int? mentorId;
   final bool? isViewMentor;
   final int? menteeId;
-  Profile(
+  const Profile(
       {Key? key, this.mentorId, this.isViewMentor, this.menteeId, this.userId})
       : super(key: key);
 
@@ -79,8 +79,7 @@ class _ProfileState extends State<Profile> {
                       user: _user,
                     ),
                   ),
-                  SliverAppBar(
-                    //expandedHeight: 0,
+                  const SliverAppBar(
                     backgroundColor: Colors.white,
                     pinned: true,
                     // title: Text(
@@ -119,9 +118,9 @@ class _ProfileState extends State<Profile> {
                               left: AppCommon.screenWidthUnit(context),
                               right: AppCommon.screenWidthUnit(context)),
                           child: Container(
-                            padding:
-                                EdgeInsets.only(top: 20, left: 20, right: 20),
-                            margin: EdgeInsets.only(top: 0),
+                            padding: const EdgeInsets.only(
+                                top: 20, left: 20, right: 20),
+                            margin: const EdgeInsets.only(top: 0),
                             height: 2000,
                             child: TabBarView(children: [
                               Column(
@@ -131,21 +130,21 @@ class _ProfileState extends State<Profile> {
                                   widget.isViewMentor == null
                                       ? _user != null
                                           ? Text(_user!.description)
-                                          : Text("No data")
+                                          : const Text("No data")
                                       : widget.isViewMentor == true
                                           ? _mentor != null
                                               ? Text(_mentor!.user.description)
-                                              : Text("No data")
-                                          : Text("No data"),
-                                  SizedBox(
+                                              : const Text("No data")
+                                          : const Text("No data"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
-                                  Text(
+                                  const Text(
                                     "More...",
                                     style:
                                         TextStyle(color: AppColors.mGrayStroke),
                                   ),
-                                  Center(
+                                  const Center(
                                     child: SizedBox(
                                       width: 250,
                                       child: Divider(
@@ -275,8 +274,8 @@ class _ProfileState extends State<Profile> {
                                       : Container()
                                 ],
                               ),
-                              Text("Comming soon"),
-                              Text("Comming soon"),
+                              const Text("Comming soon"),
+                              const Text("Comming soon"),
                             ]),
                           ),
                         ),
@@ -299,7 +298,7 @@ class ImageWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => SizedBox(
         height: 150,
         width: double.infinity,
         child: Card(
@@ -327,9 +326,6 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final size = 300;
-    final top = expandedHeight - shrinkOffset - size / 2;
-
     return Stack(
       clipBehavior: Clip.none,
       fit: StackFit.expand,
@@ -484,7 +480,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                               borderRadius: BorderRadius.circular(30),
                               color: AppColors.mLightPurple,
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Icon(
                                 Icons.add,
                                 size: 40,
@@ -628,7 +624,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      children: [
+                                      children: const [
                                     Icon(
                                       Icons.calendar_month_sharp,
                                       color: Colors.white,

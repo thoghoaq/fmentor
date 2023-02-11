@@ -85,22 +85,20 @@ class _EditEducationState extends State<EditEducation> {
                   child: TextFormField(
                     //initialValue: "Datetime",
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         borderSide: BorderSide(
                           color: AppColors.mDarkPurple,
                         ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5.0)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(
                           color: AppColors.mDarkPurple,
                         ),
                       ),
                       label: const Text("From to"),
-                      labelStyle: TextStyle(color: AppColors.mDarkPurple),
+                      labelStyle: const TextStyle(color: AppColors.mDarkPurple),
                       contentPadding: const EdgeInsets.only(left: 10),
                       filled: true,
                       // fillColor: AppColors.grayColor,

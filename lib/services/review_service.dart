@@ -1,28 +1,30 @@
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mentoo/models/review.dart';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:mentoo/screens/my_appointments.dart';
 import 'package:mentoo/utils/path.dart';
 
 class ReviewService {
   Future<Review?> createReview(Review review) async {
     try {
-      var url = Uri.parse(Path.path + "/reviews");
+      var url = Uri.parse("${Path.path}/reviews");
       var response = await http.post(url,
           headers: {"accept": "text/plain", "Content-Type": "application/json"},
           body: jsonEncode(review));
 
       if (response.statusCode == 201) {
-        Review _review = Review.fromJson(jsonDecode(response.body));
+        Review review = Review.fromJson(jsonDecode(response.body));
 
-        return _review;
+        return review;
       }
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       log(e.toString());
     }
+    return null;
   }
 
   // Future<Review?> getReviewById(int appointmentId, int mentorId, int menteeId) async {

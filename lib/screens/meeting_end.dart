@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -18,7 +16,7 @@ class MeetingEnd extends StatelessWidget {
               "Meeting Ended",
               style: AppFonts.medium(22, AppColors.mDarkPurple),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
@@ -32,7 +30,7 @@ class MeetingEnd extends StatelessWidget {
                     height: 280,
                     width: 350,
                     alignment: Alignment.center,
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       backgroundImage: AssetImage("assets/images/profile.png"),
                       radius: 120,
                     ),
@@ -58,14 +56,14 @@ class MeetingEnd extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Hoang Michael",
               style: AppFonts.bold(30, AppColors.mDarkPurple),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Container(
@@ -84,7 +82,7 @@ class MeetingEnd extends StatelessWidget {
                           Colors.white,
                         )),
                     onPressed: () => {})),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
@@ -95,7 +93,7 @@ class MeetingEnd extends StatelessWidget {
                       fixedSize: const Size(350, 46),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.mLightPurple, width: 2)),
                     ),
                     child: Text('Go to dashboard',

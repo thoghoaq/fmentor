@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// ignore: unnecessary_import
+// ignore: unnecessary_import, library_prefixes
 import 'package:mentoo/models/mentor.dart' as Mentor;
 import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
@@ -13,6 +14,7 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/widgets/loading.dart';
 
+// ignore: must_be_immutable
 class TopMentors extends StatefulWidget {
   String pageName;
   TopMentors({super.key, this.pageName = "Top Mentors"});
@@ -40,17 +42,18 @@ class _TopMentorsState extends State<TopMentors> {
       _mentors = await MentorService().getMentors();
     } else {
       //(await UserService().getUserById(9));
-      User? _user = (await UserService().getUser());
-      _mentors = await MentorService().getFollowedMentors(_user!.userId);
+      User? user = (await UserService().getUser());
+      _mentors = await MentorService().getFollowedMentors(user!.userId);
     }
 
     _specialtiesName = _specialties!.map((s) => s.name).toList();
     //_specialtiesName.add("Others");
     _selectedSpecialty = _specialtiesName[0];
-    if (_specialties != null && _mentors != null)
+    if (_specialties != null && _mentors != null) {
       setState(() {
         _isLoading = true;
       });
+    }
   }
 
   void _showSpecialtiesMenu(context) {
@@ -70,9 +73,10 @@ class _TopMentorsState extends State<TopMentors> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    print(_specialties![index].specialtyId.toString() +
-                        " : " +
-                        _specialties![index].name);
+                    if (kDebugMode) {
+                      print(
+                          "${_specialties![index].specialtyId} : ${_specialties![index].name}");
+                    }
                     setState(() {
                       _selectedSpecialty = _specialtiesName[index];
                       //_mentors = _mentors.where((element) => element.specialty.)
@@ -80,13 +84,13 @@ class _TopMentorsState extends State<TopMentors> {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     color: _selectedSpecialty == _specialtiesName[index]
                         ? AppColors.mLightPurple
                         : AppColors.mBackground,
                     child: Text(
                       _specialtiesName[index],
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ),
                 );
@@ -101,7 +105,7 @@ class _TopMentorsState extends State<TopMentors> {
   @override
   Widget build(BuildContext context) {
     return !_isLoading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             appBar: AppBar(
               leading: BackButton(
@@ -115,9 +119,9 @@ class _TopMentorsState extends State<TopMentors> {
                     onTap: () {
                       _showSpecialtiesMenu(context);
                     },
-                    child: Icon(Icons.filter_alt_outlined,
+                    child: const Icon(Icons.filter_alt_outlined,
                         color: Colors.black, size: 30)),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 )
               ],
@@ -130,7 +134,7 @@ class _TopMentorsState extends State<TopMentors> {
             ),
             body: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: GridView.count(
                   //physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,

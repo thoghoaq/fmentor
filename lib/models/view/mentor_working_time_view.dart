@@ -18,8 +18,10 @@ class MentorWorkingTime {
       mentorId: json['mentorId'],
       dayOfWeek: json['dayOfWeek'],
       startTime: TimeOfDay.fromDateTime(
+          // ignore: prefer_interpolation_to_compose_strings
           DateTime.parse("2022-02-27 " + json['startTime'])),
       endTime: TimeOfDay.fromDateTime(
+          // ignore: prefer_interpolation_to_compose_strings
           DateTime.parse("2022-02-27 " + json['endTime'])),
     );
   }

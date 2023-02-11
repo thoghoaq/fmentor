@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mentoo/models/user.dart';
 import 'package:mentoo/models/user_permission.dart' as permission;
 import 'package:mentoo/screens/get_started.dart';
 import 'package:mentoo/screens/make_your_schedule.dart';
@@ -12,7 +11,6 @@ import 'dart:convert';
 
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
-import 'package:mentoo/widgets/navigation_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -54,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
       'action': (context) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SchedulePage()),
+          MaterialPageRoute(builder: (context) => const SchedulePage()),
         );
       }
     },
@@ -73,8 +71,8 @@ class _SettingsPageState extends State<SettingsPage> {
   ];
   List<int> settingsState = [];
   bool _loading = true;
-  String? _userName = null;
-  String? _userPhoto = null;
+  String? _userName;
+  String? _userPhoto;
 
   @override
   void initState() {

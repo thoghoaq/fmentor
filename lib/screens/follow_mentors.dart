@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -48,20 +48,22 @@ class _FollowMentorState extends State<FollowMentor> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    print(index);
+                    if (kDebugMode) {
+                      print(index);
+                    }
                     setState(() {
                       _selectedSpecialty = _specialties[index];
                     });
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     color: _selectedSpecialty == _specialties[index]
                         ? AppColors.mLightPurple
                         : AppColors.mBackground,
                     child: Text(
                       _specialties[index],
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ),
                 );
@@ -88,9 +90,9 @@ class _FollowMentorState extends State<FollowMentor> {
               onTap: () {
                 _showSpecialtiesMenu(context);
               },
-              child: Icon(Icons.filter_alt_outlined,
+              child: const Icon(Icons.filter_alt_outlined,
                   color: Colors.black, size: 30)),
-          SizedBox(
+          const SizedBox(
             width: 10,
           )
         ],

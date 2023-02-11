@@ -19,14 +19,14 @@ class PrimaryTextBox extends StatelessWidget {
       child: TextFormField(
         initialValue: textBoxValue,
         decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             borderSide: BorderSide(
               color: AppColors.mDarkPurple,
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             borderSide: BorderSide(
               color: AppColors.mDarkPurple,
             ),

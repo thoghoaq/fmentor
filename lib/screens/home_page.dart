@@ -5,7 +5,6 @@ import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
-import 'package:mentoo/screens/profile.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/services/mentor_service.dart';
@@ -15,7 +14,6 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
-import 'package:mentoo/widgets/navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

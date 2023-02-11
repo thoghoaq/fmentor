@@ -166,7 +166,8 @@ class ListMajors extends StatelessWidget {
             selectedBackgroundColor: AppColors.mBackground,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
-              side: BorderSide(color: AppColors.mGrayStroke, width: sqrt1_2),
+              side: const BorderSide(
+                  color: AppColors.mGrayStroke, width: sqrt1_2),
             ),
             selectedShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
@@ -181,9 +182,9 @@ class ListMajors extends StatelessWidget {
               primaryButtonTextStyle: AppFonts.bold(16, Colors.white),
               textStyle: AppFonts.medium(16, AppColors.mText),
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 // border: Border.all(color: AppColors.mGrayStroke),
-                borderRadius: const BorderRadius.all(
+                borderRadius: BorderRadius.all(
                   Radius.circular(100.0),
                 ),
                 color: AppColors.mPrimary,
