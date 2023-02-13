@@ -35,7 +35,7 @@ class BookingViewModel {
       duration: json['duration'].toInt(),
       totalCost: json['totalCost'].toDouble(),
       status: json['status'],
-      reasonForRejection: json['reasonForRejection'],
+      reasonForRejection: json['reasonForRejection'] ?? "",
       mentor: json['mentor'] != null ? Mentor.fromJson(json['mentor']) : null,
       mentee: json['mentee'] != null ? Mentee.fromJson(json['mentee']) : null,
     );

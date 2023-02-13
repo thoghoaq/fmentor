@@ -451,38 +451,40 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               )),
             ),
           ),
-          InkWell(
-            onTap: () => Get.to(
-                BookAppointment(mentor: mentor, menteeId: int.parse(menteeId))),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 120, left: 70),
-              child: Container(
-                alignment: Alignment.topCenter,
-                width: 250,
-                height: 56,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.mLightPurple,
+          Padding(
+            padding: const EdgeInsets.only(top: 115),
+            child: InkWell(
+              onTap: () => Get.to(BookAppointment(
+                  mentor: mentor, menteeId: int.parse(menteeId))),
+              child: Center(
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  width: 250,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.mLightPurple,
+                  ),
+                  child: Center(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                        Icon(
+                          Icons.calendar_month_sharp,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Book Appointment",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ])),
                 ),
-                child: Center(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                      Icon(
-                        Icons.calendar_month_sharp,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "Book Appointment",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ])),
               ),
             ),
           ),

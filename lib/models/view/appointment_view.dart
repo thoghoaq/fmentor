@@ -43,7 +43,7 @@ class AppointmentViewModel {
       password: json['password'],
       duration: json['duration'].toInt(),
       status: json['status'],
-      note: json['note'],
+      note: json['note'] ?? "",
       isReviewed: json['isReviewed'],
       mentor: json['mentor'] != null ? Mentor.fromJson(json['mentor']) : null,
       mentee: json['mentee'] != null ? Mentee.fromJson(json['mentee']) : null,
