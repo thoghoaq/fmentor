@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
@@ -35,6 +36,7 @@ import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/screens/write_review.dart';
+import 'package:mentoo/services/local_notification_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/widgets/loading.dart';
@@ -45,10 +47,17 @@ import 'package:mentoo/widgets/loading.dart';
 //         builder: (context) => const MyApp(), // Wrap your app
 //       ),
 //     );
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification!.title);
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseMessaging.instance.requestPermission();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
 }
 
@@ -64,10 +73,40 @@ class _MyAppState extends State<MyApp> {
   bool _isFirstLogin = true;
   User? _user;
   // This widget is the root of your application.
+
   @override
   void initState() {
-    _checkUserExist();
     super.initState();
+    _checkUserExist();
+    LocalNotificationService.initialize(context);
+
+    ///gives you the message on which user taps
+    ///and it opened the app from terminated state
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        final routeFromMessage = message.data["route"];
+
+        Navigator.of(context).pushNamed(routeFromMessage);
+      }
+    });
+
+    ///forground work
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.notification != null) {
+        print(message.notification!.body);
+        print(message.notification!.title);
+      }
+
+      LocalNotificationService.display(message);
+    });
+
+    ///When the app is in background but opened and user taps
+    ///on the notification
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final routeFromMessage = message.data["route"];
+
+      Navigator.of(context).pushNamed(routeFromMessage);
+    });
   }
 
   _checkUserExist() async {
@@ -122,6 +161,9 @@ class _MyAppState extends State<MyApp> {
                           : null,
                     )
               : const Loading(),
+      routes: {
+        "anh vui ve": (_) => RecommendCourses(),
+      },
     );
   }
 }
