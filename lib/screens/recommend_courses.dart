@@ -1,16 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/models/course.dart';
+import 'package:mentoo/models/user.dart';
+import 'package:mentoo/screens/main_home_page.dart';
+import 'package:mentoo/services/course_service.dart';
+import 'package:mentoo/services/mentee_service.dart';
+import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
+import 'package:mentoo/widgets/loading.dart';
 
 class RecommendCourses extends StatefulWidget {
-  const RecommendCourses({super.key});
+  RecommendCourses({super.key, this.courses});
+  List<Course>? courses;
 
   @override
   State<RecommendCourses> createState() => _RecommendCoursesState();
 }
 
 class _RecommendCoursesState extends State<RecommendCourses> {
+  User? _user;
+
+  bool isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  void _getData() async {
+    _user ??= await UserService().getUser();
+
+    if (_user != null) {
+      isLoaded = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var searchAreaContainerWidth = AppCommon.screenWidthUnit(context) * 11;
@@ -46,7 +78,7 @@ class _RecommendCoursesState extends State<RecommendCourses> {
               height: 270,
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: widget.courses!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
@@ -66,11 +98,21 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                       color: AppColors.mBackground,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Center(
-                                    child: Image.asset(
-                                      "assets/images/home_page.png",
-                                      width: searchAreaContainerWidth * 0.4,
-                                      height: searchAreaContainerHeight * 0.4,
-                                    ),
+                                    child: widget.courses![index].photo == " "
+                                        ? Image.asset(
+                                            "assets/images/home_page.png",
+                                            width:
+                                                searchAreaContainerWidth * 0.3,
+                                            height:
+                                                searchAreaContainerHeight * 0.3,
+                                          )
+                                        : Image.network(
+                                            widget.courses![index].photo,
+                                            width:
+                                                searchAreaContainerWidth * 0.3,
+                                            height:
+                                                searchAreaContainerHeight * 0.3,
+                                          ),
                                   ),
                                 ),
                                 Column(
@@ -79,8 +121,8 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "UI/UX Design",
-                                      style: AppFonts.medium(20, Colors.black),
+                                      widget.courses![index].title,
+                                      style: AppFonts.medium(16, Colors.black),
                                     ),
                                     const SizedBox(
                                       height: 5,
@@ -92,7 +134,8 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                             AppFonts.regular(14, Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: 'FPT University',
+                                              text: widget
+                                                  .courses![index].instructor,
                                               style: AppFonts.medium(
                                                   14, AppColors.mLightPurple)),
                                         ],
@@ -108,7 +151,8 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                             AppFonts.regular(14, Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: 'Coursera',
+                                              text: widget
+                                                  .courses![index].platform,
                                               style: AppFonts.medium(
                                                   14, Colors.red)),
                                         ],
@@ -116,17 +160,23 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.red),
-                                    child: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.white,
-                                      size: 40,
-                                    )),
+                                InkWell(
+                                    onTap: () async {
+                                      await MenteeService().favoriteCourse(
+                                          17, widget.courses![index].courseId);
+                                    },
+                                    child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.red),
+                                        child: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ))),
                               ],
                             ),
                             const SizedBox(
@@ -158,7 +208,13 @@ class _RecommendCoursesState extends State<RecommendCourses> {
                           16,
                           Colors.white,
                         )),
-                    onPressed: () => {})),
+                    onPressed: () => {
+                          Get.to(MainPage(
+                            isMentor: 0,
+                            initialPage: 0,
+                            userId: 1,
+                          ))
+                        })),
           ]),
     );
   }

@@ -5,8 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:mentoo/models/course.dart';
 import 'package:mentoo/models/mentor.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/book_appointment.dart';
@@ -22,6 +24,8 @@ import 'package:mentoo/screens/home_page.dart';
 import 'package:mentoo/screens/main_home_page.dart';
 import 'package:mentoo/screens/meeting_end.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
+import 'package:mentoo/screens/mentor_meeting_end.dart';
+import 'package:mentoo/screens/mentor_recommend_courses.dart';
 import 'package:mentoo/screens/my_appointments.dart';
 import 'package:mentoo/screens/notification.dart';
 import 'package:mentoo/screens/profile.dart';
@@ -36,6 +40,7 @@ import 'package:mentoo/screens/sign_up.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/screens/write_review.dart';
+import 'package:mentoo/services/course_service.dart';
 import 'package:mentoo/services/local_notification_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
@@ -78,15 +83,25 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _checkUserExist();
-    LocalNotificationService.initialize(context);
+    LocalNotificationService().initialize(context);
 
     ///gives you the message on which user taps
     ///and it opened the app from terminated state
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
+    FirebaseMessaging.instance.getInitialMessage().then((message) async {
       if (message != null) {
         final routeFromMessage = message.data["route"];
-
-        Navigator.of(context).pushNamed(routeFromMessage);
+        if (routeFromMessage == "mentee")
+          Get.to(MeetingEnd());
+        else if (routeFromMessage!.substring(0, 11) == "recommended") {
+          var subString = routeFromMessage.substring(14);
+          var courses = await CourseService().getCoursesRecommended(subString);
+          Get.to(RecommendCourses(
+            courses: courses,
+          ));
+        } else
+          Get.to(MentorMeetingEnded(
+            token: routeFromMessage!,
+          ));
       }
     });
 
@@ -97,15 +112,25 @@ class _MyAppState extends State<MyApp> {
         print(message.notification!.title);
       }
 
-      LocalNotificationService.display(message);
+      LocalNotificationService().display(message);
     });
 
     ///When the app is in background but opened and user taps
     ///on the notification
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((message) async {
       final routeFromMessage = message.data["route"];
-
-      Navigator.of(context).pushNamed(routeFromMessage);
+      if (routeFromMessage == "mentee")
+        Get.to(MeetingEnd());
+      else if (routeFromMessage!.substring(0, 11) == "recommended") {
+        var subString = routeFromMessage.substring(14);
+        var courses = await CourseService().getCoursesRecommended(subString);
+        Get.to(RecommendCourses(
+          courses: courses,
+        ));
+      } else
+        Get.to(MentorMeetingEnded(
+          token: routeFromMessage!,
+        ));
     });
   }
 
@@ -127,43 +152,40 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'FMentor',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primaryColor: AppColors.mPrimary,
-        backgroundColor: AppColors.mBackground,
-        textTheme: const TextTheme(
-          bodyText1: TextStyle(color: AppColors.mText),
+        debugShowCheckedModeBanner: false,
+        title: 'FMentor',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primaryColor: AppColors.mPrimary,
+          backgroundColor: AppColors.mBackground,
+          textTheme: const TextTheme(
+            bodyText1: TextStyle(color: AppColors.mText),
+          ),
         ),
-      ),
-      home: //SignIn(),
-          !_loading
-              ? _isFirstLogin
-                  ? const GetStarted()
-                  : MainPage(
-                      userId: _user!.userId,
-                      initialPage: 0,
-                      isMentor: _user!.isMentor,
-                      menteeId: _user!.mentees.isNotEmpty
-                          ? _user!.mentees.first.menteeId
-                          : null,
-                      mentorId: _user!.mentors!.isNotEmpty
-                          ? _user!.mentors!.first.mentorId
-                          : null,
-                    )
-              : const Loading(),
-      routes: {
-        "anh vui ve": (_) => RecommendCourses(),
-      },
-    );
+        home: //SignIn(),
+            //RecommendCourses());
+            !_loading
+                ? _isFirstLogin
+                    ? const GetStarted()
+                    : MainPage(
+                        userId: _user!.userId,
+                        initialPage: 0,
+                        isMentor: _user!.isMentor,
+                        menteeId: _user!.mentees.isNotEmpty
+                            ? _user!.mentees.first.menteeId
+                            : null,
+                        mentorId: _user!.mentors!.isNotEmpty
+                            ? _user!.mentors!.first.mentorId
+                            : null,
+                      )
+                : const Loading());
   }
 }

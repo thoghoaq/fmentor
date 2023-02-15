@@ -10,16 +10,19 @@ import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
 
-class FavoriteCourses extends StatefulWidget {
-  const FavoriteCourses({super.key});
+class MentorRecommendCourses extends StatefulWidget {
+  MentorRecommendCourses({super.key, required this.token});
+  String token;
 
   @override
-  State<FavoriteCourses> createState() => _FavoriteCoursesState();
+  State<MentorRecommendCourses> createState() => _MentorRecommendCoursesState();
 }
 
-class _FavoriteCoursesState extends State<FavoriteCourses> {
+class _MentorRecommendCoursesState extends State<MentorRecommendCourses> {
   User? _user;
   List<Course>? _courses;
+  List<bool> _isAdds = [];
+  List<int> _recommendedCourese = [];
 
   var isLoaded = false;
 
@@ -31,9 +34,14 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
 
   void _getData() async {
     _user = (await UserService().getUser());
-    _courses = await CourseService().getFavoriteCourses(_user!.userId);
+    _courses = await CourseService().getCoursesByMentorId(_user!.userId);
     setState(() {
-      if (_user != null && _courses != null) isLoaded = true;
+      if (_user != null && _courses != null) {
+        for (var course in _courses!) {
+          _isAdds.add(false);
+        }
+        isLoaded = true;
+      }
     });
   }
 
@@ -59,7 +67,7 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
               centerTitle: false,
               titleTextStyle: AppFonts.medium(30, AppColors.mDarkPurple),
               title: const Text(
-                'Favorite courses',
+                'My courses',
               ),
             ),
             body: Padding(
@@ -88,11 +96,21 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                                       color: AppColors.mBackground,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Center(
-                                    child: Image.network(
-                                      _courses![index].photo,
-                                      width: searchAreaContainerWidth * 0.4,
-                                      height: searchAreaContainerHeight * 0.4,
-                                    ),
+                                    child: _courses![index].photo == " "
+                                        ? Image.asset(
+                                            "assets/images/home_page.png",
+                                            width:
+                                                searchAreaContainerWidth * 0.4,
+                                            height:
+                                                searchAreaContainerHeight * 0.4,
+                                          )
+                                        : Image.network(
+                                            _courses![index].photo,
+                                            width:
+                                                searchAreaContainerWidth * 0.4,
+                                            height:
+                                                searchAreaContainerHeight * 0.4,
+                                          ),
                                   ),
                                 ),
                                 Column(
@@ -139,27 +157,24 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                                   ],
                                 ),
                                 InkWell(
-                                  onTap: () async {
-                                    await MenteeService().unFavoriteCourse(
-                                        _user!.userId,
-                                        _courses![index].courseId);
-                                    _courses = await CourseService()
-                                        .getFavoriteCourses(_user!.userId);
-                                    if (_courses != null) {
-                                      setState(() {
-                                        isLoaded = true;
-                                      });
-                                    }
+                                  onTap: () {
+                                    _recommendedCourese
+                                        .add(_courses![index].courseId);
+                                    setState(() {
+                                      _isAdds[index] = true;
+                                    });
                                   },
-                                  child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: AppColors.mGray)),
-                                      child: const Icon(Icons.close)),
+                                  child: !_isAdds[index]
+                                      ? Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: AppColors.mGray)),
+                                          child: const Icon(Icons.add))
+                                      : Container(),
                                 ),
                               ],
                             ),
@@ -174,6 +189,27 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                     );
                   }),
             ),
+            bottomNavigationBar: Container(
+                height: 60,
+                margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.mLightPurple,
+                      fixedSize: const Size(390, 46),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text('Recommended Courses',
+                        style: AppFonts.medium(
+                          16,
+                          Colors.white,
+                        )),
+                    onPressed: () async {
+                      await CourseService()
+                          .recommendCourse(widget.token, _recommendedCourese);
+                    })),
           );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/request/signin_request_model.dart';
@@ -54,6 +55,8 @@ class UserService {
   }
 
   Future<User?> signIn(SignInRequestModel model) async {
+    var token = await FirebaseMessaging.instance.getToken();
+    print("token: " + token.toString());
     User? user;
     var requestData = {
       "email": model.email,
@@ -62,7 +65,7 @@ class UserService {
     if (kDebugMode) {
       print('Signing...');
     }
-    var url = Uri.parse("${Path.path}/users/signin");
+    var url = Uri.parse("${Path.path}/users/signin?token=" + token.toString());
     final http.Response response = await http.post(
       url,
       headers: <String, String>{
