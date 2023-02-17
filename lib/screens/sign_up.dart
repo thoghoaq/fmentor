@@ -341,7 +341,7 @@ class _SignUp extends State<SignUp> {
                           email: user.email, password: user.password);
                       await UserService().signIn(model);
                       Get.to(ChooseMajor(
-                        userId: user!.userId,
+                        userId: user.userId,
                       ));
                     }
                   } catch (e) {

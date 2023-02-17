@@ -12,7 +12,7 @@ class Mentee {
   User user;
 
   factory Mentee.fromJson(Map<String, dynamic> json) => Mentee(
-        menteeId: json["mentorId"],
+        menteeId: json["menteeId"],
         userId: json["userId"],
         user: User.fromJson(json["user"]),
       );

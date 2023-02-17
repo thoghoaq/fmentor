@@ -8,6 +8,7 @@ class AppointmentViewModel {
   final DateTime startTime;
   final DateTime endTime;
   final String googleMeetLink;
+  final String password;
   final int duration;
   final String status;
   final String note;
@@ -22,6 +23,7 @@ class AppointmentViewModel {
     required this.startTime,
     required this.endTime,
     required this.googleMeetLink,
+    required this.password,
     required this.duration,
     required this.status,
     required this.note,
@@ -38,9 +40,10 @@ class AppointmentViewModel {
       startTime: DateTime.parse(json['startTime']),
       endTime: DateTime.parse(json['endTime']),
       googleMeetLink: json['googleMeetLink'],
+      password: json['password'],
       duration: json['duration'].toInt(),
       status: json['status'],
-      note: json['note'],
+      note: json['note'] ?? "",
       isReviewed: json['isReviewed'],
       mentor: json['mentor'] != null ? Mentor.fromJson(json['mentor']) : null,
       mentee: json['mentee'] != null ? Mentee.fromJson(json['mentee']) : null,

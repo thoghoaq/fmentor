@@ -85,4 +85,29 @@ class BookingServivce {
     httpClient.close();
     return bookingSuccess;
   }
+
+  Future<bool> updateBooking(
+      String bookingId, String status, String? reasonForRejection) async {
+    String apiUrl = '${Path.path}/bookings/$bookingId';
+    final http.Response response = await http.put(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'status': status,
+        'reasonForRejection': reasonForRejection
+      }),
+    );
+
+    if (response.statusCode == 204) {
+      // Update was successful
+      return true;
+    } else {
+      if (kDebugMode) {
+        print('Failed to update booking');
+      }
+      return false;
+    }
+  }
 }
