@@ -48,7 +48,7 @@ class _WriteReviewState extends State<WriteReview> {
       ),
       body: Padding(
         padding: EdgeInsets.all(AppCommon.screenHeightUnit(context) * 0.4),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        child: ListView(children: [
           Center(
             child: Stack(
               children: [
@@ -85,37 +85,43 @@ class _WriteReviewState extends State<WriteReview> {
           const SizedBox(
             height: 30,
           ),
-          Text(
-            "How was your experience with",
-            style: AppFonts.medium(18, Colors.black),
+          Center(
+            child: Text(
+              "How was your experience with",
+              style: AppFonts.medium(18, Colors.black),
+            ),
           ),
-          Text(
-            "Mentor ${widget.mentor.user.name}?",
-            style: AppFonts.medium(18, AppColors.mDarkPurple),
+          Center(
+            child: Text(
+              "Mentor ${widget.mentor.user.name}?",
+              style: AppFonts.medium(18, AppColors.mLightPurple),
+            ),
           ),
           const SizedBox(
             height: 30,
           ),
-          RatingBar.builder(
-            initialRating: _rating,
-            minRating: 1,
-            //direction: _isVertical ? Axis.vertical : Axis.horizontal,
-            //allowHalfRating: true,
-            unratedColor: Colors.amber.withAlpha(100),
-            itemCount: 5,
-            itemSize: 50.0,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => const Icon(
-              Icons.star,
-              color: Colors.amber,
+          Center(
+            child: RatingBar.builder(
+              initialRating: _rating,
+              minRating: 1,
+              //direction: _isVertical ? Axis.vertical : Axis.horizontal,
+              //allowHalfRating: true,
+              unratedColor: Colors.amber.withAlpha(100),
+              itemCount: 5,
+              itemSize: 50.0,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              onRatingUpdate: (rating) {
+                setState(() {
+                  _rating = rating;
+                  //print(rating);
+                });
+              },
+              updateOnDrag: true,
             ),
-            onRatingUpdate: (rating) {
-              setState(() {
-                _rating = rating;
-                //print(rating);
-              });
-            },
-            updateOnDrag: true,
           ),
           const SizedBox(
             height: 20,

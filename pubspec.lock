@@ -137,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  dots_indicator:
+    dependency: transitive
+    description:
+      name: dots_indicator
+      sha256: e59dfc90030ee5a4fd4c53144a8ce97cc7a823c2067b8fb9814960cd1ae63f89
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   dotted_line:
     dependency: "direct main"
     description:
@@ -299,6 +307,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_page_indicator:
+    dependency: transitive
+    description:
+      name: flutter_page_indicator
+      sha256: a5b2992228c2827b69faed3977681a3f5c313c7f13d72272decbb2923d1d7176
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -328,6 +344,14 @@ packages:
     description:
       name: flutter_svg
       sha256: "6ff9fa12892ae074092de2fa6a9938fb21dbabfdaa2ff57dc697ff912fc8d4b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.6"
+  flutter_swiper:
+    dependency: "direct main"
+    description:
+      name: flutter_swiper
+      sha256: e52a0e894abfa4099a5d4e5098a00597f3b55e25617cdd19e6fe6be5d24858c7
       url: "https://pub.dev"
     source: hosted
     version: "1.1.6"
@@ -437,6 +461,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.0"
+  introduction_screen:
+    dependency: "direct main"
+    description:
+      name: introduction_screen
+      sha256: ffbae2e9e1e21e1d8d6a898385f11513c23f6e83436f78c26664f7f002a58caa
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.6"
   js:
     dependency: transitive
     description:
@@ -706,6 +738,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.1"
+  transformer_page_view:
+    dependency: transitive
+    description:
+      name: transformer_page_view
+      sha256: "2210531bc4148831061c575070173f32693415be8bbbf5bd2159a38f2adff61c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
   typed_data:
     dependency: transitive
     description:

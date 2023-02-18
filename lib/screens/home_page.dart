@@ -5,6 +5,7 @@ import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
+import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
 import 'package:mentoo/services/mentor_service.dart';
@@ -14,6 +15,7 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
+import 'package:mentoo/widgets/banner.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -155,19 +157,22 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: AppCommon.screenHeightUnit(context) * 0.3,
                     ),
+                    SizedBox(height: 170, child: MyBanner()),
+                    SizedBox(
+                      height: AppCommon.screenHeightUnit(context) * 0.3,
+                    ),
                     InkWell(
                       onTap: () => {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const Search()),
-                        // )
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Search()),
+                        )
                       },
                       child: Container(
                         decoration: BoxDecoration(
                             color: AppColors.mLightPurple,
                             border: Border.all(
-                                width: 5, color: AppColors.mLightPurple),
+                                width: 2, color: AppColors.mLightPurple),
                             borderRadius: BorderRadius.circular(30)),
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -201,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Specialist Mentors",
+                          "Specialist",
                           style: AppFonts.medium(24, Colors.black),
                         ),
                         InkWell(

@@ -30,7 +30,7 @@ class User {
     this.reviewers,
     this.userspecialties,
     this.isMentorNavigation,
-    this.wallet,
+    this.wallets,
   });
 
   int userId;
@@ -51,7 +51,7 @@ class User {
   List<Review>? reviewers;
   List<UserSpecialties>? userspecialties;
   UserPermission? isMentorNavigation;
-  Wallet? wallet;
+  List<Wallet>? wallets;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         userId: json["userId"],
@@ -94,7 +94,9 @@ class User {
             ? List<UserSpecialties>.from(
                 json["userspecialties"].map((x) => UserSpecialties.fromJson(x)))
             : null,
-        wallet: json["wallet"] != null ? Wallet.fromJson(json["wallet"]) : null,
+        wallets: json["wallets"] != null
+            ? List<Wallet>.from(json["wallets"].map((x) => Wallet.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -131,7 +133,9 @@ class User {
         "userspecialties": userspecialties != null
             ? List<dynamic>.from(userspecialties!.map((x) => x.toJson()))
             : null,
-        "wallet": wallet != null ? wallet!.toJson() : null,
+        "wallets": wallets != null
+            ? List<dynamic>.from(wallets!.map((x) => x.toJson()))
+            : null,
       };
 }
 
@@ -416,16 +420,25 @@ class UserPermission {
       };
 }
 
+List<Wallet> walletFromJson(String str) =>
+    List<Wallet>.from(json.decode(str).map((x) => Wallet.fromJson(x)));
+
+String walletToJson(List<Wallet> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class Wallet {
   Wallet({
     required this.balance,
     required this.userId,
+    required this.walletId,
   });
 
+  int walletId;
   double balance;
   int userId;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
+        walletId: json['walletId'],
         balance: json["balance"],
         userId: json["userId"],
       );
@@ -433,5 +446,6 @@ class Wallet {
   Map<String, dynamic> toJson() => {
         "balance": balance,
         "userId": userId,
+        "walletId": walletId,
       };
 }

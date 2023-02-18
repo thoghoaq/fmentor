@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,15 @@ class SpecialtyService {
       var url = Uri.parse("${Path.path}/specialties");
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        List<Specialty> specialties = specialtyFromJson(response.body);
+        // List<Specialty> specialties = specialtyFromJson(response.body);
+        // return specialties;
+        final specialtiesJson = jsonDecode(response.body);
+        final specialties = <Specialty>[];
+
+        for (var specialtyJson in specialtiesJson) {
+          specialties.add(Specialty.fromJson(specialtyJson));
+        }
+
         return specialties;
       }
     } catch (e) {

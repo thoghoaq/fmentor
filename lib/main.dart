@@ -170,7 +170,7 @@ class _MyAppState extends State<MyApp> {
             bodyText1: TextStyle(color: AppColors.mText),
           ),
         ),
-        home: //SignIn(),
+        home:
             //RecommendCourses());
             !_loading
                 ? _isFirstLogin

@@ -34,7 +34,7 @@ class LocalNotificationService {
           ));
         } else
           Get.to(MentorMeetingEnded(
-            token: route!,
+            token: route,
           ));
       }
     });

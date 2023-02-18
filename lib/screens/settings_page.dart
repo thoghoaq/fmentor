@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mentoo/models/user.dart';
 import 'package:mentoo/models/user_permission.dart' as permission;
-import 'package:mentoo/screens/get_started.dart';
 import 'package:mentoo/screens/make_your_schedule.dart';
+import 'package:mentoo/screens/sign_in.dart';
+import 'package:mentoo/screens/your_courses.dart';
 import 'package:mentoo/services/user_service.dart';
+import 'package:mentoo/services/wallet_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'dart:convert';
@@ -57,6 +60,17 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     },
     {
+      'title': 'My Courses',
+      'backgroundColor': AppColors.mBackground,
+      'icon': Icons.book,
+      'action': (context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const YourCourses()),
+        );
+      }
+    },
+    {
       'title': 'Logout',
       'backgroundColor': AppColors.mLightRed,
       'icon': Icons.exit_to_app,
@@ -64,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
         await UserService().clearSharedPreferences();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const GetStarted()),
+          MaterialPageRoute(builder: (context) => const SignIn()),
         );
       }
     },
@@ -73,11 +87,13 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _loading = true;
   String? _userName;
   String? _userPhoto;
+  User? _user;
+  Wallet? _wallets;
 
   @override
   void initState() {
-    super.initState();
     _fetchSettings();
+    super.initState();
   }
 
 // To save the list
@@ -97,12 +113,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   _fetchSettings() async {
-    var user = await UserService().getUser();
-    _userName = user?.name;
-    _userPhoto = user?.photo;
+    _user = await UserService().getUser();
+    _wallets =
+        await WalletService().getWalletById(_user!.wallets!.first.walletId);
+    _userName = _user!.name;
+    _userPhoto = _user!.photo;
     //get setting list from sharedreferences
     var settingsStateString = await getSettingsState();
-    if (settingsStateString.isEmpty) {
+    if (settingsStateString.isNotEmpty) {
       String apiUrl =
           'https://fmentor.azurewebsites.net/api/userpermissions/${widget.isMentor}';
       try {
@@ -116,6 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
           }
           var userPermission =
               permission.UserPermission.fromJson(json.decode(response.body));
+          if (!mounted) return;
           setState(() {
             settingsState = [
               userPermission.canRequestToMentor,
@@ -124,13 +143,13 @@ class _SettingsPageState extends State<SettingsPage> {
 
               // userPermission.canFollowMentors,
               userPermission.canMakeSchedule,
+              userPermission.canSeeCourses,
               userPermission.canLogout,
-              // userPermission.canSeeCourses,
             ];
-            saveSettingsState(settingsState);
             // settingsState = [1, 1, 1, 1, 1];
             _loading = false;
           });
+          saveSettingsState(settingsState);
         } else {
           if (kDebugMode) {
             print('Request failed with status: ${response.statusCode}');
@@ -156,78 +175,95 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.only(
-            left: AppCommon.screenWidthUnit(context),
-            right: AppCommon.screenWidthUnit(context),
-            top: AppCommon.screenWidthUnit(context)),
-        child: Column(
-          children: [
-            SizedBox(
-              height: AppCommon.screenHeightUnit(context) * 3,
+    return _loading
+        ? const Loading()
+        : Scaffold(
+            backgroundColor: Colors.white,
+            body: Padding(
+              padding: EdgeInsets.only(
+                  left: AppCommon.screenWidthUnit(context),
+                  right: AppCommon.screenWidthUnit(context),
+                  top: AppCommon.screenWidthUnit(context)),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: _userPhoto != null
-                        ? NetworkImage(_userPhoto.toString())
-                        : null,
-                    radius: 50,
+                  SizedBox(
+                    height: AppCommon.screenHeightUnit(context) * 3.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: _userPhoto != null
+                              ? NetworkImage(_userPhoto.toString())
+                              : null,
+                          radius: 50,
+                        ),
+                        SizedBox(
+                            height: AppCommon.screenHeightUnit(context) * 0.5),
+                        Text(
+                          _userName.toString(),
+                          style: AppFonts.medium(24, AppColors.mText),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Container(
+                            width: 160,
+                            height: 35,
+                            decoration: const BoxDecoration(
+                                color: AppColors.mLightRed,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            child: Center(
+                                child: Text("Balance: ${_wallets!.balance}")),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  SizedBox(height: AppCommon.screenHeightUnit(context) * 0.5),
-                  Text(
-                    _userName.toString(),
-                    style: AppFonts.medium(24, AppColors.mText),
-                  )
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: _loading
+                          ? const Loading()
+                          : ListView.builder(
+                              itemCount: settingsState.length,
+                              itemBuilder: (context, index) {
+                                if (settingsState[index] == 1) {
+                                  return Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () =>
+                                            settings[index]['action'](context),
+                                        child: ListTile(
+                                          title: Text(settings[index]['title']),
+                                          leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                              color: settings[index]
+                                                  ['backgroundColor'],
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Icon(settings[index]['icon'],
+                                                size: 30, color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                      const Divider()
+                                    ],
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
+                            ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: _loading
-                    ? const Loading()
-                    : ListView.builder(
-                        itemCount: settingsState.length,
-                        itemBuilder: (context, index) {
-                          if (settingsState[index] == 1) {
-                            return Column(
-                              children: [
-                                InkWell(
-                                  onTap: () =>
-                                      settings[index]['action'](context),
-                                  child: ListTile(
-                                    title: Text(settings[index]['title']),
-                                    leading: Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                        color: settings[index]
-                                            ['backgroundColor'],
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Icon(settings[index]['icon'],
-                                          size: 30, color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                                const Divider()
-                              ],
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

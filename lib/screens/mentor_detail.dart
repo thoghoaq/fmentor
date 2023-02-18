@@ -1,16 +1,20 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:mentoo/models/user.dart';
+import 'package:mentoo/models/view/review_view.dart';
 import 'package:mentoo/screens/book_appointment.dart';
+import 'package:mentoo/screens/donate.dart';
 import 'package:mentoo/services/mentee_service.dart';
 
 // ignore: library_prefixes
 import 'package:mentoo/models/mentor.dart' as Mentor;
 
 import 'package:mentoo/services/mentor_service.dart';
+import 'package:mentoo/services/review_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
@@ -30,6 +34,7 @@ class _MentorDetailState extends State<MentorDetail> {
   User? _user;
   String? _menteeId;
   bool? _isFollowed;
+  late List<ReviewView>? _reviews;
 
   var isLoaded = false;
 
@@ -45,6 +50,7 @@ class _MentorDetailState extends State<MentorDetail> {
     _mentor = (await MentorService().getMentorById(widget.mentorId))!;
     _isFollowed = await MentorService()
         .checkMentorFollowed(_mentor.mentorId, _user!.userId);
+    _reviews = await ReviewService().getReviewsByRevieweeId(_mentor.userId);
     setState(() {
       isLoaded = true;
     });
@@ -227,8 +233,76 @@ class _MentorDetailState extends State<MentorDetail> {
                                 ),
                               ],
                             ),
-                            const Text("Comming soon"),
-                            const Text("Comming soon"),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 1500,
+                                  child: ListView.builder(
+                                    itemCount:
+                                        _reviews != null ? _reviews!.length : 0,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        children: [
+                                          ListTile(
+                                            leading: CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: NetworkImage(
+                                                  _reviews![index]
+                                                      .reviewer
+                                                      .photo),
+                                            ),
+                                            title: Text(
+                                                _reviews![index].reviewer.name),
+                                            subtitle: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                RatingBar.builder(
+                                                  initialRating:
+                                                      _reviews![index]
+                                                          .rating
+                                                          .toDouble(),
+                                                  minRating: 1,
+                                                  //direction: _isVertical ? Axis.vertical : Axis.horizontal,
+                                                  //allowHalfRating: true,
+                                                  unratedColor:
+                                                      Colors.transparent,
+                                                  itemCount: 5,
+                                                  itemSize: 15.0,
+                                                  itemPadding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 1.0),
+                                                  itemBuilder: (context, _) =>
+                                                      const Icon(
+                                                    Icons.star,
+                                                    color: Colors.amber,
+                                                  ),
+                                                  onRatingUpdate:
+                                                      (double value) {},
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text(
+                                                      _reviews![index].comment),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Divider()
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Text("No data"),
                           ]),
                         ),
                       ],
@@ -439,7 +513,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 width: 90,
                 height: 35,
                 decoration: BoxDecoration(
-                    color: AppColors.mLightPurple,
+                    color: AppColors.mLightRed,
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all()),
                 child: Center(
@@ -453,23 +527,25 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 115),
-            child: InkWell(
-              onTap: () => Get.to(BookAppointment(
-                  mentor: mentor, menteeId: int.parse(menteeId))),
-              child: Center(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  width: 250,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.mLightPurple,
-                  ),
-                  child: Center(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      shadowColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.transparent),
+                      backgroundColor: MaterialStateColor.resolveWith(
+                          (states) => AppColors.mLightPurple)),
+                  onPressed: () => Get.to(BookAppointment(
+                      mentor: mentor, menteeId: int.parse(menteeId))),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
                         Icon(
                           Icons.calendar_month_sharp,
                           color: Colors.white,
@@ -477,15 +553,43 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                         ),
                         SizedBox(width: 10),
                         Text(
-                          "Book Appointment",
+                          "Book Apppointment",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         )
-                      ])),
+                      ]),
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.to(DonationPage(
+                      receiverId: mentor.userId,
+                    ));
+                  },
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      shadowColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.transparent),
+                      backgroundColor: MaterialStateColor.resolveWith(
+                          (states) => const Color(0xff36894D))),
+                  child: Row(
+                    children: const [
+                      Icon(Icons.monetization_on_outlined),
+                      Text(
+                        " Donate",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ]),

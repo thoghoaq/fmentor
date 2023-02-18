@@ -46,7 +46,8 @@ class _TopMentorsState extends State<TopMentors> {
       _mentors = await MentorService().getFollowedMentors(user!.userId);
     }
 
-    _specialtiesName = _specialties!.map((s) => s.name).toList();
+    _specialtiesName =
+        _specialties != null ? _specialties!.map((s) => s.name).toList() : [];
     //_specialtiesName.add("Others");
     _selectedSpecialty = _specialtiesName[0];
     if (_specialties != null && _mentors != null) {
