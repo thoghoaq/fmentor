@@ -446,7 +446,7 @@ class _MyMenteesState extends State<MyMentees> {
                                           onTap: () => Get.to(WriteReview(
                                             menteeId:
                                                 _completedAppointments![index]
-                                                    .menteeId,
+                                                    .mentorId,
                                             mentee:
                                                 _completedAppointments![index]
                                                     .mentee!,

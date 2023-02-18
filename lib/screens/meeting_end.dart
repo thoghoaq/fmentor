@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mentoo/screens/home_page.dart';
+import 'package:mentoo/screens/main_home_page.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 
@@ -101,7 +104,7 @@ class MeetingEnd extends StatelessWidget {
                           16,
                           AppColors.mLightPurple,
                         )),
-                    onPressed: () => {})),
+                    onPressed: () => {Get.back()})),
           ]),
     );
   }

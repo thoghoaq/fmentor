@@ -5,6 +5,7 @@ import 'package:mentoo/models/specialty.dart';
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/screens/favorite_courses.dart';
 import 'package:mentoo/screens/mentor_detail.dart';
+import 'package:mentoo/screens/notification.dart';
 import 'package:mentoo/screens/search.dart';
 import 'package:mentoo/screens/specialist_mentors.dart';
 import 'package:mentoo/screens/top_mentor.dart';
@@ -118,16 +119,21 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               width: 5,
                             ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: AppColors.mGrayStroke)),
-                              child: const Icon(
-                                Icons.notifications_none_outlined,
-                                size: 28,
+                            InkWell(
+                              onTap: () {
+                                Get.to(Notifications());
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: AppColors.mGrayStroke)),
+                                child: const Icon(
+                                  Icons.notifications_none_outlined,
+                                  size: 28,
+                                ),
                               ),
                             ),
                             const SizedBox(

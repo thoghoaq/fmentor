@@ -10,6 +10,7 @@ class _MyBannerState extends State<MyBanner> {
   final List<String> imageUrls = [
     'assets/images/banner1.jpg',
     'assets/images/banner2.jpg',
+    'assets/images/banner3.jpg',
   ];
 
   @override

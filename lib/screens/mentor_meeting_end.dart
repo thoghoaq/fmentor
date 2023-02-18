@@ -126,7 +126,7 @@ class MentorMeetingEnded extends StatelessWidget {
                           16,
                           AppColors.mLightPurple,
                         )),
-                    onPressed: () => {})),
+                    onPressed: () => {Get.back()})),
           ]),
     );
   }
