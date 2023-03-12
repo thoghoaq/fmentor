@@ -1,4 +1,4 @@
-package com.example.mentoo
+package com.fmentor
 
 import io.flutter.embedding.android.FlutterActivity
 
