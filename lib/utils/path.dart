@@ -1,3 +1,3 @@
 class Path {
-  static String path = "https://fmentor.azurewebsites.net/api";
+  static String path = "https://dev-fmentor.azurewebsites.net/api";
 }

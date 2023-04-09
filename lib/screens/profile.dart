@@ -488,7 +488,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   Text(
                     isViewMentor == null
                         ? user != null
-                            ? user!.jobs != null
+                            ? user!.jobs != null && user!.jobs!.isNotEmpty
                                 ? "${user!.jobs![0].role}, ${user!.jobs![0].company}"
                                 : "No job data"
                             : "No job data"

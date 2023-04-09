@@ -334,8 +334,12 @@ class _HomePageState extends State<HomePage> {
                               // onTap: () => Get.to(BookAppointment(
                               //     menteeId: 1, mentor: _mentors![index])),
                               child: ProfileCard(
-                                company: _mentors![index].user.jobs![0].company,
-                                job: _mentors![index].user.jobs![0].role,
+                                company: _mentors![index].user.jobs!.isNotEmpty
+                                    ? _mentors![index].user.jobs![0].company
+                                    : "",
+                                job: _mentors![index].user.jobs!.isNotEmpty
+                                    ? _mentors![index].user.jobs![0].role
+                                    : "",
                                 name: _mentors![index].user.name,
                                 image: _mentors![index].user.photo,
                               ),

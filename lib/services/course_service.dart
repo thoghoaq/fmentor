@@ -47,7 +47,7 @@ class CourseService {
     try {
       var mentorId = await MentorService().getMentorIdByUserId(id);
       var men = 1;
-      var url = Uri.parse("${Path.path}/courses/mentor/$men");
+      var url = Uri.parse("${Path.path}/courses/mentor/$id");
       var response = await http.get(url);
       if (response.statusCode == 200) {
         List<Course> courses = courseFromJson(response.body);

@@ -1,14 +1,20 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mentoo/models/message.dart';
+import 'package:mentoo/models/request/payment_request_model.dart';
 import 'package:mentoo/models/user.dart';
+import 'package:mentoo/screens/payment.dart';
 import 'package:mentoo/services/donation_service.dart';
 import 'package:mentoo/services/user_service.dart';
 import 'package:mentoo/services/wallet_service.dart';
 import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/widgets/loading.dart';
+import 'package:http/http.dart' as http;
 
 class DonationPage extends StatefulWidget {
   final int receiverId;
@@ -25,7 +31,12 @@ class _DonationPageState extends State<DonationPage> {
   late int _receiverId;
   double _donationAmount = 0.0;
   String _description = "";
-  final List<double> _presetDonationAmounts = [10.0, 20.0, 50.0, 100.0];
+  final List<double> _presetDonationAmounts = [
+    10000.0,
+    20000.0,
+    50000.0,
+    100000.0
+  ];
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -46,6 +57,47 @@ class _DonationPageState extends State<DonationPage> {
     setState(() {
       _loading = false;
     });
+  }
+
+  _pay(PaymentRequestModel model) async {
+    var response = await _createNewPayment(model);
+    if (response!.statusCode == 500) {
+      throw Exception("Can not pay");
+    }
+    return response.body;
+  }
+
+  Future<http.Response?> _createNewPayment(PaymentRequestModel model) async {
+    String apiUrl = 'https://dev-empire-api.azurewebsites.net/api/v1/payment';
+    final response = await http.post(Uri.parse(apiUrl),
+        body: jsonEncode({
+          'orderType': model.orderType,
+          'amount': model.amount,
+          'orderDescription': model.orderDescription,
+          'name': model.name
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJqdGkiOiIyZjk1OWMzNC00ZDA4LTQ4OTgtYTU4Mi1iOTQwNGFlMjE0ODgiLCJ1bmlxdWVfbmFtZSI6IlRow7RuZyBIb8OgbmciLCJuYW1laWQiOiI5Iiwicm9sZSI6IlVTIiwibmJmIjoxNjgxMDI1NjIxLCJleHAiOjE3MTI2NDgwMjEsImlhdCI6MTY4MTAyNTYyMX0.89zScQ3cmmmBEef-ZDG3VnA3gPWH4yG_Ezsp1UvKAs4'
+        });
+    if (response.statusCode == 200) {
+      log('Payment data sent successfully');
+    } else {
+      log('Error sending payment data: ${response.statusCode}');
+    }
+    return response;
+  }
+
+  _onCallBackFromPayment() async {
+    var message = await DonationService()
+        .donate(_senderId, _receiverId, _donationAmount, _description);
+    // ignore: use_build_context_synchronously
+    setState(() {
+      _loading = false;
+    });
+    // ignore: use_build_context_synchronously
+    showStatusDialog(context, message);
   }
 
   @override
@@ -75,7 +127,7 @@ class _DonationPageState extends State<DonationPage> {
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: Center(
                         child: Text(
-                      "Balance: ${_wallets!.balance}",
+                      "Balance: ${_wallets!.balance}đ",
                       style: const TextStyle(color: Colors.black),
                     )),
                   ),
@@ -137,9 +189,9 @@ class _DonationPageState extends State<DonationPage> {
                           });
                         },
                         child: SizedBox(
-                          height: 70,
+                          height: 40,
                           child: Chip(
-                            label: Text('\$$amount'),
+                            label: Text('${amount}đ'),
                             backgroundColor: _donationAmount == amount
                                 ? AppColors.mLightPurple
                                 : Colors.grey[300],
@@ -155,7 +207,7 @@ class _DonationPageState extends State<DonationPage> {
                   ),
                   TextField(
                     onChanged: (value) {
-                      _description = value;
+                      _description = 'DN-$_receiverId-VNPay-$value';
                     },
                     keyboardType: TextInputType.multiline,
                     minLines: 7,
@@ -206,14 +258,20 @@ class _DonationPageState extends State<DonationPage> {
                         setState(() {
                           _loading = true;
                         });
-                        var message = await DonationService().donate(_senderId,
-                            _receiverId, _donationAmount, _description);
+                        PaymentRequestModel paymentRequestModel =
+                            PaymentRequestModel(
+                                amount: _donationAmount,
+                                name: 'Donation',
+                                orderDescription: 'Donation',
+                                orderType: 'VNpay');
+                        var responsePayment = await _pay(paymentRequestModel);
                         // ignore: use_build_context_synchronously
-                        setState(() {
-                          _loading = false;
-                        });
-                        // ignore: use_build_context_synchronously
-                        showStatusDialog(context, message);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PaymenPage(
+                            url: responsePayment,
+                            callback: _onCallBackFromPayment,
+                          ),
+                        ));
                       },
                       child: Text(
                         'Donate',

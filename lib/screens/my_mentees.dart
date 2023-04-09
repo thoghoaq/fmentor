@@ -528,102 +528,106 @@ class MyMenteeBookingDetail extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Avatar(isEmpty2: isEmpty2, photo2: photo2, isMentor2: isMentor2),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name2,
-                  style: AppFonts.medium(18, Colors.black),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: RichText(
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                              text: role2,
-                              style: AppFonts.regular(12, Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: ", ",
-                                    style: AppFonts.regular(12, Colors.black),
-                                    children: [
-                                      TextSpan(
-                                        text: company2,
-                                        style:
-                                            AppFonts.regular(12, Colors.black),
-                                      )
-                                    ])
-                              ])),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.calendar_today_outlined,
-                      size: 16,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      string,
-                      style: AppFonts.regular(12, Colors.black),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.schedule_outlined,
-                      size: 18,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      "60 minutes",
-                      style: AppFonts.regular(12, Colors.black),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "Zoom - ",
-                    style: AppFonts.regular(12, Colors.black),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name2,
+                    style: AppFonts.medium(18, Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
                     children: [
-                      TextSpan(
-                        text: status2,
-                        style: AppFonts.medium(12, Colors.blue),
-                      )
+                      Expanded(
+                        child: RichText(
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                                text: role2,
+                                style: AppFonts.regular(12, Colors.black),
+                                children: [
+                                  TextSpan(
+                                      text: ", ",
+                                      style: AppFonts.regular(12, Colors.black),
+                                      children: [
+                                        TextSpan(
+                                          text: company2,
+                                          style: AppFonts.regular(
+                                              12, Colors.black),
+                                        )
+                                      ])
+                                ])),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                     ],
                   ),
-                )
-              ],
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.calendar_today_outlined,
+                        size: 16,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Text(
+                          string,
+                          style: AppFonts.regular(12, Colors.black),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.schedule_outlined,
+                        size: 18,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "60 minutes",
+                        style: AppFonts.regular(12, Colors.black),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: "Zoom - ",
+                      style: AppFonts.regular(12, Colors.black),
+                      children: [
+                        TextSpan(
+                          text: status2,
+                          style: AppFonts.medium(12, Colors.blue),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Align(

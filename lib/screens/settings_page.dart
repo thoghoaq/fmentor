@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mentoo/models/user.dart';
 import 'package:mentoo/models/user_permission.dart' as permission;
@@ -15,6 +16,7 @@ import 'dart:convert';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/path.dart';
 
 class SettingsPage extends StatefulWidget {
   final int isMentor;
@@ -121,8 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
     //get setting list from sharedreferences
     var settingsStateString = await getSettingsState();
     if (settingsStateString.isNotEmpty) {
-      String apiUrl =
-          'https://fmentor.azurewebsites.net/api/userpermissions/${widget.isMentor}';
+      String apiUrl = '${Path.path}/userpermissions/${widget.isMentor}';
       try {
         final response =
             await http.get(Uri.parse('$apiUrl?id=${widget.isMentor}'));
@@ -187,14 +188,15 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: AppCommon.screenHeightUnit(context) * 3.5,
+                    height: AppCommon.screenHeightUnit(context) * 4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
-                          backgroundImage: _userPhoto != null
-                              ? NetworkImage(_userPhoto.toString())
-                              : null,
+                          backgroundImage:
+                              _userPhoto != null && !_userPhoto!.contains(" ")
+                                  ? NetworkImage(_userPhoto.toString())
+                                  : null,
                           radius: 50,
                         ),
                         SizedBox(
@@ -203,17 +205,20 @@ class _SettingsPageState extends State<SettingsPage> {
                           _userName.toString(),
                           style: AppFonts.medium(24, AppColors.mText),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Container(
-                            width: 160,
-                            height: 35,
-                            decoration: const BoxDecoration(
-                                color: AppColors.mLightRed,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: Center(
-                                child: Text("Balance: ${_wallets!.balance}")),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Container(
+                              width: 160,
+                              height: 35,
+                              decoration: const BoxDecoration(
+                                  color: AppColors.mLightRed,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
+                              child: Center(
+                                  child:
+                                      Text("Balance: ${_wallets!.balance}đ")),
+                            ),
                           ),
                         )
                       ],

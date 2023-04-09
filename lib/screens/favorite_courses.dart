@@ -9,6 +9,7 @@ import 'package:mentoo/theme/colors.dart';
 import 'package:mentoo/theme/fonts.dart';
 import 'package:mentoo/utils/common.dart';
 import 'package:mentoo/widgets/loading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FavoriteCourses extends StatefulWidget {
   const FavoriteCourses({super.key});
@@ -31,7 +32,9 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
 
   void _getData() async {
     _user = (await UserService().getUser());
-    _courses = await CourseService().getFavoriteCourses(_user!.userId);
+    var menteeId = await MenteeService().getMenteeByUserId(_user!.userId);
+    _courses = await CourseService()
+        .getFavoriteCourses(int.parse(menteeId.toString()));
     setState(() {
       if (_user != null && _courses != null) isLoaded = true;
     });
@@ -71,7 +74,6 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
-                      height: 120,
                       //color: Colors.amber[100],
                       alignment: Alignment.center,
                       child: Column(
@@ -81,62 +83,82 @@ class _FavoriteCoursesState extends State<FavoriteCourses> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  height: 90,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.mBackground,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Center(
-                                    child: Image.network(
-                                      _courses![index].photo,
-                                      width: searchAreaContainerWidth * 0.4,
-                                      height: searchAreaContainerHeight * 0.4,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      var url = _courses![index].link;
+                                      if (await canLaunchUrl(Uri.parse(url))) {
+                                        await launchUrl(Uri.parse(url));
+                                      } else {
+                                        throw "Could not launch $url";
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.mBackground,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Center(
+                                        child: Image.network(
+                                          _courses![index].photo,
+                                          width: searchAreaContainerWidth * 0.4,
+                                          height:
+                                              searchAreaContainerHeight * 0.4,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _courses![index].title,
-                                      style: AppFonts.medium(20, Colors.black),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'Instructure: ',
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _courses![index].title,
                                         style:
-                                            AppFonts.regular(14, Colors.black),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: _courses![index].instructor,
-                                              style: AppFonts.medium(
-                                                  14, AppColors.mLightPurple)),
-                                        ],
+                                            AppFonts.medium(20, Colors.black),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'Platform: ',
-                                        style:
-                                            AppFonts.regular(14, Colors.black),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: _courses![index].platform,
-                                              style: AppFonts.medium(
-                                                  14, Colors.red)),
-                                        ],
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                    ),
-                                  ],
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Instructure: ',
+                                          style: AppFonts.regular(
+                                              14, Colors.black),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text:
+                                                    _courses![index].instructor,
+                                                style: AppFonts.medium(14,
+                                                    AppColors.mLightPurple)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Platform: ',
+                                          style: AppFonts.regular(
+                                              14, Colors.black),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: _courses![index].platform,
+                                                style: AppFonts.medium(
+                                                    14, Colors.red)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 InkWell(
                                   onTap: () async {

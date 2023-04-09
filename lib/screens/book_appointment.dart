@@ -134,11 +134,12 @@ class _BookAppointmentState extends State<BookAppointment> {
     for (MentorWorkingTime day in _mentorWorkingTime) {
       listDay += "${day.dayOfWeek.toString().substring(0, 3)} - ";
     }
-    listDay =
-        listDay.isNotEmpty ? listDay.substring(0, listDay.length - 3) : "";
+    listDay = listDay.isNotEmpty
+        ? listDay.substring(0, listDay.length - 3)
+        : "Fulltime";
     var timeOfDay = _mentorWorkingTime.isNotEmpty
         ? "${_mentorWorkingTime.first.startTime.hour.toString().padLeft(2, '0')}:${_mentorWorkingTime.first.startTime.minute.toString().padLeft(2, '0')} - ${_mentorWorkingTime.first.endTime.hour.toString().padLeft(2, '0')}:${_mentorWorkingTime.first.endTime.minute.toString().padLeft(2, '0')}"
-        : "";
+        : "Fulltime";
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(
@@ -185,66 +186,84 @@ class _BookAppointmentState extends State<BookAppointment> {
                             const SizedBox(
                               width: 20,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  mentorInfo.name,
-                                  style: AppFonts.medium(24, Colors.black),
-                                ),
-                                Row(
-                                  children: [
-                                    mentorInfo.jobs!.isNotEmpty
-                                        ? SizedBox(
-                                            width: 150,
-                                            child: RichText(
-                                                text: TextSpan(
-                                                    text: mentorInfo
-                                                        .jobs!.first.role,
-                                                    style: AppFonts.regular(
-                                                        12, Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: ", ",
-                                                      style: AppFonts.regular(
-                                                          12, Colors.black),
-                                                      children: [
-                                                        TextSpan(
-                                                          text: mentorInfo.jobs!
-                                                              .first.company,
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    mentorInfo.name,
+                                    style: AppFonts.medium(24, Colors.black),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        mentorInfo.jobs!.isNotEmpty
+                                            ? Expanded(
+                                                child: SizedBox(
+                                                  width: 150,
+                                                  child: RichText(
+                                                      text: TextSpan(
+                                                          text: mentorInfo
+                                                              .jobs!.first.role,
                                                           style:
                                                               AppFonts.regular(
                                                                   12,
                                                                   Colors.black),
-                                                        )
-                                                      ])
-                                                ])),
-                                          )
-                                        : const SizedBox(),
-                                    SizedBox(
-                                      width:
-                                          mentorInfo.jobs!.isNotEmpty ? 10 : 0,
-                                    ),
-                                    Container(
-                                      width: 70,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                          color: AppColors.mLightRed,
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          border: Border.all()),
-                                      child: Center(
-                                        child: Text(
-                                          'Mentor',
-                                          style: AppFonts.regular(
-                                              14, Colors.black),
+                                                          children: [
+                                                        TextSpan(
+                                                            text: ", ",
+                                                            style: AppFonts
+                                                                .regular(
+                                                                    12,
+                                                                    Colors
+                                                                        .black),
+                                                            children: [
+                                                              TextSpan(
+                                                                text: mentorInfo
+                                                                    .jobs!
+                                                                    .first
+                                                                    .company,
+                                                                style: AppFonts
+                                                                    .regular(
+                                                                        12,
+                                                                        Colors
+                                                                            .black),
+                                                              )
+                                                            ])
+                                                      ])),
+                                                ),
+                                              )
+                                            : const SizedBox(),
+                                        SizedBox(
+                                          width: mentorInfo.jobs!.isNotEmpty
+                                              ? 10
+                                              : 0,
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
+                                        Expanded(
+                                          child: Container(
+                                            width: 70,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.mLightRed,
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                                border: Border.all()),
+                                            child: Center(
+                                              child: Text(
+                                                'Mentor',
+                                                style: AppFonts.regular(
+                                                    14, Colors.black),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             )
                           ]),
                         ),
